@@ -2,6 +2,14 @@ import { Theme } from './theme'
 
 export const defaultTheme: Theme = {
   name: 'default',
+  widthUnit: 128,
+  heightUnit: 32,
+  borderRadius: '15px',
+  boxShadow: {
+    light: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+    main: '0 4px 8px 0 rgba(0, 0, 0, 0.4)',
+    dark: '0 4px 8px 0 rgba(0, 0, 0, 0.6)'
+  },
   colors: {
     primary: {
       light: '#5426ff',
@@ -30,7 +38,7 @@ export const defaultTheme: Theme = {
     }
   },
   mainBackground: '#FEFEFE',
-  secondaryBackground: '#757575',
+  secondaryBackground: '#CCCCCC',
   spacing: {
     slim: '4px',
     single: '8px',

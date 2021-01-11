@@ -44,3 +44,10 @@ Button.args = {
   variant: "button",
   color: "black"
 };
+
+export const Emoji = Template.bind({});
+Emoji.args = {
+  children: "Test text with emoji 🚀",
+  variant: "regular",
+  color: "primary"
+};

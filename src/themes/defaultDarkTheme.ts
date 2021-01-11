@@ -2,6 +2,14 @@ import { Theme } from './theme'
 
 export const defaultDarkTheme: Theme = {
   name: 'default-dark',
+  widthUnit: 128,
+  heightUnit: 32,
+  borderRadius: '8px',
+  boxShadow: {
+    light: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+    main: '0 4px 8px 0 rgba(0, 0, 0, 0.4)',
+    dark: '0 4px 8px 0 rgba(0, 0, 0, 0.6)'
+  },
   colors: {
     secondary: {
       light: '#5426ff',

@@ -1,25 +1,40 @@
 import styled from 'styled-components'
-import { TextColorType, TextType, Theme } from '../themes/theme'
-import { ReactChild, ReactChildren } from 'react'
+import { TextColorType, TextType, ThemeProps } from '../themes/theme'
 
-export interface Props {
+export interface Props extends ThemeProps {
   variant?: TextType
-  color?: TextColorType
-  theme?: Theme
-  children?: ReactChildren | ReactChild
+  color?: TextColorType | string
+  align?: 'left' | 'right' | 'center' | 'justify'
 }
 
-export const Text = styled.div`
-  font-family: ${(props: Props) =>
-    props.theme?.text[props.variant ?? 'regular'].fontFamily ?? 'sans-serif'};
-  font-size: ${(props: Props) =>
-    props.theme?.text[props.variant ?? 'regular'].fontSize ?? '1em'};
-  font-weight: ${(props: Props) =>
-    props.theme?.text[props.variant ?? 'regular'].fontWeight ?? '500'};
-  color: ${(props: Props) =>
-          props.color === 'text' ? props.theme?.text[props.variant ?? 'regular'].color ?? 'black' :
-          props.color ??
-          props.theme?.text[props.variant ?? 'regular'].color ?? 'black' };
-  text-transform: ${(props: Props) =>
-    props.theme?.text[props.variant ?? 'regular'].textTransform ?? 'none'};
+export const getFontFamily = (props: Props) => props.theme?.text[props.variant ?? 'regular'].fontFamily ?? 'sans-serif'
+export const getFontSize = (props: Props) =>
+  props.theme?.text[props.variant ?? 'regular'].fontSize ?? '1em'
+export const getFontWeight = (props: Props) =>
+  props.theme?.text[props.variant ?? 'regular'].fontWeight ?? '500';
+export const getFontColor = (props: Props) =>
+  props.color === 'text' ?
+    props.theme?.text[props.variant ?? 'regular'].color ?? 'black' :
+    props.color ?? props.theme?.text[props.variant ?? 'regular'].color ?? 'black'
+export const getTextTransform = (props: Props) => props.theme?.text[props.variant ?? 'regular'].textTransform ?? 'none';
+export const getTextAlign = (props: Props) => props.align ?? 'left';
+
+export const Text = styled.div<Props>`
+  width: 100%;      
+  font-family: ${getFontFamily};
+  font-size: ${getFontSize};
+  font-weight: ${getFontWeight};
+  color: ${getFontColor};
+  text-transform: ${getTextTransform};
+  text-align: ${getTextAlign};
+`
+
+export const SpanText = styled.span<Props>`
+  width: 100%;      
+  font-family: ${getFontFamily};
+  font-size: ${getFontSize};
+  font-weight: ${getFontWeight};
+  color: ${getFontColor};
+  text-transform: ${getTextTransform};
+  text-align: ${getTextAlign};
 `
