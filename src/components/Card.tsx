@@ -17,9 +17,4 @@ export const Card = styled.div<Props>`
             box-shadow: ${getBoxShadow(props).dark};
         }` : ''
     }
-    // &:hover {
-    //   box-shadow: ${props => getBoxShadow(props).dark};
-    // }
 `
-
-// export const CardContent

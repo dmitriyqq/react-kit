@@ -1,3 +1,6 @@
+export { Card } from './components/Card'
+export { Checkbox } from './components/Checkbox'
+export { Select } from './components/Select'
 export { Button } from './components/Button'
 export { Text } from './components/Text'
 export { Theme } from './themes/theme'

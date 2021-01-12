@@ -22,13 +22,22 @@ module.exports = {
       //     // }
       //   }
       // }
-      { test: /\.tsx?$/, loader: "ts-loader" }
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        options: {
+          onlyCompileBundledFiles: true
+        },
+      }
     ]
   },
   externals: {
     react: 'react',
     reactDOM: 'react-dom',
-    'styled-components': 'styled-components',
+    'styled-components': 'styled',
     'react-is': 'react-is',
-  }
+  },
+  optimization: {
+    usedExports: true,
+  },
 };

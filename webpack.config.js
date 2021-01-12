@@ -1,9 +1,8 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, path.join('src', 'main.tsx')),
+  entry: path.resolve(__dirname, path.join('src', 'index.ts')),
   devtool: "eval",
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -12,20 +11,16 @@ module.exports = {
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'React Kit',
-      template: path.resolve(__dirname, path.join('public', 'index.html')),
-    }),
-  ],
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "ts-loader" }
+      { test: /\.tsx?$/, loader: "ts-loader" },
+      { test: /\.jsx?$/, loader: "babel-loader" }
     ]
   },
-  devServer: {
-    // contentBase: path.join(__dirname, 'build'),
-    compress: true,
-    port: 9000
-  }
+  externals: {
+    react: 'react',
+    reactDOM: 'react-dom',
+    'styled-components': 'styled',
+    'react-is': 'react-is',
+  },
 };

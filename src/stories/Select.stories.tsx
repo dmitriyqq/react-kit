@@ -9,7 +9,7 @@ export default {
 } as Meta;
 
 const Template: Story<Props> = (args) => (
-  <Select {...args} variant='header' color='secondary'/>
+  <Select {...args} />
 );
 
 export const SelectStory = Template.bind({});
