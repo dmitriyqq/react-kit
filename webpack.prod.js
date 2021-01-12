@@ -21,7 +21,7 @@ module.exports = {
       //     //   presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
       //     // }
       //   }
-      // }
+      // },
       {
         test: /\.tsx?$/,
         loader: "ts-loader",

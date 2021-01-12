@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "target": "ES5",
     "jsx": "react",
     "declarationDir": "build",
     "esModuleInterop": true,
-    "declaration": true
-  }
+    "declaration": true,
+    "outDir": "./build",
+    "module": "CommonJS"
+  },
+  "exclude": [ "node_modules", "./src/stories", "build"]
 }
