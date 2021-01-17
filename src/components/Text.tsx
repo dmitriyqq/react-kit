@@ -5,6 +5,7 @@ export interface Props extends ThemeProps {
   variant?: TextType
   color?: TextColorType | string
   align?: 'left' | 'right' | 'center' | 'justify'
+  children?: any
 }
 
 export const getFontFamily = (props: Props) => props.theme?.text[props.variant ?? 'regular'].fontFamily ?? 'sans-serif'
@@ -20,13 +21,13 @@ export const getTextTransform = (props: Props) => props.theme?.text[props.varian
 export const getTextAlign = (props: Props) => props.align ?? 'left';
 
 export const Text = styled.div<Props>`
-  width: 100%;      
   font-family: ${getFontFamily};
   font-size: ${getFontSize};
   font-weight: ${getFontWeight};
   color: ${getFontColor};
   text-transform: ${getTextTransform};
   text-align: ${getTextAlign};
+  display: inline-block;
 `
 
 export const SpanText = styled.span<Props>`

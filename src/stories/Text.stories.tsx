@@ -51,3 +51,10 @@ Emoji.args = {
   variant: "regular",
   color: "primary"
 };
+
+export const Emoji2 = Template.bind({});
+Emoji2.args = {
+  children: "Test text with emoji 🚀2",
+  variant: "regular",
+  color: "primary"
+};

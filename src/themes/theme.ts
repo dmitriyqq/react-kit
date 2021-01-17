@@ -1,5 +1,5 @@
 export interface ThemeProps {
-  theme?: Theme
+  theme: Theme
 }
 
 export interface Color {
@@ -22,6 +22,9 @@ export type ColorType =
   | 'danger'
   | 'warning'
   | 'success'
+  | 'white'
+  | 'black'
+  | 'grey'
 
 export type TextColorType =
   | 'primary'
@@ -51,6 +54,9 @@ export interface Theme {
     danger: Color
     warning: Color
     success: Color
+    white: Color
+    grey: Color
+    black: Color
   }
   text: {
     header: Text
@@ -69,23 +75,23 @@ export interface Theme {
 }
 
 export const getPrimaryColor = (props: ThemeProps) => {
-  return props?.theme.colors.primary ?? { dark: 'red', main: 'red', light: 'red' };
+  return props.theme?.colors.primary ?? { dark: 'red', main: 'red', light: 'red' };
 }
 
 export const getSecondaryBackgroundColor = (props: ThemeProps) => {
-  return props?.theme.secondaryBackground ?? '#CCCCCC';
+  return props.theme?.secondaryBackground ?? '#CCCCCC';
 }
 
 export const getMainBackgroundColor = (props: ThemeProps) => {
-  return props?.theme.mainBackground ?? '#FEFEFE';
+  return props.theme?.mainBackground ?? '#FEFEFE';
 }
 
 export const getPrimaryMainColor = (props: ThemeProps) => {
-  return props?.theme.colors.primary.main ?? 'red';
+  return props.theme?.colors.primary.main ?? 'red';
 }
 
 export const getBoxShadow = (props: ThemeProps) => {
-  return props?.theme.boxShadow ?? {
+  return props.theme?.boxShadow ?? {
     light: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
     main: '0 4px 8px 0 rgba(0, 0, 0, 0.4)',
     dark: '0 4px 16px 0 rgba(0, 0, 0, 0.6)'

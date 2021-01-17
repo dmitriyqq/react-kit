@@ -35,6 +35,21 @@ export const defaultDarkTheme: Theme = {
       light: '#28a745',
       main: '#1c943c',
       dark: '#167a31'
+    },
+    white: {
+      light: 'white',
+      main: 'white',
+      dark: 'white'
+    },
+    grey: {
+      light: 'grey',
+      main: 'grey',
+      dark: 'grey'
+    },
+    black: {
+      light: 'black',
+      main: 'black',
+      dark: 'black'
     }
   },
   mainBackground: '#1E1E1E',

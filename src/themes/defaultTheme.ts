@@ -35,10 +35,25 @@ export const defaultTheme: Theme = {
       light: '#28a745',
       main: '#1c943c',
       dark: '#167a31'
+    },
+    white: {
+      light: 'white',
+      main: 'white',
+      dark: 'white'
+    },
+    grey: {
+      light: 'grey',
+      main: 'grey',
+      dark: 'grey'
+    },
+    black: {
+      light: 'black',
+      main: 'black',
+      dark: 'black'
     }
   },
   mainBackground: '#FEFEFE',
-  secondaryBackground: '#CCCCCC',
+  secondaryBackground: '#f3f3f3',
   spacing: {
     slim: '4px',
     single: '8px',

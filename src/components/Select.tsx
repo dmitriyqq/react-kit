@@ -38,7 +38,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   font-weight: ${getFontWeight};
   color: ${getFontColor};
   text-transform: ${getTextTransform};
-  width: ${(props: ThemeProps) => `${2 * props.theme?.widthUnit}px` ?? '5px'};
+  width: ${(props: ThemeProps) => `${2 * props.theme?.widthUnit! || 100}px` ?? '5px'};
   cursor: pointer;
   &:focus {
     outline: 0;
@@ -56,7 +56,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
 
 const SelectWrapper = styled.div<ThemeProps>`
   margin: ${(props: ThemeProps) => props.theme?.spacing.single ?? '5px'};
-  width: ${(props: ThemeProps) => `${2 * props.theme?.widthUnit}px` ?? '150px'};
+  width: ${(props: ThemeProps) => `${2 * props.theme?.widthUnit! || 100}px` ?? '150px'};
   border-radius: ${getBorderRadius};
   
   position: relative;

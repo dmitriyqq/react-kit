@@ -12,7 +12,7 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
   display: inline-block;
   border: 1px solid ${getPrimaryMainColor};
   border-radius: 8px;
-  //padding: ${(props: ThemeProps) => props.theme.spacing.single ?? '5px'};
+  //padding: ${(props: ThemeProps) => props.theme?.spacing.single ?? '5px'};
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;

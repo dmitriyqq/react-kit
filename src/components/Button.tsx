@@ -1,15 +1,20 @@
-import React, { FC, ReactChild, ReactChildren } from 'react'
+import React, { FC, ReactNode } from 'react'
 import styled from 'styled-components'
-import { ColorType, getBorderRadius, getBoxShadow, getPrimaryMainColor, Theme } from '../themes/theme'
+import { ColorType, getBorderRadius, getBoxShadow, ThemeProps } from '../themes/theme'
 import { Text } from './Text'
 
-export interface Props {
+const ButtonText = styled(Text)`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+
+export interface Props extends ThemeProps {
   onClick?: () => void
   className?: string
   disabled?: boolean
-  children: ReactChildren | ReactChild
+  children?: ReactNode
   color?: ColorType
-  theme?: Theme
 }
 
 export const Button: FC<Props> = ({
@@ -25,7 +30,7 @@ export const Button: FC<Props> = ({
     disabled={disabled === true}
     color={color}
   >
-    <Text variant='button' align='center'>{children}</Text>
+    <ButtonText variant='button' align='center'>{children}</ButtonText>
   </StyledButton>
 )
 

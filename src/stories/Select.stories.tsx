@@ -14,8 +14,6 @@ const Template: Story<Props> = (args) => (
 
 export const SelectStory = Template.bind({});
 SelectStory.args = {
-  variant: 'header',
-  color: 'primary',
   options: [
     { label: 'option 1', value: 'option 1'},
     { label: 'option 2', value: 'option 2'},
