@@ -15,6 +15,7 @@ interface Props extends ThemeProps {
   color: ColorType
   variant: TextType
   icon: string
+  onClick?: () => void
 }
 
 const Template: Story<Props> = (args) => (
@@ -24,12 +25,25 @@ const Template: Story<Props> = (args) => (
 export const IconStory = Template.bind({});
 IconStory.args = {
   icon: '24-hours',
-  color: 'primary',
+  color: 'grey',
   variant: 'label',
 }
 
+
+const TemplateOnClick: Story<Props> = (args) => (
+ <Icon {...args} />
+);
+
+export const IconOnClickStory = TemplateOnClick.bind({});
+IconOnClickStory.args = {
+  icon: '24-hours',
+  color: 'grey',
+  variant: 'label',
+  onClick: () => {}
+}
+
 const ButtonTemplate: Story<Props> = (args) => (
-  <Button theme={args.theme}>Тест<Icon {...args} /></Button>
+  <Button icon='24-hours' theme={args.theme}>Тест</Button>
 );
 
 export const ButtonIconStory = ButtonTemplate.bind({})
@@ -40,7 +54,7 @@ ButtonIconStory.args = {
 }
 
 const ButtonOnlyTemplate: Story<Props> = (args) => (
-  <Button theme={args.theme}><Icon {...args} /></Button>
+  <Button icon='24-hours' theme={args.theme} />
 );
 
 export const ButtonOnlyIconStory = ButtonOnlyTemplate.bind({})
