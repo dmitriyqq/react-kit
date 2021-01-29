@@ -4,19 +4,22 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import { List } from '../components/List'
 import { Button } from '../components/Button'
 import { Text } from '../components/Text'
+import {ThemeProps} from "../themes/theme";
 
 export default {
   title: 'List',
   component: List,
 } as Meta;
 
-const Template: Story = (args) => (
+interface Props extends ThemeProps {}
+
+const Template: Story<Props> = (args) => (
   <List {...args}>
-    <Button color='primary'>Primary button</Button>
-    <Button color='secondary'>Secondary button</Button>
-    <Button color='danger'>Danger button</Button>
+    <Button theme={args.theme} color='primary'>Primary button</Button>
+    <Button theme={args.theme} color='secondary'>Secondary button</Button>
+    <Button theme={args.theme} color='danger'>Danger button</Button>
     <Text>Text item</Text>
-    <Button color='warning'>Warning button</Button>
+    <Button theme={args.theme} color='warning'>Warning button</Button>
   </List>
 );
 

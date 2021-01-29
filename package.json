@@ -45,7 +45,6 @@
     "styled-components": "^5.2.1"
   },
   "dependencies": {
-    "feather-icons": "^4.28.0",
     "remixicon": "^2.5.0"
   }
 }
