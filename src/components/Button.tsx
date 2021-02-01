@@ -66,6 +66,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   align-items: center;
   flex-direction: row;
   justify-content: center;
+  white-space: nowrap;
   &:hover {
     box-shadow: ${(props: StyledButtonProps) => getBoxShadow(props).main};
     background-color: ${(props: StyledButtonProps) =>
