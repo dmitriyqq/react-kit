@@ -47,5 +47,8 @@
   },
   "dependencies": {
     "remixicon": "^2.5.0"
-  }
+  },
+  "files": [
+    "build"
+  ]
 }
