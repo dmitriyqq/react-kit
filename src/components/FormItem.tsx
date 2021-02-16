@@ -13,16 +13,14 @@ const FormItemBase = styled.div`
 `
 
 const LabelContainer = styled.div`
-  flex-grow: 1;
-  width: 100%;
+  flex: 1 1;
   display: flex;
   align-items: center;
   padding: ${props => props.theme.spacing.double};
 `
 
 const FieldContainer = styled.div`
-  flex-grow: 1;
-  width: 100%;
+  flex: 1 1;
   display: flex;
   justify-content: center;
   align-items: center;

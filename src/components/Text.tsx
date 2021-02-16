@@ -30,9 +30,8 @@ export const Text = styled.div<Props>`
 `
 
 export const SpanText = styled.span<Props>`
-  width: 100%;      
+  width: 100%;
   font-family: ${getFontFamily};
-  font-size: ${getFontSize};
   font-weight: ${getFontWeight};
   color: ${getFontColor};
   text-transform: ${getTextTransform};
