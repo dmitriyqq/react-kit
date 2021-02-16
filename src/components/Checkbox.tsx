@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FC} from 'react'
 import styled from 'styled-components'
-import { getBorderRadius, getPrimaryMainColor, ThemeProps } from '../themes/theme'
-import { getFontFamily } from './Text'
+import { getPrimaryMainColor, ThemeProps } from '../themes/theme'
 
 const InternalCheckbox = styled.input`
   position: absolute;
@@ -12,7 +11,6 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
   display: inline-block;
   border: 1px solid ${getPrimaryMainColor};
   border-radius: 8px;
-  //padding: ${(props: ThemeProps) => props.theme?.spacing.single ?? '5px'};
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;

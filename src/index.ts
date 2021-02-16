@@ -13,7 +13,7 @@ export { ListItem } from './components/ListItem';
 export { Loader } from './components/Loader';
 export { RoundedImage } from './components/RoundedImage';
 export { Select } from './components/Select';
-export { Text } from './components/Text';
+export { Text, SpanText } from './components/Text';
 export { TextInput } from './components/TextInput';
 export { Theme } from './themes/theme'
 

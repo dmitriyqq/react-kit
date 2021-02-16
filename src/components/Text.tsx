@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { TextColorType, TextType, ThemeProps } from '../themes/theme'
+import { ColorType, TextColorType, TextType, ThemeProps } from '../themes/theme'
 
 export interface Props extends ThemeProps {
   variant?: TextType
-  color?: TextColorType | string
+  color?: TextColorType | ColorType | string
   align?: 'left' | 'right' | 'center' | 'justify'
   children?: any
 }
@@ -14,9 +14,8 @@ export const getFontSize = (props: Props) =>
 export const getFontWeight = (props: Props) =>
   props.theme?.text[props.variant ?? 'regular'].fontWeight ?? '500';
 export const getFontColor = (props: Props) =>
-  props.color === 'text' ?
-    props.theme?.text[props.variant ?? 'regular'].color ?? 'black' :
-    props.color ?? props.theme?.text[props.variant ?? 'regular'].color ?? 'black'
+  !props.color || props.color === 'text' ? props.theme?.text[props.variant ?? 'regular'].color
+    : props.theme.colors[props.color as ColorType] ? props.theme.colors[props.color as ColorType].main : props.color
 export const getTextTransform = (props: Props) => props.theme?.text[props.variant ?? 'regular'].textTransform ?? 'none';
 export const getTextAlign = (props: Props) => props.align ?? 'left';
 

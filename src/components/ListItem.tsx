@@ -1,6 +1,6 @@
 import { RoundedImage } from './RoundedImage'
 import { ThemeProps} from '../themes/theme'
-import React, { useState, FC } from 'react'
+import React, { useState, FC, ReactNode } from 'react'
 import { Icon } from './Icon'
 import { Text } from './Text'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ export interface Props extends ThemeProps {
   image?: string;
 
   value?: string;
+  children?: ReactNode;
 
   onClick?: () => void;
   onDelete?: (value: string) => void;
@@ -63,12 +64,29 @@ const ActionContainer = styled.div`
 `
 
 const TextContainer = styled.div`
-  width: 100%;
+  flex: 1 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: ${props => props.theme.spacing.slim} ${props => props.theme.spacing.double};
+`
+
+const ContentContainer = styled.div`
+  flex: 1.4 1.4;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   padding: ${props => props.theme.spacing.double};
 `
 
+const MainContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`
+
 export const ListItem: FC<Props> = (props) => {
-  const {label, onClick, icon, image, onDelete, onNav, value, theme } = props;
+  const {label, onClick, icon, image, onDelete, onNav, value, theme, children } = props;
   return (
     <ListItemBase onClick={onClick ? onClick : () => {}} >
       {
@@ -77,9 +95,16 @@ export const ListItem: FC<Props> = (props) => {
             <ImageWithIconFallback theme={theme} icon={icon} image={image}/>
         </IconContainer>
       }
-      <TextContainer>
-        <Text variant='regular' align={'left'}>{label}</Text>
-      </TextContainer>
+      <MainContainer>
+        { label &&
+        <TextContainer>
+          <Text variant='label' align={'left'}>{label}{children && ':'}</Text>
+        </TextContainer>}
+        {children &&
+        <ContentContainer>
+          {children}
+        </ContentContainer>}
+      </MainContainer>
       <ActionContainer>
         { onDelete && <Icon icon='close' theme={theme} onClick={() => onDelete(value || '')} /> }
         { onNav && <Icon icon='arrow-right-s' theme={theme} onClick={() => onNav(value || '')} /> }
