@@ -5,7 +5,7 @@ interface Props extends ThemeProps {
   mode?: 'v' | 'h'
   align?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   justify?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
-  wrap: boolean;
+  wrap?: boolean;
 }
 
 export const List = styled.div<Props>`
