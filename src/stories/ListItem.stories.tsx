@@ -30,7 +30,7 @@ const TemplateImage: Story<Props> = (args) => (
 export const ListItemImageStory = TemplateImage.bind({});
 ListItemImageStory.args = {}
 
-export const ListItemChildrenTemplate: Story<Props> = (args) => (
+const ListItemChildrenTemplate: Story<Props> = (args) => (
   <Card>
     <List>
       <ListItem {...args} label='Label with children'><Text>Children text</Text></ListItem>
@@ -46,3 +46,20 @@ export const ListItemChildrenTemplate: Story<Props> = (args) => (
 
 export const ListItemChildrenStory = ListItemChildrenTemplate.bind({});
 ListItemChildrenStory.args = {}
+
+
+const ListItemCustomActionsTemplate: Story<Props> = (args) => (
+  <Card>
+    <List>
+      <ListItem {...args}
+        value="myid"
+        label="Label with children"
+        customActions={[{icon: 'time', id: 'schedule'}]}>
+        <Text>Children text</Text>
+      </ListItem>
+    </List>
+  </Card>
+);
+
+export const ListItemCustomActionsStory = ListItemCustomActionsTemplate.bind({});
+ListItemCustomActionsStory.args = {}

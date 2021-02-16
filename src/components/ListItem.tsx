@@ -5,6 +5,11 @@ import { Icon } from './Icon'
 import { Text } from './Text'
 import styled from 'styled-components'
 
+interface CustomAction {
+  icon: string,
+  id: string
+}
+
 export interface Props extends ThemeProps {
   label?: string;
   icon?: string;
@@ -13,9 +18,12 @@ export interface Props extends ThemeProps {
   value?: string;
   children?: ReactNode;
 
+  customActions: CustomAction[]
+
   onClick?: () => void;
   onDelete?: (value: string) => void;
   onNav?: (value: string) => void;
+  onAction?: (id: string, value?: string) => void;
 }
 
 interface ImageWithIconFallbackProps extends ThemeProps {
@@ -86,7 +94,18 @@ const MainContainer = styled.div`
 `
 
 export const ListItem: FC<Props> = (props) => {
-  const {label, onClick, icon, image, onDelete, onNav, value, theme, children } = props;
+  const {label, onClick, icon, image, onDelete, onNav, value, theme, children, customActions, onAction } = props;
+
+  const handleCustomAction = (actionId: string) => {
+    if (onAction) {
+      onAction(actionId, value);
+    }
+  }
+
+  const customActionsElements = (customActions ?? []).map(
+    (action) => (<Icon icon={action.icon} theme={theme} onClick={() => handleCustomAction(action.id)} />)
+  );
+
   return (
     <ListItemBase onClick={onClick ? onClick : () => {}} >
       {
@@ -108,6 +127,7 @@ export const ListItem: FC<Props> = (props) => {
       <ActionContainer>
         { onDelete && <Icon icon='close' theme={theme} onClick={() => onDelete(value || '')} /> }
         { onNav && <Icon icon='arrow-right-s' theme={theme} onClick={() => onNav(value || '')} /> }
+        { customActionsElements }
       </ActionContainer>
     </ListItemBase>
   )
