@@ -1,11 +1,22 @@
-import { SpanText, Text} from './Text'
-import React, { FC, Fragment } from 'react'
+import { SpanText, Text, Props as TextProps } from "./Text";
+import React, { FC } from "react";
 
-export interface Props {
-  num: number
-  denum: number
+export interface Props extends TextProps {
+  numerator: number;
+  denominator: number;
 }
 
-export const FractionComponent: FC<Props> = ({ num, denum }) => {
-  return <Text variant='regular'><SpanText variant='regular' color='primary'>{num}</SpanText>/{denum}</Text>
-}
+export const FractionComponent: FC<Props> = ({
+  numerator,
+  denominator,
+  ...rest
+}) => {
+  return (
+    <Text variant="regular" {...rest}>
+      <SpanText variant="regular" color="primary">
+        {numerator}
+      </SpanText>
+      /{denominator}
+    </Text>
+  );
+};

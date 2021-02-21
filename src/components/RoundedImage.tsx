@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export interface Props {
   src: string;
@@ -11,7 +11,7 @@ export const RoundedImage = styled.img<Props>`
   min-height: 64px;
   border-radius: 100%;
   overflow: hidden;
-  display:inline-block;
-  vertical-align:middle;
+  display: inline-block;
+  vertical-align: middle;
   object-fit: contain;
-`
+`;

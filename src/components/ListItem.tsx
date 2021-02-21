@@ -1,13 +1,13 @@
-import { RoundedImage } from './RoundedImage'
-import { ThemeProps} from '../themes/theme'
-import React, { useState, FC, ReactNode } from 'react'
-import { Icon } from './Icon'
-import { Text } from './Text'
-import styled from 'styled-components'
+import { RoundedImage } from "./RoundedImage";
+import { ThemeProps } from "../themes/theme";
+import React, { useState, FC, ReactNode } from "react";
+import { Icon } from "./Icon";
+import { Text } from "./Text";
+import styled from "styled-components";
 
 interface CustomAction {
-  icon: string,
-  id: string
+  icon: string;
+  id: string;
 }
 
 export interface Props extends ThemeProps {
@@ -18,7 +18,7 @@ export interface Props extends ThemeProps {
   value?: string;
   children?: ReactNode;
 
-  customActions: CustomAction[]
+  customActions?: CustomAction[];
 
   onClick?: () => void;
   onDelete?: (value: string) => void;
@@ -27,31 +27,36 @@ export interface Props extends ThemeProps {
 }
 
 interface ImageWithIconFallbackProps extends ThemeProps {
-  image?: string
-  icon?: string
+  image?: string;
+  icon?: string;
 }
 
-const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({ image, icon, theme }) => {
-  const [ imageSrc, setImageSrc] = useState(image || '');
+const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({
+  image,
+  icon,
+  theme,
+}) => {
+  const [imageSrc, setImageSrc] = useState(image || "");
 
   if (imageSrc) {
-    return <RoundedImage src={imageSrc} onError={() => setImageSrc('')} />
+    return <RoundedImage src={imageSrc} onError={() => setImageSrc("")} />;
   }
 
   if (icon) {
-      return <Icon icon={icon} theme={theme} size='3x'/>
+    return <Icon icon={icon} theme={theme} size="3x" />;
   }
 
   return null;
-}
+};
 
 const ListItemBase = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: ${props => props.theme.spacing.slim} ${props => props.theme.spacing.double};
-`
+  padding: ${(props) => props.theme.spacing.slim}
+    ${(props) => props.theme.spacing.double};
+`;
 
 const IconContainer = styled.div`
   max-width: 64px;
@@ -60,75 +65,104 @@ const IconContainer = styled.div`
   min-height: 64px;
   border-radius: 100%;
   overflow: hidden;
-  display:inline-block;
+  display: inline-block;
   vertical-align: middle;
   line-height: 64px;
   object-fit: contain;
-  background-color: ${props => props.theme.colors.secondaryBackground};
+  background-color: ${(props) => props.theme.colors.secondaryBackground};
   text-align: center;
-`
+`;
 
-const ActionContainer = styled.div`
-`
+const ActionContainer = styled.div``;
 
 const TextContainer = styled.div`
   flex: 1 1;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${props => props.theme.spacing.slim} ${props => props.theme.spacing.double};
-`
+  padding: ${(props) => props.theme.spacing.slim}
+    ${(props) => props.theme.spacing.double};
+`;
 
 const ContentContainer = styled.div`
   flex: 1.4 1.4;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: ${props => props.theme.spacing.double};
-`
+  padding: ${(props) => props.theme.spacing.double};
+`;
 
 const MainContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-`
+`;
 
 export const ListItem: FC<Props> = (props) => {
-  const {label, onClick, icon, image, onDelete, onNav, value, theme, children, customActions, onAction } = props;
+  const {
+    label,
+    onClick,
+    icon,
+    image,
+    onDelete,
+    onNav,
+    value,
+    theme,
+    children,
+    customActions,
+    onAction,
+  } = props;
 
   const handleCustomAction = (actionId: string) => {
     if (onAction) {
       onAction(actionId, value);
     }
-  }
+  };
 
-  const customActionsElements = (customActions ?? []).map(
-    (action) => (<Icon icon={action.icon} theme={theme} onClick={() => handleCustomAction(action.id)} />)
-  );
+  const customActionsElements = (customActions ?? []).map((action) => (
+    <Icon
+      key={action.id}
+      icon={action.icon}
+      theme={theme}
+      onClick={() => handleCustomAction(action.id)}
+    />
+  ));
 
   return (
-    <ListItemBase onClick={onClick ? onClick : () => {}} >
-      {
-        (icon || image) &&
+    <ListItemBase onClick={onClick}>
+      {(icon || image) && (
         <IconContainer>
-            <ImageWithIconFallback theme={theme} icon={icon} image={image}/>
+          <ImageWithIconFallback theme={theme} icon={icon} image={image} />
         </IconContainer>
-      }
+      )}
       <MainContainer>
-        { label &&
-        <TextContainer>
-          <Text variant='label' align={'left'}>{label}{children && ':'}</Text>
-        </TextContainer>}
-        {children &&
-        <ContentContainer>
-          {children}
-        </ContentContainer>}
+        {label && (
+          <TextContainer>
+            <Text variant="label" align={"left"}>
+              {label}
+              {children && ":"}
+            </Text>
+          </TextContainer>
+        )}
+        {children && <ContentContainer>{children}</ContentContainer>}
       </MainContainer>
       <ActionContainer>
-        { onDelete && <Icon icon='close' theme={theme} onClick={() => onDelete(value || '')} /> }
-        { onNav && <Icon icon='arrow-right-s' theme={theme} onClick={() => onNav(value || '')} /> }
-        { customActionsElements }
+        {onDelete && (
+          <Icon
+            icon="close"
+            theme={theme}
+            onClick={() => onDelete(value || "")}
+          />
+        )}
+        {onNav && (
+          <Icon
+            icon="arrow-right-s"
+            theme={theme}
+            onClick={() => onNav(value || "")}
+          />
+        )}
+        {customActionsElements}
       </ActionContainer>
     </ListItemBase>
-  )
-}
+  );
+};

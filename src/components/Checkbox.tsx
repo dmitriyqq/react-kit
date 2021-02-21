@@ -1,11 +1,11 @@
-import React, { ChangeEvent, FC} from 'react'
-import styled from 'styled-components'
-import { getPrimaryMainColor, ThemeProps } from '../themes/theme'
+import React, { ChangeEvent, FC } from "react";
+import styled from "styled-components";
+import { getPrimaryMainColor, ThemeProps } from "../themes/theme";
 
 const InternalCheckbox = styled.input`
   position: absolute;
   opacity: 0;
-`
+`;
 
 const StyledCheckboxLabel = styled.label<LabelProps>`
   display: inline-block;
@@ -15,37 +15,45 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
   height: 1.5em;
   vertical-align: middle;
   text-align: center;
-  background-color: ${(props: LabelProps) => props.value ? getPrimaryMainColor(props) : 'transparent' };
+  background-color: ${(props: LabelProps) =>
+    props.value ? getPrimaryMainColor(props) : "transparent"};
   &::after {
-    font-family: 'monospace';
-    content: ${(props: LabelProps) => props.value ? `'✓'` : `'✖'` };
+    font-family: "monospace";
+    content: ${(props: LabelProps) => (props.value ? `'✓'` : `'✖'`)};
     line-height: 1.5em;
-    color: ${(props: LabelProps) => props.value ? `white` : getPrimaryMainColor(props) };
+    color: ${(props: LabelProps) =>
+      props.value ? `white` : getPrimaryMainColor(props)};
     position: relative;
     top: 0;
     bottom: 0;
   }
-`
+`;
 
 interface LabelProps extends ThemeProps {
-  value: boolean
+  value: boolean;
 }
 
 export interface Props extends ThemeProps {
-  onChange: (value: boolean) => void
-  value: boolean
+  onChange?: (value: boolean) => void;
+  value: boolean;
 }
 
 export const Checkbox: FC<Props> = (props) => {
   const { onChange, value, theme } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.checked);
-  }
+    if (onChange) {
+      onChange(event.target.checked);
+    }
+  };
 
   return (
     <StyledCheckboxLabel theme={theme} value={value}>
-      <InternalCheckbox type='checkbox' onChange={handleChange} checked={value}/>
+      <InternalCheckbox
+        type="checkbox"
+        onChange={handleChange}
+        checked={value}
+      />
     </StyledCheckboxLabel>
-  )
-}
+  );
+};

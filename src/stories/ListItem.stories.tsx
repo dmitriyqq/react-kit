@@ -1,43 +1,51 @@
-import React from 'react'
-import { Story, Meta } from '@storybook/react/types-6-0';
+import React from "react";
+import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { Text } from '../components/Text'
-import { ListItem, Props } from '../components/ListItem'
-import {List} from "../components/List";
-import {Card} from "../components/Card";
+import { Text } from "../components/Text";
+import { ListItem, Props } from "../components/ListItem";
+import { List } from "../components/List";
+import { Card } from "../components/Card";
 
 export default {
-  title: 'ListItem',
+  title: "ListItem",
   component: ListItem,
 } as Meta;
 
 const Template: Story<Props> = (args) => (
-  <ListItem label='Label label label' {...args} />
+  <ListItem label="Label label label" {...args} />
 );
 
 export const ListItemStory = Template.bind({});
-ListItemStory.args = {}
+ListItemStory.args = {};
 
 const TemplateImage: Story<Props> = (args) => (
-    <Card {...args} >
-        <List>
-          <ListItem label='Label label label' {...args}/>
-          <ListItem label='Label label label' image='avatar.png' {...args} />
-        </List>
-    </Card>
+  <Card {...args}>
+    <List>
+      <ListItem label="Label label label" {...args} />
+      <ListItem label="Label label label" image="avatar.png" {...args} />
+    </List>
+  </Card>
 );
 
 export const ListItemImageStory = TemplateImage.bind({});
-ListItemImageStory.args = {}
+ListItemImageStory.args = {};
 
 const ListItemChildrenTemplate: Story<Props> = (args) => (
   <Card>
     <List>
-      <ListItem {...args} label='Label with children'><Text>Children text</Text></ListItem>
-      <ListItem {...args} label='Label with very very very very loooooooooooooooooong children text' >
+      <ListItem {...args} label="Label with children">
+        <Text>Children text</Text>
+      </ListItem>
+      <ListItem
+        {...args}
+        label="Label with very very very very loooooooooooooooooong children text"
+      >
         <Text>Very very very very loooooooooooooooooong children text</Text>
       </ListItem>
-      <ListItem {...args} label='Label with very very very very loooooooooooooooooong children text' >
+      <ListItem
+        {...args}
+        label="Label with very very very very loooooooooooooooooong children text"
+      >
         <Text>Children Text</Text>
       </ListItem>
     </List>
@@ -45,21 +53,24 @@ const ListItemChildrenTemplate: Story<Props> = (args) => (
 );
 
 export const ListItemChildrenStory = ListItemChildrenTemplate.bind({});
-ListItemChildrenStory.args = {}
-
+ListItemChildrenStory.args = {};
 
 const ListItemCustomActionsTemplate: Story<Props> = (args) => (
   <Card>
     <List>
-      <ListItem {...args}
+      <ListItem
+        {...args}
         value="myid"
         label="Label with children"
-        customActions={[{icon: 'time', id: 'schedule'}]}>
+        customActions={[{ icon: "time", id: "schedule" }]}
+      >
         <Text>Children text</Text>
       </ListItem>
     </List>
   </Card>
 );
 
-export const ListItemCustomActionsStory = ListItemCustomActionsTemplate.bind({});
-ListItemCustomActionsStory.args = {}
+export const ListItemCustomActionsStory = ListItemCustomActionsTemplate.bind(
+  {}
+);
+ListItemCustomActionsStory.args = {};

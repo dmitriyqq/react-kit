@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Centered = styled.div`
   position: absolute;
@@ -8,5 +8,5 @@ export const Centered = styled.div`
   right: 0;
   display: flex;
   align-items: center;
-  justify-content: center;  
-`
+  justify-content: center;
+`;
