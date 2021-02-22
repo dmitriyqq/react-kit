@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { getBorderRadius, getBoxShadow, ThemeProps } from "../themes/theme";
+import { ReactNode } from "react";
 
 export interface Props extends ThemeProps {
   canSelect?: boolean;
-  children?: any;
+  children?: ReactNode;
 }
 
 export const Card = styled.div<Props>`

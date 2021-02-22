@@ -1,32 +1,38 @@
 import { TextFormField } from "./TextFormField";
-import React from "react";
+import React, { FC } from "react";
 import { FieldItemDataType } from "../model/FieldItemData";
-import { FormFieldProps } from "./FormField";
 import { NumberFormField } from "./NumberFormField";
 import { CheckboxFormField } from "./CheckboxFormField";
+import { SelectFormField } from "./SelectFormField";
+import { SelectOption } from "./Select";
 
-interface DataFormFieldProps extends FormFieldProps {
+interface DataFormFieldProps {
+  name: string;
+  label: string;
+  type: FieldItemDataType;
+  options?: SelectOption<any>[];
+  placeholder?: string;
   value: any;
   onChange: (fieldName: string, value: any) => void;
-  type: FieldItemDataType;
 }
 
-export const DataFormField = <T extends unknown>({
+export const DataFormField: FC<DataFormFieldProps> = ({
   name,
   label,
   type,
   onChange,
   value,
-  theme,
-}: DataFormFieldProps) => {
+  placeholder,
+  options,
+}) => {
   if (type === "text") {
     return (
       <TextFormField
         label={label}
         name={name}
         onChange={onChange}
+        placeholder={placeholder}
         value={value}
-        theme={theme}
       />
     );
   }
@@ -36,9 +42,9 @@ export const DataFormField = <T extends unknown>({
       <NumberFormField
         value={value}
         onChange={onChange}
+        placeholder={placeholder}
         label={label}
         name={name}
-        theme={theme}
       />
     );
   }
@@ -50,7 +56,19 @@ export const DataFormField = <T extends unknown>({
         onChange={onChange}
         label={label}
         name={name}
-        theme={theme}
+      />
+    );
+  }
+
+  if (type === "select") {
+    return (
+      <SelectFormField
+        value={value}
+        onChange={onChange}
+        label={label}
+        name={name}
+        placeholder={placeholder}
+        options={options ?? []}
       />
     );
   }

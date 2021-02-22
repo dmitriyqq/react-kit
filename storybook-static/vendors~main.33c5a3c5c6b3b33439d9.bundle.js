@@ -7780,12 +7780,13 @@
                   var serialized = Object(serialize_browser_esm.a)([
                     styles(theme),
                   ]);
-                  return Object(
-                    react.createElement
-                  )(core_browser_esm_InnerGlobal, {
-                    serialized: serialized,
-                    cache: cache,
-                  });
+                  return Object(react.createElement)(
+                    core_browser_esm_InnerGlobal,
+                    {
+                      serialized: serialized,
+                      cache: cache,
+                    }
+                  );
                 }
               );
             var serialized = Object(serialize_browser_esm.a)([styles]);
@@ -47328,14 +47329,12 @@
                       newChild = { type: "text", value: "".concat(text, "\n") };
                     if (0 === i) {
                       var _line = createLine(
-                        tree
-                          .slice(lastLineBreakIndex + 1, index)
-                          .concat(
-                            createLineElement({
-                              children: [newChild],
-                              className: node.properties.className,
-                            })
-                          ),
+                        tree.slice(lastLineBreakIndex + 1, index).concat(
+                          createLineElement({
+                            children: [newChild],
+                            className: node.properties.className,
+                          })
+                        ),
                         lineNumber
                       );
                       newTree.push(_line);

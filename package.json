@@ -7,7 +7,6 @@
   "scripts": {
     "prepublish": "tsc",
     "build": "tsc",
-    "build:dev": "webpack -c webpack.config.js",
     "storybook": "start-storybook -s ./static -p 6006",
     "build-storybook": "build-storybook -s ./static"
   },

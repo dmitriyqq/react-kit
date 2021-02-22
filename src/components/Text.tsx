@@ -9,28 +9,30 @@ import { ReactNode } from "react";
 
 export type TextColor = TextColorType | ColorType | string;
 
-export interface Props extends ThemeProps {
+export interface Props {
   variant?: TextType;
   color?: TextColor;
   align?: "left" | "right" | "center" | "justify";
   children?: ReactNode;
 }
 
-export const getFontFamily = (props: Props) =>
+interface ThemedTextProps extends Props, ThemeProps {}
+
+export const getFontFamily = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].fontFamily ?? "sans-serif";
-export const getFontSize = (props: Props) =>
+export const getFontSize = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].fontSize ?? "1em";
-export const getFontWeight = (props: Props) =>
+export const getFontWeight = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].fontWeight ?? "500";
-export const getFontColor = (props: Props) =>
+export const getFontColor = (props: ThemedTextProps) =>
   !props.color || props.color === "text"
     ? props.theme?.text[props.variant ?? "regular"].color
     : props.theme.colors[props.color as ColorType]
     ? props.theme.colors[props.color as ColorType].main
     : props.color;
-export const getTextTransform = (props: Props) =>
+export const getTextTransform = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].textTransform ?? "none";
-export const getTextAlign = (props: Props) => props.align ?? "left";
+export const getTextAlign = (props: ThemedTextProps) => props.align ?? "left";
 
 export const Text = styled.div<Props>`
   font-family: ${getFontFamily};

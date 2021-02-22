@@ -1,13 +1,22 @@
 import React, { FC, useState } from "react";
 import { TextInput } from "./TextInput";
-import { ThemeProps } from "../themes/theme";
 
-export interface Props extends ThemeProps {
+export interface Props {
   value: number;
+  disabled?: boolean;
+  placeholder?: string;
+  original?: number;
+  onUpdate?: () => void;
   onChange: (value: number) => void;
 }
 
-export const NumberInput: FC<Props> = ({ theme, value, onChange }) => {
+export const NumberInput: FC<Props> = ({
+  value,
+  onChange,
+  placeholder,
+  original,
+  disabled,
+}) => {
   const [inputValue, setInputValue] = useState(value?.toString() ?? "");
   const handleChange = (newValue: string) => {
     const numValue = Number(newValue);
@@ -15,5 +24,13 @@ export const NumberInput: FC<Props> = ({ theme, value, onChange }) => {
     setInputValue(newValue);
   };
 
-  return <TextInput theme={theme} value={inputValue} onChange={handleChange} />;
+  return (
+    <TextInput
+      disabled={disabled}
+      placeholder={placeholder}
+      original={original?.toString()}
+      value={inputValue}
+      onChange={handleChange}
+    />
+  );
 };

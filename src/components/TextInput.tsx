@@ -2,9 +2,9 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { Icon } from "./Icon";
 import { getFontSize, getFontWeight, getTextTransform } from "./Text";
-import { getPrimaryMainColor, ThemeProps } from "../themes/theme";
+import { getPrimaryMainColor } from "../themes/theme";
 
-export interface Props extends ThemeProps {
+export interface Props {
   value?: string;
   disabled?: boolean;
   placeholder?: string;
@@ -20,15 +20,7 @@ const InputWrapper = styled.div`
 `;
 
 export const TextInput = (props: Props) => {
-  const {
-    value,
-    placeholder,
-    disabled,
-    original,
-    onChange,
-    onUpdate,
-    theme,
-  } = props;
+  const { value, placeholder, disabled, original, onChange, onUpdate } = props;
   const [edited, setEdited] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +49,7 @@ export const TextInput = (props: Props) => {
         onChange={handleChange}
         placeholder={placeholder}
       />
-      {checkAvailable && (
-        <Icon icon="check" onClick={handleConfirmUpdate} theme={theme} />
-      )}
+      {checkAvailable && <Icon icon="check" onClick={handleConfirmUpdate} />}
     </InputWrapper>
   );
 };

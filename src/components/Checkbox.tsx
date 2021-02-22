@@ -33,13 +33,13 @@ interface LabelProps extends ThemeProps {
   value: boolean;
 }
 
-export interface Props extends ThemeProps {
+export interface Props {
   onChange?: (value: boolean) => void;
   value: boolean;
 }
 
 export const Checkbox: FC<Props> = (props) => {
-  const { onChange, value, theme } = props;
+  const { onChange, value } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
@@ -48,7 +48,7 @@ export const Checkbox: FC<Props> = (props) => {
   };
 
   return (
-    <StyledCheckboxLabel theme={theme} value={value}>
+    <StyledCheckboxLabel value={value}>
       <InternalCheckbox
         type="checkbox"
         onChange={handleChange}

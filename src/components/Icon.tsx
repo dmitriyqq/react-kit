@@ -3,7 +3,7 @@ import { FC } from "react";
 import styled from "styled-components";
 import { ColorType, ThemeProps } from "../themes/theme";
 
-export interface Props extends ThemeProps {
+export interface Props {
   icon: string;
   onClick?: () => void;
   color?: ColorType;

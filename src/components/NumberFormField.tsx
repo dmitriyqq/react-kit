@@ -1,8 +1,11 @@
 import React, { FC } from "react";
-import { FormField, FormFieldProps } from "./FormField";
+import { FormField } from "./FormField";
 import { NumberInput } from "./NumberInput";
 
-interface Props extends FormFieldProps {
+interface Props {
+  name: string;
+  label?: string;
+  placeholder?: string;
   value: number;
   onChange: (name: string, value: number) => void;
 }
@@ -12,7 +15,7 @@ export const NumberFormField: FC<Props> = ({
   name,
   value,
   onChange,
-  theme,
+  placeholder,
 }) => {
   const handleChange = (value: number) => {
     if (onChange) {
@@ -21,8 +24,12 @@ export const NumberFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label} theme={theme}>
-      <NumberInput value={value} onChange={handleChange} theme={theme} />
+    <FormField label={label}>
+      <NumberInput
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChange}
+      />
     </FormField>
   );
 };

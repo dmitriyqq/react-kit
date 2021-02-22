@@ -1,8 +1,17 @@
-export type FieldItemDataType = "text" | "number" | "datetime" | "bool";
+import { SelectOption } from "../components/Select";
 
-export interface FieldDefinition {
-  name: string;
+export type FieldItemDataType =
+  | "text"
+  | "number"
+  | "datetime"
+  | "bool"
+  | "select";
+
+export interface FieldDefinition<T, V> {
+  name: keyof T;
   label: string;
   type: FieldItemDataType;
-  validator: (value: any) => boolean;
+  options?: SelectOption<V>[];
+  placeholder?: string;
+  validator?: (fieldName: string, value: V) => boolean;
 }

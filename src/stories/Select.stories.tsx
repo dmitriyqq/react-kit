@@ -8,13 +8,13 @@ export default {
   component: Select,
 } as Meta;
 
-const Template: Story<Props> = (args) => <Select {...args} />;
+const Template: Story<Props<string>> = (args) => <Select {...args} />;
 
 export const SelectStory = Template.bind({});
 SelectStory.args = {
   options: [
-    { label: "option 1", value: "option 1" },
-    { label: "option 2", value: "option 2" },
-    { label: "option 3", value: "option 3" },
+    { label: "option 1", value: "option 1", id: "option 1" },
+    { label: "option 2", value: "option 2", id: "option 2" },
+    { label: "option 3", value: "option 3", id: "option 3" },
   ],
 };

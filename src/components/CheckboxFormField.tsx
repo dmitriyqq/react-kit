@@ -1,8 +1,11 @@
 import React, { FC } from "react";
-import { FormField, FormFieldProps } from "./FormField";
+import { FormField } from "./FormField";
 import { Checkbox } from "./Checkbox";
 
-interface Props extends FormFieldProps {
+interface Props {
+  name: string;
+  label?: string;
+  placeholder?: string;
   value: boolean;
   onChange: (name: string, value: boolean) => void;
 }
@@ -12,7 +15,6 @@ export const CheckboxFormField: FC<Props> = ({
   name,
   value,
   onChange,
-  theme,
 }) => {
   const handleChange = (value: boolean) => {
     if (onChange) {
@@ -21,8 +23,8 @@ export const CheckboxFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label} theme={theme}>
-      <Checkbox value={value} onChange={handleChange} theme={theme} />
+    <FormField label={label}>
+      <Checkbox value={value} onChange={handleChange} />
     </FormField>
   );
 };

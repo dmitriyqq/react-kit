@@ -13,10 +13,9 @@ const ButtonText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: ${(props: Props) => props.theme?.spacing.single};
 `;
 
-export interface Props extends ThemeProps {
+export interface Props {
   onClick?: () => void;
   className?: string;
   icon?: string;
@@ -40,7 +39,6 @@ export const Button: FC<Props> = ({
   color,
   disabled,
   icon,
-  theme,
 }) => {
   console.log("children", children);
   return (
@@ -51,7 +49,7 @@ export const Button: FC<Props> = ({
       color={color}
       hasChildren={children !== undefined}
     >
-      {icon && <Icon icon={icon} theme={theme} color="white" />}
+      {icon && <Icon icon={icon} color="white" />}
       {children ? (
         <ButtonText variant="button" align="center">
           {children}

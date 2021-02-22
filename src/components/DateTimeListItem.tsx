@@ -27,7 +27,7 @@ export const DateTimeListItem: FC<Props> = ({
         time={time}
         dateTime={dateTime}
         color={color}
-        theme={rest.theme}
+        variant={variant}
         align="center"
       />
     </ListItem>

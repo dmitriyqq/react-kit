@@ -2,16 +2,15 @@ import React, { FC } from "react";
 import { ListItemData } from "../model/ListItemData";
 import { DataListItem } from "./DataListItem";
 import { List } from "./List";
-import { ThemeProps } from "../themes/theme";
 import { Loader } from "./Loader";
 import { Centered } from "./Centered";
 
-export interface Props extends ThemeProps {
+export interface Props {
   data: ListItemData[];
   isLoading: boolean;
 }
 
-export const DataList: FC<Props> = ({ data, isLoading, theme }) => {
+export const DataList: FC<Props> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
       <List>
@@ -25,7 +24,7 @@ export const DataList: FC<Props> = ({ data, isLoading, theme }) => {
   return (
     <List>
       {(data ?? []).map((item, index) => (
-        <DataListItem item={item} key={index} theme={theme} />
+        <DataListItem item={item} key={index} />
       ))}
     </List>
   );

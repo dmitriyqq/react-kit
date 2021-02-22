@@ -1,8 +1,11 @@
 import React, { FC } from "react";
-import { FormField, FormFieldProps } from "./FormField";
+import { FormField } from "./FormField";
 import { TextInput } from "./TextInput";
 
-interface Props extends FormFieldProps {
+interface Props {
+  name: string;
+  label?: string;
+  placeholder?: string;
   value: string;
   onChange: (name: string, value: string) => void;
 }
@@ -12,7 +15,7 @@ export const TextFormField: FC<Props> = ({
   name,
   value,
   onChange,
-  theme,
+  placeholder,
 }) => {
   const handleChange = (value: string) => {
     if (onChange) {
@@ -21,8 +24,12 @@ export const TextFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label} theme={theme}>
-      <TextInput value={value} onChange={handleChange} theme={theme} />
+    <FormField label={label}>
+      <TextInput
+        placeholder={placeholder}
+        value={value}
+        onChange={handleChange}
+      />
     </FormField>
   );
 };

@@ -15,15 +15,17 @@ import {
   ThemeProps,
 } from "../themes/theme";
 
-export interface SelectOption {
+export interface SelectOption<T> {
   label: string;
-  value: string;
+  id: string;
+  value: T;
 }
 
-export interface Props {
-  options: SelectOption[];
-  onChange: (value: string) => void;
-  value: string;
+export interface Props<T> {
+  options: SelectOption<T>[];
+  onChange: (option: SelectOption<T> | null) => void;
+  value: SelectOption<T> | null;
+  placeholder?: string;
 }
 
 interface StyledSelectProps extends TextProps {
@@ -89,22 +91,31 @@ const SelectWrapper = styled.div<ThemeProps>`
   }
 `;
 
-export const Select: React.FC<Props> = (props) => {
-  const { options, onChange, value } = props;
+export const Select = <T extends unknown>(props: Props<T>) => {
+  const { options, onChange, value, placeholder } = props;
 
-  const optionsElements = options.map(({ label, value }) => (
-    <option key={value} value={value}>
+  const optionsElements = options.map(({ label, id }) => (
+    <option key={id} value={id}>
       {label}
     </option>
   ));
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onChange(event?.target?.value || "");
+    const id = event?.target?.value || "";
+    const option = options.find((o) => o.id === id);
+    if (option) {
+      onChange(option);
+    }
   };
 
   return (
     <SelectWrapper>
-      <StyledSelect onChange={handleChange} value={value} variant="label">
+      <StyledSelect
+        onChange={handleChange}
+        value={value?.id ?? ""}
+        variant="label"
+        placeholder={placeholder}
+      >
         {optionsElements}
       </StyledSelect>
     </SelectWrapper>

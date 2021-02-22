@@ -23,8 +23,8 @@ export const FractionListItem: FC<Props> = ({
       <FractionComponent
         numerator={numerator}
         denominator={denominator}
+        variant={variant}
         color={color}
-        theme={rest.theme}
         align="center"
       />
     </ListItem>

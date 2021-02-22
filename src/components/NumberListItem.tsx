@@ -19,7 +19,6 @@ export const NumberListItem: FC<Props> = ({ num, variant, color, ...rest }) => {
         num={num}
         variant={variant}
         color={color}
-        theme={rest.theme}
         align="center"
       />
     </ListItem>
