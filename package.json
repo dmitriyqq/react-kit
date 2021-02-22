@@ -1,5 +1,5 @@
 {
-  "name": "react-kit",
+  "name": "@dmitriiqq/react-kit",
   "version": "0.0.2",
   "types": "build/index.d.ts",
   "main": "build/index.js",
@@ -57,5 +57,13 @@
   },
   "files": [
     "build"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitriyqq/react-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dmitriyqq/react-kit/issues"
+  },
+  "homepage": "https://github.com/dmitriyqq/react-kit#readme"
 }
