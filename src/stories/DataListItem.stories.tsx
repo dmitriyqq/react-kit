@@ -1,15 +1,15 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { Props, DataListItem } from "../components/DataListItem";
-import { List } from "../components/List";
-import { TextListItem } from "../components/TextListItem";
-import { NumberListItem } from "../components/NumberListItem";
-import { DateTimeListItem } from "../components/DateTimeListItem";
-import { FractionListItem } from "../components/FractionListItem";
+import { Props, DataListItem } from "../components/List/DataListItem";
+import { List } from "../components/List/List";
+import { TextListItem } from "../components/List/TextListItem";
+import { NumberListItem } from "../components/List/NumberListItem";
+import { DateTimeListItem } from "../components/List/DateTimeListItem";
+import { FractionListItem } from "../components/List/FractionListItem";
 import { Card } from "../components/Card";
 import { ListItemData } from "../model/ListItemData";
-import { DataList, Props as DataListProps } from "../components/DataList";
+import { DataList, Props as DataListProps } from "../components/List/DataList";
 
 export default {
   title: "DataListItem",
@@ -85,21 +85,19 @@ ListItemComponentStory.args = {};
 const DataItemTemplate: Story<Props> = (args) => (
   <Card>
     <List>
-      <DataListItem {...args} item={textListItem} />
-      <DataListItem {...args} item={numberListItem} />
-      <DataListItem {...args} item={fractionListItem} />
-      <DataListItem {...args} item={dateTimeListItem} />
-      <DataListItem {...args} item={dateListItem} />
-      <DataListItem {...args} item={timeListItem} />
+      <DataListItem {...args} {...textListItem} />
+      <DataListItem {...args} {...numberListItem} />
+      <DataListItem {...args} {...fractionListItem} />
+      <DataListItem {...args} {...dateTimeListItem} />
+      <DataListItem {...args} {...dateListItem} />
+      <DataListItem {...args} {...timeListItem} />
     </List>
   </Card>
 );
 export const DataItemComponentStory = DataItemTemplate.bind({});
 DataItemComponentStory.args = {};
 
-export const DataListTemplate: Story<DataListProps> = (args) => (
-  <DataList {...args} />
-);
+const DataListTemplate: Story<DataListProps> = (args) => <DataList {...args} />;
 
 export const DataListLoadingStory = DataListTemplate.bind({});
 DataListLoadingStory.args = { isLoading: true };

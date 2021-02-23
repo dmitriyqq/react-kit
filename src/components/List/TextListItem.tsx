@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { ListItem, Props as ListItemProps } from "./ListItem";
-import { Text, TextColor } from "./Text";
-import { TextType } from "../themes/theme";
+import { Text, TextColor } from "../Text";
+import { TextType } from "../../themes/theme";
 
 interface Props extends ListItemProps {
   text: string;

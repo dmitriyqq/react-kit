@@ -1,10 +1,10 @@
 import { TextFormField } from "./TextFormField";
 import React, { FC } from "react";
-import { FieldItemDataType } from "../model/FieldItemData";
+import { FieldItemDataType } from "../../model/FieldItemData";
 import { NumberFormField } from "./NumberFormField";
 import { CheckboxFormField } from "./CheckboxFormField";
 import { SelectFormField } from "./SelectFormField";
-import { SelectOption } from "./Select";
+import { SelectOption } from "../Select";
 
 interface DataFormFieldProps {
   name: string;

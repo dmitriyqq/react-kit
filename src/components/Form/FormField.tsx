@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { FC, ReactNode } from "react";
 import React from "react";
-import { Text } from "./Text";
-import { Icon } from "./Icon";
+import { Text } from "../Text";
+import { Icon } from "../Icon";
 
 const FormItemBase = styled.div`
   display: flex;

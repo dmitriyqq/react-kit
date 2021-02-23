@@ -2,8 +2,8 @@ import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
 import { Text } from "../components/Text";
-import { ListItem, Props } from "../components/ListItem";
-import { List } from "../components/List";
+import { ListItem, Props } from "../components/List/ListItem";
+import { List } from "../components/List/List";
 import { Card } from "../components/Card";
 
 export default {
@@ -19,7 +19,7 @@ export const ListItemStory = Template.bind({});
 ListItemStory.args = {};
 
 const TemplateImage: Story<Props> = (args) => (
-  <Card {...args}>
+  <Card>
     <List>
       <ListItem label="Label label label" {...args} />
       <ListItem label="Label label label" image="avatar.png" {...args} />
@@ -60,7 +60,7 @@ const ListItemCustomActionsTemplate: Story<Props> = (args) => (
     <List>
       <ListItem
         {...args}
-        value="myid"
+        id="myid"
         label="Label with children"
         customActions={[{ icon: "time", id: "schedule" }]}
       >

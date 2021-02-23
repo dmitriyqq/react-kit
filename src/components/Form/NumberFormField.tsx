@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { FormField } from "./FormField";
-import { NumberInput } from "./NumberInput";
+import { NumberInput } from "../NumberInput";
 
 interface Props {
   name: string;

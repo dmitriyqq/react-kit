@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { Form, Props } from "../components/Form";
+import { Form, Props } from "../components/Form/Form";
 import { NumberComponent } from "../components/NumberComponent";
 
 export default {

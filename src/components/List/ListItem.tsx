@@ -1,7 +1,7 @@
-import { RoundedImage } from "./RoundedImage";
+import { RoundedImage } from "../RoundedImage";
 import React, { useState, FC, ReactNode } from "react";
-import { Icon } from "./Icon";
-import { Text } from "./Text";
+import { Icon } from "../Icon";
+import { Text } from "../Text";
 import styled from "styled-components";
 
 interface CustomAction {
@@ -14,15 +14,15 @@ export interface Props {
   icon?: string;
   image?: string;
 
-  value?: string;
+  id?: string;
   children?: ReactNode;
 
   customActions?: CustomAction[];
 
-  onClick?: () => void;
-  onDelete?: (value: string) => void;
-  onNav?: (value: string) => void;
-  onAction?: (id: string, value?: string) => void;
+  onClick?: (id?: string) => void;
+  onDelete?: (id?: string) => void;
+  onNav?: (id?: string) => void;
+  onAction?: (action: string, id?: string) => void;
 }
 
 interface ImageWithIconFallbackProps {
@@ -104,7 +104,7 @@ export const ListItem: FC<Props> = (props) => {
     image,
     onDelete,
     onNav,
-    value,
+    id,
     children,
     customActions,
     onAction,
@@ -112,7 +112,7 @@ export const ListItem: FC<Props> = (props) => {
 
   const handleCustomAction = (actionId: string) => {
     if (onAction) {
-      onAction(actionId, value);
+      onAction(actionId, id);
     }
   };
 
@@ -125,7 +125,7 @@ export const ListItem: FC<Props> = (props) => {
   ));
 
   return (
-    <ListItemBase onClick={onClick}>
+    <ListItemBase onClick={() => onClick && onClick(id)}>
       {(icon || image) && (
         <IconContainer>
           <ImageWithIconFallback icon={icon} image={image} />
@@ -143,12 +143,8 @@ export const ListItem: FC<Props> = (props) => {
         {children && <ContentContainer>{children}</ContentContainer>}
       </MainContainer>
       <ActionContainer>
-        {onDelete && (
-          <Icon icon="close" onClick={() => onDelete(value || "")} />
-        )}
-        {onNav && (
-          <Icon icon="arrow-right-s" onClick={() => onNav(value || "")} />
-        )}
+        {onDelete && <Icon icon="close" onClick={() => onDelete(id)} />}
+        {onNav && <Icon icon="arrow-right-s" onClick={() => onNav(id)} />}
         {customActionsElements}
       </ActionContainer>
     </ListItemBase>

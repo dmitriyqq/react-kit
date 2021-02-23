@@ -1,23 +1,22 @@
 import React, { FC } from "react";
 import { FormField } from "./FormField";
-import { TextInput } from "./TextInput";
+import { Checkbox } from "../Checkbox";
 
 interface Props {
   name: string;
   label?: string;
   placeholder?: string;
-  value: string;
-  onChange: (name: string, value: string) => void;
+  value: boolean;
+  onChange: (name: string, value: boolean) => void;
 }
 
-export const TextFormField: FC<Props> = ({
+export const CheckboxFormField: FC<Props> = ({
   label,
   name,
   value,
   onChange,
-  placeholder,
 }) => {
-  const handleChange = (value: string) => {
+  const handleChange = (value: boolean) => {
     if (onChange) {
       onChange(name, value);
     }
@@ -25,11 +24,7 @@ export const TextFormField: FC<Props> = ({
 
   return (
     <FormField label={label}>
-      <TextInput
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-      />
+      <Checkbox value={value} onChange={handleChange} />
     </FormField>
   );
 };

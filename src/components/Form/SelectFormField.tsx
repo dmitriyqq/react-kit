@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormField } from "./FormField";
-import { Select, SelectOption } from "./Select";
+import { Select, SelectOption } from "../Select";
 
 interface Props<V> {
   name: string;

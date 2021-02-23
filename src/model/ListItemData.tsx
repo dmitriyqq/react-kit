@@ -15,4 +15,5 @@ export interface ListItemData {
   time?: Date;
   variant?: TextType;
   color?: TextColor;
+  id?: string;
 }

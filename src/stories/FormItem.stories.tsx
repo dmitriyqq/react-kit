@@ -1,8 +1,8 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { FormField, Props } from "../components/FormField";
-import { List } from "../components/List";
+import { FormField, Props } from "../components/Form/FormField";
+import { List } from "../components/List/List";
 import { Card } from "../components/Card";
 import { Checkbox } from "../components/Checkbox";
 import { TextInput } from "../components/TextInput";

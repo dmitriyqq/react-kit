@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeProps } from "../themes/theme";
+import { ThemeProps } from "../../themes/theme";
 
 export interface Props extends ThemeProps {
   mode?: "v" | "h";
