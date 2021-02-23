@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { TextInput } from "./TextInput";
 
 export interface Props {
@@ -17,20 +17,13 @@ export const NumberInput: FC<Props> = ({
   original,
   disabled,
 }) => {
-  const [inputValue, setInputValue] = useState(value?.toString() ?? "");
-  const handleChange = (newValue: string) => {
-    const numValue = Number(newValue);
-    onChange(isNaN(numValue) ? 0 : numValue);
-    setInputValue(newValue);
-  };
-
   return (
     <TextInput
       disabled={disabled}
       placeholder={placeholder}
       original={original?.toString()}
-      value={inputValue}
-      onChange={handleChange}
+      value={value as never}
+      onChange={onChange as never}
     />
   );
 };

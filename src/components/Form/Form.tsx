@@ -1,12 +1,11 @@
 import React from "react";
 import { FieldDefinition } from "../../model/FieldItemData";
 import { List } from "../List/List";
-import { ThemeProps } from "../../themes/theme";
 import { DataFormField } from "./DataFormField";
 import { Button } from "../Button";
 import { FormField } from "./FormField";
 
-export interface Props<T extends object> extends ThemeProps {
+export interface Props<T extends object> {
   value: T;
   fields: FieldDefinition<T, any>[];
   onChange: (value: T) => void;

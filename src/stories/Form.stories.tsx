@@ -26,7 +26,7 @@ const Template: Story<Props<TestFormData>> = (args) => {
   return (
     <>
       <Form {...args} value={value} onChange={handleChange} />
-      <NumberComponent num={value.num} />
+      <NumberComponent num={Number(value.num)} />
     </>
   );
 };
