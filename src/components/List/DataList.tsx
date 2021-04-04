@@ -7,10 +7,10 @@ import { Centered } from "../Centered";
 
 export interface Props {
   data: ListItemData[];
-  onClick: (id?: string) => void;
-  onNav: (id?: string) => void;
-  onDelete: (id?: string) => void;
-  onAction: (action: string, id?: string) => void;
+  onClick?: (id?: string) => void;
+  onNav?: (id?: string) => void;
+  onDelete?: (id?: string) => void;
+  onAction?: (action: string, id?: string) => void;
   isLoading: boolean;
 }
 
