@@ -1,4 +1,5 @@
-export * as styled from "styled-components";
+import styled from "styled-components";
+export { styled };
 
 export { Button } from "./components/Button";
 export { Card } from "./components/Card";
