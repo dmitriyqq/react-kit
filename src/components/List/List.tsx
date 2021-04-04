@@ -11,11 +11,11 @@ export interface Props extends ThemeProps {
     | "space-between"
     | "space-around"
     | "space-evenly";
-  wrap?: boolean;
+  wrapItems?: boolean;
 }
 
 export const List = styled.div<Props>`
-  flex-wrap: ${(props) => (props.wrap ? "wrap" : "no-wrap")};
+  flex-wrap: ${(props) => (props.wrapItems ? "wrap" : "no-wrap")};
   display: flex;
   flex-direction: ${(props) => (props.mode === "h" ? "row" : "column")};
   align-items: ${(props) =>

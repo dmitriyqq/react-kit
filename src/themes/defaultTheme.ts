@@ -51,6 +51,7 @@ export const defaultTheme: Theme = {
       main: "black",
       dark: "black",
     },
+    disabled: "grey",
   },
   mainBackground: "#FEFEFE",
   secondaryBackground: "#f3f3f3",

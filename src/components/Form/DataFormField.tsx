@@ -5,15 +5,21 @@ import { NumberFormField } from "./NumberFormField";
 import { CheckboxFormField } from "./CheckboxFormField";
 import { SelectFormField } from "./SelectFormField";
 import { SelectOption } from "../Select";
+import { OptionsProvider } from "../Autocomplete";
+import { AutocompleteFormField } from "./AutocompleteFormField";
+import { DateFormField } from "./DateFormField";
 
 interface DataFormFieldProps {
   name: string;
   label: string;
+  disabled?: boolean;
+  value: any;
   type: FieldItemDataType;
   options?: SelectOption<any>[];
   placeholder?: string;
-  value: any;
+  optionsProvider?: OptionsProvider<string>;
   onChange: (fieldName: string, value: any) => void;
+  errorMessage?: string | null;
 }
 
 export const DataFormField: FC<DataFormFieldProps> = ({
@@ -24,6 +30,9 @@ export const DataFormField: FC<DataFormFieldProps> = ({
   value,
   placeholder,
   options,
+  optionsProvider,
+  disabled,
+  errorMessage,
 }) => {
   if (type === "text") {
     return (
@@ -33,6 +42,22 @@ export const DataFormField: FC<DataFormFieldProps> = ({
         onChange={onChange}
         placeholder={placeholder}
         value={value}
+        disabled={disabled}
+        errorMessage={errorMessage}
+      />
+    );
+  }
+
+  if (type === "date") {
+    return (
+      <DateFormField
+        label={label}
+        name={name}
+        onChange={onChange}
+        placeholder={placeholder}
+        value={value}
+        disabled={disabled}
+        errorMessage={errorMessage}
       />
     );
   }
@@ -45,6 +70,8 @@ export const DataFormField: FC<DataFormFieldProps> = ({
         placeholder={placeholder}
         label={label}
         name={name}
+        disabled={disabled}
+        errorMessage={errorMessage}
       />
     );
   }
@@ -56,6 +83,8 @@ export const DataFormField: FC<DataFormFieldProps> = ({
         onChange={onChange}
         label={label}
         name={name}
+        disabled={disabled}
+        errorMessage={errorMessage}
       />
     );
   }
@@ -69,6 +98,23 @@ export const DataFormField: FC<DataFormFieldProps> = ({
         name={name}
         placeholder={placeholder}
         options={options ?? []}
+        disabled={disabled}
+        errorMessage={errorMessage}
+      />
+    );
+  }
+
+  if (type === "autocomplete" && optionsProvider !== undefined) {
+    return (
+      <AutocompleteFormField
+        value={value}
+        onChange={onChange}
+        label={label}
+        name={name}
+        placeholder={placeholder}
+        optionsProvider={optionsProvider}
+        disabled={disabled}
+        errorMessage={errorMessage}
       />
     );
   }

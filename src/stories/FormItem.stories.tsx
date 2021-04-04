@@ -14,7 +14,7 @@ export default {
 
 const Template: Story<Props> = (args) => (
   <FormField {...args}>
-    <Checkbox value={true} theme={args.theme} />
+    <Checkbox value={true} />
   </FormField>
 );
 
@@ -24,14 +24,21 @@ FormItemStory.args = {
   icon: "arrow-right-s",
 };
 
+export const FormItemWithErrorMessageStory = Template.bind({});
+FormItemWithErrorMessageStory.args = {
+  label: "Label label label label",
+  icon: "arrow-right-s",
+  errorMessage: "This field is prohibited",
+};
+
 const TemplateImage: Story<Props> = (args) => (
   <Card {...args}>
     <List>
       <FormField {...args}>
-        <Checkbox value={true} theme={args.theme} />
+        <Checkbox value={true} />
       </FormField>
       <FormField {...args}>
-        <TextInput value={""} theme={args.theme} />
+        <TextInput value={""} />
       </FormField>
     </List>
   </Card>

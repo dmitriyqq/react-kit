@@ -8,6 +8,8 @@ interface Props {
   placeholder?: string;
   value: number;
   onChange: (name: string, value: number) => void;
+  disabled?: boolean;
+  errorMessage?: string | null;
 }
 
 export const NumberFormField: FC<Props> = ({
@@ -16,6 +18,8 @@ export const NumberFormField: FC<Props> = ({
   value,
   onChange,
   placeholder,
+  disabled,
+  errorMessage,
 }) => {
   const handleChange = (value: number) => {
     if (onChange) {
@@ -24,11 +28,12 @@ export const NumberFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label}>
+    <FormField label={label} errorMessage={errorMessage}>
       <NumberInput
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        disabled={disabled}
       />
     </FormField>
   );

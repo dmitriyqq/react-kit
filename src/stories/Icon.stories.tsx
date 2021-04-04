@@ -41,9 +41,7 @@ IconOnClickStory.args = {
 };
 
 const ButtonTemplate: Story<Props> = (args) => (
-  <Button icon="24-hours" theme={args.theme}>
-    Тест
-  </Button>
+  <Button icon="24-hours">Тест</Button>
 );
 
 export const ButtonIconStory = ButtonTemplate.bind({});
@@ -53,9 +51,7 @@ ButtonIconStory.args = {
   variant: "label",
 };
 
-const ButtonOnlyTemplate: Story<Props> = (args) => (
-  <Button icon="24-hours" theme={args.theme} />
-);
+const ButtonOnlyTemplate: Story<Props> = (args) => <Button icon="24-hours" />;
 
 export const ButtonOnlyIconStory = ButtonOnlyTemplate.bind({});
 ButtonOnlyIconStory.args = {

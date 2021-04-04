@@ -1,11 +1,17 @@
 import { SelectOption } from "../components/Select";
+import { OptionsProvider } from "../components/Autocomplete";
 
 export type FieldItemDataType =
   | "text"
   | "number"
-  | "datetime"
+  | "date"
   | "bool"
-  | "select";
+  | "select"
+  | "autocomplete";
+
+export type ValidatorType<V> = (
+  value: V
+) => { valid: boolean; message?: string | null };
 
 export interface FieldDefinition<T, V> {
   name: keyof T;
@@ -13,5 +19,7 @@ export interface FieldDefinition<T, V> {
   type: FieldItemDataType;
   options?: SelectOption<V>[];
   placeholder?: string;
-  validator?: (fieldName: string, value: V) => boolean;
+  validator?: ValidatorType<V>;
+  condition?: { fieldName: keyof T; fieldValue: string };
+  optionsProvider?: OptionsProvider<string>;
 }

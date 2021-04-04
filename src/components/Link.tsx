@@ -31,7 +31,7 @@ const InnerLink = styled.a<InnerLinkProps>`
     color: ${(props) =>
       props.color && props.color === "text"
         ? props.theme.colors.primary.main
-        : props.theme.colors[props.color].dark};
+        : props.theme.colors[props.color ?? "primary"].dark};
   }
 `;
 

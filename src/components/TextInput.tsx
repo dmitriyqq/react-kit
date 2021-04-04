@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import { Icon } from "./Icon";
-import { getFontSize, getFontWeight, getTextTransform } from "./Text";
+import {
+  getFontFamily,
+  getFontSize,
+  getFontWeight,
+  getTextTransform,
+} from "./Text";
 import { getPrimaryMainColor } from "../themes/theme";
 
 export interface Props {
@@ -59,6 +64,7 @@ export const BaseTextInput = styled.input`
   font-weight: ${getFontWeight};
   font-size: ${getFontSize};
   text-transform: ${getTextTransform};
+  font-family: ${getFontFamily};
   text-align: center;
   color: ${(props) => props.theme.text.regular.color};
   border-top: none;

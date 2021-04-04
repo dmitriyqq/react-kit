@@ -16,7 +16,11 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
   vertical-align: middle;
   text-align: center;
   background-color: ${(props: LabelProps) =>
-    props.value ? getPrimaryMainColor(props) : "transparent"};
+    props.disabled
+      ? "grey"
+      : props.value
+      ? getPrimaryMainColor(props)
+      : "transparent"};
   &::after {
     font-family: "monospace";
     content: ${(props: LabelProps) => (props.value ? `'✓'` : `'✖'`)};
@@ -31,15 +35,17 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
 
 interface LabelProps extends ThemeProps {
   value: boolean;
+  disabled?: boolean;
 }
 
 export interface Props {
   onChange?: (value: boolean) => void;
   value: boolean;
+  disabled?: boolean;
 }
 
 export const Checkbox: FC<Props> = (props) => {
-  const { onChange, value } = props;
+  const { onChange, value, disabled } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
@@ -48,11 +54,12 @@ export const Checkbox: FC<Props> = (props) => {
   };
 
   return (
-    <StyledCheckboxLabel value={value}>
+    <StyledCheckboxLabel value={value} disabled={disabled}>
       <InternalCheckbox
         type="checkbox"
         onChange={handleChange}
         checked={value}
+        disabled={disabled}
       />
     </StyledCheckboxLabel>
   );

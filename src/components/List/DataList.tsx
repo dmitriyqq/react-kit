@@ -46,7 +46,6 @@ export const DataList: FC<Props> = ({
 
   const handleDelete = (id?: string) => {
     if (onDelete) {
-      console.log("delete", id);
       onDelete(id);
     }
   };

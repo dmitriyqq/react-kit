@@ -3,6 +3,7 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 
 import { Form, Props } from "../components/Form/Form";
 import { NumberComponent } from "../components/NumberComponent";
+import { FieldDefinition } from "../model/FieldItemData";
 
 export default {
   title: "Form",
@@ -14,6 +15,7 @@ interface TestFormData {
   check: boolean;
   num: number;
   myObject: { customValue: number };
+  dateOfBirth: Date | null;
 }
 
 const Template: Story<Props<TestFormData>> = (args) => {
@@ -31,28 +33,31 @@ const Template: Story<Props<TestFormData>> = (args) => {
   );
 };
 
-export const LoaderStory = Template.bind({});
-LoaderStory.args = {
+export const FormStory = Template.bind({});
+FormStory.args = {
   fields: [
     {
       label: "Test text field",
       type: "text",
       name: "test",
       placeholder: "please input a text",
-      validator: () => true,
     },
     {
       label: "Test checkbox field",
       type: "bool",
       name: "check",
-      validator: () => true,
     },
     {
       label: "Test num field",
       type: "number",
       name: "num",
       placeholder: "Please enter a number",
-      validator: () => true,
+    },
+    {
+      label: "Date of Birth",
+      type: "date",
+      name: "dateOfBirth",
+      placeholder: "date of birth",
     },
     {
       label: "Test select field",
@@ -70,5 +75,216 @@ LoaderStory.args = {
     check: true,
     num: 420.69,
     myObject: { customValue: 342 },
+    dateOfBirth: null,
+  },
+};
+
+interface ConditionalTestFormData {
+  warehouseAmountType: "have" | "ordered" | "needToOrder";
+  amount: number;
+  locationType?: "store" | "warehouse" | "global" | "transit";
+  placeId?: string;
+}
+
+const ConditionalFormTemplate: Story<Props<ConditionalTestFormData>> = (
+  args
+) => {
+  const [value, setValue] = useState(args.value);
+
+  const handleChange = (value: any) => {
+    setValue(value);
+  };
+
+  return (
+    <>
+      <Form {...args} value={value} onChange={handleChange} />
+    </>
+  );
+};
+
+export const ConditionalFormStory = ConditionalFormTemplate.bind({});
+ConditionalFormStory.args = {
+  fields: [
+    {
+      label: "Warehouse amount type",
+      type: "select",
+      name: "warehouseAmountType",
+      options: [
+        { value: "have", id: "have", label: "Have in stock" },
+        { value: "ordered", id: "ordered", label: "Ordered" },
+        { value: "needToOrder", id: "needToOrder", label: "Need to order" },
+      ],
+    },
+    {
+      label: "Location",
+      type: "select",
+      name: "locationType",
+      options: [
+        { value: "store", id: "have", label: "Store" },
+        { value: "warehouse", id: "ordered", label: "Warehouse" },
+        { value: "global", id: "global", label: "Global" },
+        { value: "transit", id: "transit", label: "Transit" },
+      ],
+    },
+    {
+      label: "Warehouse",
+      type: "select",
+      name: "placeId",
+      condition: { fieldName: "locationType", fieldValue: "warehouse" },
+      options: [
+        {
+          value: "iv_warehouse",
+          id: "iv_warehouse",
+          label: "Ivanovo Warehouse",
+        },
+        {
+          value: "kh_warehouse",
+          id: "kh_warehouse",
+          label: "Kohma Warehouse",
+        },
+      ],
+    },
+    {
+      label: "Store",
+      type: "select",
+      name: "placeId",
+      condition: { fieldName: "locationType", fieldValue: "store" },
+      options: [
+        {
+          value: "iv_store",
+          id: "iv_store",
+          label: "Ivanovo Store",
+        },
+        {
+          value: "iv_store",
+          id: "kh_store",
+          label: "Kohma Store",
+        },
+      ],
+    },
+    {
+      label: "Amount",
+      type: "number",
+      name: "amount",
+      placeholder: "Amount",
+    },
+  ],
+  value: {
+    warehouseAmountType: "have",
+    locationType: "global",
+    amount: 100,
+  },
+};
+
+interface FormWithValidatorProps {
+  name: string;
+  email: string;
+  phone: string;
+  age: number;
+  eula: boolean;
+}
+
+const ValidationFormTemplate: Story<Props<FormWithValidatorProps>> = (args) => {
+  const [value, setValue] = useState(args.value);
+
+  const handleChange = (value: any) => {
+    setValue(value);
+  };
+
+  return (
+    <>
+      <Form {...args} value={value} onChange={handleChange} />
+    </>
+  );
+};
+
+const validateEmail = (value: FormWithValidatorProps) => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const valid = re.test(value.email);
+  return { valid, message: !valid ? "Invalid email" : null };
+};
+
+const validatePhone = (value: FormWithValidatorProps) => {
+  const re = /^(\+7)[ ]\((\d{3})\)[ ](\d{3}-\d{2}-\d{2})$/;
+  const valid = re.test(value.phone);
+  return {
+    valid,
+    message: !valid ? "Phone must be like +7 (123) 123-12-31" : null,
+  };
+};
+
+const validateName = (value: FormWithValidatorProps) => {
+  const re = /^[А-Я]([А-Яа-я]+)$/;
+  const valid = re.test(value.name);
+  return { valid, message: !valid ? "Invalid name" : null };
+};
+
+const fields: FieldDefinition<FormWithValidatorProps, any>[] = [
+  {
+    name: "name",
+    type: "text",
+    label: "Username",
+    validator: validateName,
+  },
+  {
+    name: "email",
+    type: "text",
+    label: "Email",
+    validator: validateEmail,
+  },
+  {
+    name: "phone",
+    type: "text",
+    label: "Phone",
+    validator: validatePhone,
+  },
+  {
+    name: "age",
+    type: "number",
+    label: "Age",
+    validator: (value: FormWithValidatorProps) => {
+      const valid = value.age >= 21;
+      return { valid, message: valid ? null : "Age should be 21 or above" };
+    },
+  },
+  {
+    name: "eula",
+    type: "bool",
+    label: "Accept Terms",
+    validator: (value: FormWithValidatorProps) => {
+      const valid = value.eula === true;
+      return { valid, message: valid ? null : "Must agree with terms" };
+    },
+  },
+];
+
+export const ValidationFormStory = ValidationFormTemplate.bind({});
+ValidationFormStory.args = {
+  fields,
+  value: {
+    name: "",
+    email: "",
+    phone: "",
+    age: 10,
+    eula: false,
+  },
+};
+
+export const UpdateValidationFormStory = ValidationFormTemplate.bind({});
+UpdateValidationFormStory.args = {
+  fields,
+  value: {
+    name: "Дима",
+    email: "dima@email.com",
+    phone: "+7 (920) 222-22-22",
+    age: 21,
+    eula: true,
+  },
+  originalValue: {
+    name: "Дима",
+    email: "dima@email.com",
+    phone: "+7 (920) 222-22-22",
+    age: 21,
+    eula: true,
   },
 };

@@ -57,6 +57,7 @@ export interface Theme {
     white: Color;
     grey: Color;
     black: Color;
+    disabled: string;
   };
   text: {
     header: Text;
@@ -90,6 +91,10 @@ export const getMainBackgroundColor = (props: ThemeProps) => {
 
 export const getPrimaryMainColor = (props: ThemeProps) => {
   return props.theme?.colors.primary.main ?? "red";
+};
+
+export const getDisabledColor = (props: ThemeProps) => {
+  return props.theme?.colors.disabled ?? "grey";
 };
 
 export const getBoxShadow = (props: ThemeProps) => {

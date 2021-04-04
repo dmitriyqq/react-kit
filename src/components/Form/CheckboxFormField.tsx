@@ -8,6 +8,8 @@ interface Props {
   placeholder?: string;
   value: boolean;
   onChange: (name: string, value: boolean) => void;
+  disabled?: boolean;
+  errorMessage?: string | null;
 }
 
 export const CheckboxFormField: FC<Props> = ({
@@ -15,6 +17,8 @@ export const CheckboxFormField: FC<Props> = ({
   name,
   value,
   onChange,
+  disabled,
+  errorMessage,
 }) => {
   const handleChange = (value: boolean) => {
     if (onChange) {
@@ -23,8 +27,8 @@ export const CheckboxFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label}>
-      <Checkbox value={value} onChange={handleChange} />
+    <FormField label={label} errorMessage={errorMessage}>
+      <Checkbox value={value} onChange={handleChange} disabled={disabled} />
     </FormField>
   );
 };

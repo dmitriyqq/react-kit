@@ -12,6 +12,12 @@ const FormItemBase = styled.div`
   flex-wrap: wrap;
 `;
 
+const FormItemWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
 const LabelContainer = styled.div`
   flex: 1 1;
   display: flex;
@@ -31,14 +37,33 @@ export interface Props {
   label?: string;
   children: ReactNode;
   icon?: string;
+  errorMessage?: string | null;
 }
 
-export const FormField: FC<Props> = ({ label, icon, children }) => (
-  <FormItemBase>
-    {icon && <Icon icon={icon} />}
-    <LabelContainer>
-      <Text>{label ?? ""}</Text>
-    </LabelContainer>
-    <FieldContainer>{children}</FieldContainer>
-  </FormItemBase>
-);
+export const FormField: FC<Props> = ({
+  label,
+  icon,
+  children,
+  errorMessage,
+}) => {
+  const field = (
+    <FormItemBase>
+      {icon && <Icon icon={icon} />}
+      <LabelContainer>
+        <Text>{label ?? ""}</Text>
+      </LabelContainer>
+      <FieldContainer>{children}</FieldContainer>
+    </FormItemBase>
+  );
+
+  return (
+    <FormItemWrapper>
+      {errorMessage && (
+        <Text variant="label" align="center" color="red">
+          {errorMessage}
+        </Text>
+      )}
+      {field}
+    </FormItemWrapper>
+  );
+};

@@ -9,6 +9,8 @@ interface Props<V> {
   value: V | null;
   onChange: (name: string, value: V | null) => void;
   options: SelectOption<V>[];
+  disabled?: boolean;
+  errorMessage?: string | null;
 }
 
 export const SelectFormField = <V extends unknown>({
@@ -18,6 +20,8 @@ export const SelectFormField = <V extends unknown>({
   onChange,
   placeholder,
   options,
+  disabled,
+  errorMessage,
 }: Props<V>) => {
   const [internalValue, setInternalValue] = useState<SelectOption<V> | null>(
     options.find((v) => JSON.stringify(v.value) === JSON.stringify(value)) ??
@@ -32,12 +36,13 @@ export const SelectFormField = <V extends unknown>({
   };
 
   return (
-    <FormField label={label}>
+    <FormField label={label} errorMessage={errorMessage}>
       <Select
         placeholder={placeholder}
         value={internalValue}
         onChange={handleChange}
         options={options}
+        disabled={disabled}
       />
     </FormField>
   );

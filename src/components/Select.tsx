@@ -10,6 +10,7 @@ import {
 } from "./Text";
 import {
   getBorderRadius,
+  getDisabledColor,
   getMainBackgroundColor,
   getPrimaryMainColor,
   ThemeProps,
@@ -26,11 +27,17 @@ export interface Props<T> {
   onChange: (option: SelectOption<T> | null) => void;
   value: SelectOption<T> | null;
   placeholder?: string;
+  disabled?: boolean;
 }
 
-interface StyledSelectProps extends TextProps {
+interface StyledSelectProps extends TextProps, ThemeProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
+}
+
+interface StyledSelectWrapperProps extends TextProps, ThemeProps {
+  disabled?: boolean;
 }
 
 const StyledSelect = styled.select<StyledSelectProps>`
@@ -39,7 +46,9 @@ const StyledSelect = styled.select<StyledSelectProps>`
   appearance: none;
   outline: none;
   background-color: ${getMainBackgroundColor};
-  border: 1.5px solid ${getPrimaryMainColor};
+  border: 1.5px solid
+    ${(props: StyledSelectProps) =>
+      props.disabled ? getDisabledColor(props) : getPrimaryMainColor(props)};
   border-radius: ${getBorderRadius};
   padding: ${(props: ThemeProps) => props.theme?.spacing.single ?? "5px"};
   font-family: ${getFontFamily};
@@ -64,7 +73,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   }
 `;
 
-const SelectWrapper = styled.div<ThemeProps>`
+const SelectWrapper = styled.div<StyledSelectWrapperProps>`
   margin: ${(props: ThemeProps) => props.theme?.spacing.single ?? "5px"};
   width: ${(props: ThemeProps) =>
     `${2 * (props.theme?.widthUnit ?? 100)}px` ?? "150px"};
@@ -86,13 +95,14 @@ const SelectWrapper = styled.div<ThemeProps>`
     -o-transition: 0.25s all ease;
     transition: 0.25s all ease;
     color: ${getMainBackgroundColor};
-    background: ${getPrimaryMainColor};
+    background-color: ${(props: StyledSelectWrapperProps) =>
+      props.disabled ? getDisabledColor(props) : getPrimaryMainColor(props)};
     text-decoration: none;
   }
 `;
 
 export const Select = <T extends unknown>(props: Props<T>) => {
-  const { options, onChange, value, placeholder } = props;
+  const { options, onChange, value, placeholder, disabled } = props;
 
   const optionsElements = options.map(({ label, id }) => (
     <option key={id} value={id}>
@@ -109,12 +119,13 @@ export const Select = <T extends unknown>(props: Props<T>) => {
   };
 
   return (
-    <SelectWrapper>
+    <SelectWrapper disabled={disabled}>
       <StyledSelect
         onChange={handleChange}
         value={value?.id ?? ""}
         variant="label"
         placeholder={placeholder}
+        disabled={disabled}
       >
         {optionsElements}
       </StyledSelect>

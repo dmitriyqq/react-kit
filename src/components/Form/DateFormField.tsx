@@ -1,18 +1,18 @@
-import React, { FC } from "react";
 import { FormField } from "./FormField";
-import { TextInput } from "../TextInput";
+import React, { FC } from "react";
+import { DateInput } from "../DateInput";
 
 interface Props {
   name: string;
   label?: string;
   placeholder?: string;
-  value: string;
-  onChange: (name: string, value: string) => void;
+  value: Date;
+  onChange: (name: string, value: Date | null) => void;
   disabled?: boolean;
   errorMessage?: string | null;
 }
 
-export const TextFormField: FC<Props> = ({
+export const DateFormField: FC<Props> = ({
   label,
   name,
   value,
@@ -21,7 +21,7 @@ export const TextFormField: FC<Props> = ({
   disabled,
   errorMessage,
 }) => {
-  const handleChange = (value: string) => {
+  const handleChange = (value: Date | null) => {
     if (onChange) {
       onChange(name, value);
     }
@@ -29,7 +29,7 @@ export const TextFormField: FC<Props> = ({
 
   return (
     <FormField label={label} errorMessage={errorMessage}>
-      <TextInput
+      <DateInput
         placeholder={placeholder}
         value={value}
         onChange={handleChange}

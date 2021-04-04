@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {
   ColorType,
+  getPrimaryMainColor,
   TextColorType,
   TextType,
   ThemeProps,
@@ -14,6 +15,7 @@ export interface Props {
   color?: TextColor;
   align?: "left" | "right" | "center" | "justify";
   children?: ReactNode;
+  onClick?: (event: any) => void;
 }
 
 interface ThemedTextProps extends Props, ThemeProps {}
@@ -24,12 +26,14 @@ export const getFontSize = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].fontSize ?? "1em";
 export const getFontWeight = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].fontWeight ?? "500";
+
 export const getFontColor = (props: ThemedTextProps) =>
   !props.color || props.color === "text"
     ? props.theme?.text[props.variant ?? "regular"].color
     : props.theme.colors[props.color as ColorType]
-    ? props.theme.colors[props.color as ColorType].main
+    ? getPrimaryMainColor(props)
     : props.color;
+
 export const getTextTransform = (props: ThemedTextProps) =>
   props.theme?.text[props.variant ?? "regular"].textTransform ?? "none";
 export const getTextAlign = (props: ThemedTextProps) => props.align ?? "left";
@@ -42,6 +46,15 @@ export const Text = styled.div<Props>`
   text-transform: ${getTextTransform};
   text-align: ${getTextAlign};
   display: inline-block;
+  ${(props) =>
+    props.onClick
+      ? `&:hover {
+      color: ${getPrimaryMainColor(props)}; 
+      
+  }
+  cursor: pointer;
+`
+      : ""}
 `;
 
 export const SpanText = styled.span<Props>`
