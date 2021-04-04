@@ -1,6 +1,6 @@
 {
   "name": "@dmitriiqq/react-kit",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "types": "build/index.d.ts",
   "main": "build/index.js",
   "description": "Small UI toolkit with useful themed react-components",
