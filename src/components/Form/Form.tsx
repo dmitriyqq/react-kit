@@ -63,6 +63,7 @@ export const Form = <T extends object>({
     if (
       changed &&
       fieldsValid &&
+      onUpdate &&
       (!validateForm || validateForm(originalValue, value))
     ) {
       onUpdate(value);
