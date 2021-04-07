@@ -9,6 +9,7 @@ import {
 
 export interface Props extends TypographyProps {
   children: ReactChildren | ReactChild;
+  onClick: () => void;
 }
 
 interface ChipInternalProps extends Props, ThemeProps {}
@@ -28,10 +29,10 @@ const ChipContainer = styled.div`
   }
 `;
 
-export const Chip: FC = (props) => {
+export const Chip: FC<Props> = (props) => {
   return (
-    <ChipContainer {...props}>
-      <Text {...props} variant="label" align="center" color="white">
+    <ChipContainer {...props} onClick={props.onClick}>
+      <Text variant="label" align="center" color="white">
         {props.children}
       </Text>
     </ChipContainer>

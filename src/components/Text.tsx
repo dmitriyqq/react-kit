@@ -31,7 +31,7 @@ export const getFontColor = (props: ThemedTextProps) =>
   !props.color || props.color === "text"
     ? props.theme?.text[props.variant ?? "regular"].color
     : props.theme.colors[props.color as ColorType]
-    ? getPrimaryMainColor(props)
+    ? props.theme.colors[props.color as ColorType].main
     : props.color;
 
 export const getTextTransform = (props: ThemedTextProps) =>
