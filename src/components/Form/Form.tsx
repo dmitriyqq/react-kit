@@ -11,9 +11,9 @@ export interface Props<T extends object> {
   disabled?: boolean;
   fields: FieldDefinition<T, any>[];
   onChange: (value: T) => void;
-  onCreate: (value: T) => void;
-  onUpdate: (value: T) => void;
-  validateForm: (originalValue?: T | null, newValue?: T) => void;
+  onCreate?: (value: T) => void;
+  onUpdate?: (value: T) => void;
+  validateForm?: (originalValue?: T | null, newValue?: T) => void;
   submitText?: string;
 }
 
