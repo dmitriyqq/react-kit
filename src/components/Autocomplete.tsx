@@ -1,19 +1,20 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { SelectOption } from "./Select";
 import { BaseTextInput } from "./TextInput";
 import { Button } from "./Button";
 import { List } from "./List/List";
 
-export type OptionsProvider<T> = (query: string) => SelectOption<T>[];
+export type OptionsProvider<T> = (query: string) => Promise<SelectOption<T>[]>;
 
 export interface Props<T> {
   name: string;
-  value: T | null;
+  placeholder?: string;
+  value?: SelectOption<T>;
   onInputChange?: (query: string) => void;
   onChange: (value: SelectOption<T> | null) => void;
+  onOptionsReceived?: (options: SelectOption<T>[]) => void;
   optionsProvider: OptionsProvider<T>;
   disabled?: boolean;
-  initialValue?: string;
 }
 
 export const Autocomplete = <T extends unknown>({
@@ -22,36 +23,50 @@ export const Autocomplete = <T extends unknown>({
   onChange,
   optionsProvider,
   disabled,
-  initialValue,
+  value,
+  placeholder,
+  onOptionsReceived,
 }: Props<T>) => {
-  const [inputValue, setInputValue] = useState(initialValue ?? "");
+  const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState<SelectOption<T>[]>([]);
+  const [inputValue, setInputValue] = useState<string>(value?.label ?? "");
+
+  useEffect(() => {
+    if (value?.label) {
+      setInputValue(value.label);
+    }
+  }, [value]);
+
   const listName = `${name}-list`;
 
   const updateOptions = async (query: string) => {
+    setLoading(true);
     const newOptions = (await optionsProvider(query)) ?? [];
+    // const resultOptions = newOptions.filter((option) => option.label !== query);
+    setLoading(false);
 
-    setOptions(newOptions.filter((option) => option.label !== query));
     setInputValue(query);
+    setOptions(newOptions);
+
+    if (onOptionsReceived) {
+      onOptionsReceived(newOptions);
+    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target?.value ?? "";
+    const newInputValue = event.target?.value ?? "";
     if (onInputChange) {
-      onInputChange(value);
-      setInputValue(value);
-      void updateOptions(value);
+      setInputValue(newInputValue);
     }
-    handleSelect(event);
-  };
 
-  const handleSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const id = event?.target?.value || "";
-    const selectedOption = options.find((option) => id === option.id);
+    void updateOptions(newInputValue);
 
-    if (onChange && selectedOption) {
+    const selectedOption = options.find(
+      (option) => option.label === newInputValue
+    );
+
+    if (onChange && selectedOption && selectedOption !== value) {
       onChange(selectedOption);
-      setInputValue(selectedOption.label);
     }
   };
 
@@ -61,16 +76,20 @@ export const Autocomplete = <T extends unknown>({
   };
 
   return (
-    <List mode="h">
+    <List style={{ width: "100%" }} mode="h">
       <BaseTextInput
         list={listName}
         name={name}
         value={inputValue}
         onChange={handleChange}
-        onSelect={handleSelect}
         disabled={disabled}
+        placeholder={placeholder}
       />
-      <Button icon="close" onClick={handleClear} />
+      <Button
+        disabled={loading}
+        icon={loading ? "loader" : "close"}
+        onClick={handleClear}
+      />
       <datalist id={listName}>
         {options.map((option) => (
           <option key={option.id} value={option.id}>

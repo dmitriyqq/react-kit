@@ -15,6 +15,7 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
   height: 1.5em;
   vertical-align: middle;
   text-align: center;
+  cursor: pointer;
   background-color: ${(props: LabelProps) =>
     props.disabled
       ? "grey"
@@ -34,7 +35,7 @@ const StyledCheckboxLabel = styled.label<LabelProps>`
 `;
 
 interface LabelProps extends ThemeProps {
-  value: boolean;
+  value?: boolean;
   disabled?: boolean;
 }
 
@@ -58,7 +59,7 @@ export const Checkbox: FC<Props> = (props) => {
       <InternalCheckbox
         type="checkbox"
         onChange={handleChange}
-        checked={value}
+        checked={value ?? false}
         disabled={disabled}
       />
     </StyledCheckboxLabel>

@@ -1,5 +1,5 @@
 import { TextFormField } from "./TextFormField";
-import React, { FC } from "react";
+import React from "react";
 import { FieldItemDataType } from "../../model/FieldItemData";
 import { NumberFormField } from "./NumberFormField";
 import { CheckboxFormField } from "./CheckboxFormField";
@@ -8,40 +8,48 @@ import { SelectOption } from "../Select";
 import { OptionsProvider } from "../Autocomplete";
 import { AutocompleteFormField } from "./AutocompleteFormField";
 import { DateFormField } from "./DateFormField";
+import { MultipleAutocompleteFormField } from "./MultipleAutocompleteFormField";
+import { MultipleSelectFormField } from "./MultipleSelectFormField";
 
-interface DataFormFieldProps {
+interface Props<T> {
   name: string;
   label: string;
   disabled?: boolean;
-  value: any;
+  icon?: string;
+  value: T | null | SelectOption<T> | SelectOption<T>[];
   type: FieldItemDataType;
-  options?: SelectOption<any>[];
+  options?: SelectOption<T>[];
   placeholder?: string;
-  optionsProvider?: OptionsProvider<string>;
-  onChange: (fieldName: string, value: any) => void;
+  optionsProvider?: OptionsProvider<T>;
+  onChange: (
+    fieldName: string,
+    value: T | null | SelectOption<T> | T[]
+  ) => void;
   errorMessage?: string | null;
 }
 
-export const DataFormField: FC<DataFormFieldProps> = ({
+export const DataFormField = <T extends unknown>({
   name,
   label,
   type,
   onChange,
   value,
+  icon,
   placeholder,
   options,
   optionsProvider,
   disabled,
   errorMessage,
-}) => {
+}: Props<T>) => {
   if (type === "text") {
     return (
       <TextFormField
+        icon={icon}
         label={label}
         name={name}
-        onChange={onChange}
+        onChange={onChange as (name: string, value: string) => void}
         placeholder={placeholder}
-        value={value}
+        value={value as string}
         disabled={disabled}
         errorMessage={errorMessage}
       />
@@ -51,11 +59,12 @@ export const DataFormField: FC<DataFormFieldProps> = ({
   if (type === "date") {
     return (
       <DateFormField
+        icon={icon}
         label={label}
         name={name}
-        onChange={onChange}
+        onChange={onChange as (name: string, value: Date | null) => void}
         placeholder={placeholder}
-        value={value}
+        value={value as Date | null}
         disabled={disabled}
         errorMessage={errorMessage}
       />
@@ -65,8 +74,9 @@ export const DataFormField: FC<DataFormFieldProps> = ({
   if (type === "number") {
     return (
       <NumberFormField
-        value={value}
-        onChange={onChange}
+        icon={icon}
+        value={value as number}
+        onChange={onChange as (name: string, value: number) => void}
         placeholder={placeholder}
         label={label}
         name={name}
@@ -79,8 +89,9 @@ export const DataFormField: FC<DataFormFieldProps> = ({
   if (type === "bool") {
     return (
       <CheckboxFormField
-        value={value}
-        onChange={onChange}
+        icon={icon}
+        value={value as boolean}
+        onChange={onChange as (name: string, value: boolean) => void}
         label={label}
         name={name}
         disabled={disabled}
@@ -91,9 +102,12 @@ export const DataFormField: FC<DataFormFieldProps> = ({
 
   if (type === "select") {
     return (
-      <SelectFormField
-        value={value}
-        onChange={onChange}
+      <SelectFormField<T>
+        icon={icon}
+        value={value as SelectOption<T> | null}
+        onChange={
+          onChange as (name: string, value: SelectOption<T> | null) => void
+        }
         label={label}
         name={name}
         placeholder={placeholder}
@@ -106,13 +120,46 @@ export const DataFormField: FC<DataFormFieldProps> = ({
 
   if (type === "autocomplete" && optionsProvider !== undefined) {
     return (
-      <AutocompleteFormField
-        value={value}
+      <AutocompleteFormField<T>
+        icon={icon}
+        value={value as SelectOption<T> | null}
         onChange={onChange}
         label={label}
         name={name}
         placeholder={placeholder}
+        optionsProvider={optionsProvider as OptionsProvider<T>}
+        disabled={disabled}
+        errorMessage={errorMessage}
+      />
+    );
+  }
+
+  if (type === "multipleAutocomplete" && optionsProvider !== undefined) {
+    return (
+      <MultipleAutocompleteFormField<T>
+        icon={icon}
+        value={value as SelectOption<T>[]}
+        onChange={onChange as (name: string, value: SelectOption<T>[]) => void}
+        label={label}
+        name={name}
+        placeholder={placeholder}
         optionsProvider={optionsProvider}
+        disabled={disabled}
+        errorMessage={errorMessage}
+      />
+    );
+  }
+
+  if (type === "multipleSelect") {
+    return (
+      <MultipleSelectFormField<T>
+        icon={icon}
+        value={value as SelectOption<T>[]}
+        onChange={onChange as (name: string, value: SelectOption<T>[]) => void}
+        label={label}
+        name={name}
+        placeholder={placeholder}
+        options={options ?? []}
         disabled={disabled}
         errorMessage={errorMessage}
       />

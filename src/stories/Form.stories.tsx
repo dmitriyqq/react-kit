@@ -3,7 +3,8 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 
 import { Form, Props } from "../components/Form/Form";
 import { NumberComponent } from "../components/NumberComponent";
-import { FieldDefinition } from "../model/FieldItemData";
+import { FieldDefinition, FormValue } from "../model/FieldItemData";
+import { data, optionsProvider } from "./autocompleteData";
 
 export default {
   title: "Form",
@@ -19,16 +20,29 @@ interface TestFormData {
 }
 
 const Template: Story<Props<TestFormData>> = (args) => {
-  const [value, setValue] = useState(args.value);
+  const [value, setValue] = useState<TestFormData>(args.value);
+  const [internalValue, setInternalValue] = useState<FormValue<TestFormData>>(
+    args.internalValue
+  );
 
-  const handleChange = (value: any) => {
+  const handleChange = (
+    value: TestFormData,
+    internalValue: FormValue<TestFormData>
+  ) => {
     setValue(value);
+    setInternalValue(internalValue);
   };
 
   return (
     <>
-      <Form {...args} value={value} onChange={handleChange} />
+      <Form
+        {...args}
+        value={value}
+        internalValue={internalValue}
+        onChange={handleChange}
+      />
       <NumberComponent num={Number(value.num)} />
+      <pre>{JSON.stringify(value, null, 2)}</pre>
     </>
   );
 };
@@ -77,27 +91,47 @@ FormStory.args = {
     myObject: { customValue: 342 },
     dateOfBirth: null,
   },
+  internalValue: {
+    test: "",
+    check: true,
+    num: 420.69,
+    myObject: {
+      value: { customValue: 342 },
+      id: "2321",
+      label: "Custom object",
+    },
+    dateOfBirth: null,
+  },
 };
 
 interface ConditionalTestFormData {
   warehouseAmountType: "have" | "ordered" | "needToOrder";
   amount: number;
   locationType?: "store" | "warehouse" | "global" | "transit";
-  placeId?: string;
+  placeId?: string | null;
 }
 
 const ConditionalFormTemplate: Story<Props<ConditionalTestFormData>> = (
   args
 ) => {
-  const [value, setValue] = useState(args.value);
+  const [value, setValue] = useState<ConditionalTestFormData>(args.value);
+  const [internalValue, setInternalValue] = useState<
+    FormValue<ConditionalTestFormData>
+  >(args.internalValue);
 
-  const handleChange = (value: any) => {
-    setValue(value);
+  const handleChange = (newValue: any, newInternalValue: any) => {
+    setValue(newValue);
+    setInternalValue(newInternalValue);
   };
 
   return (
     <>
-      <Form {...args} value={value} onChange={handleChange} />
+      <Form
+        {...args}
+        value={value}
+        onChange={handleChange}
+        internalValue={internalValue}
+      />
     </>
   );
 };
@@ -173,6 +207,13 @@ ConditionalFormStory.args = {
     warehouseAmountType: "have",
     locationType: "global",
     amount: 100,
+    placeId: null,
+  },
+  internalValue: {
+    warehouseAmountType: { value: "have", id: "have", label: "Have in stock" },
+    locationType: { value: "global", id: "global", label: "Global" },
+    amount: 100,
+    placeId: null,
   },
 };
 
@@ -186,14 +227,21 @@ interface FormWithValidatorProps {
 
 const ValidationFormTemplate: Story<Props<FormWithValidatorProps>> = (args) => {
   const [value, setValue] = useState(args.value);
+  const [internalValue, setInternalValue] = useState(args.internalValue);
 
-  const handleChange = (value: any) => {
-    setValue(value);
+  const handleChange = (newValue: any, newInternalValue: any) => {
+    setValue(newValue);
+    setInternalValue(newInternalValue);
   };
 
   return (
     <>
-      <Form {...args} value={value} onChange={handleChange} />
+      <Form
+        {...args}
+        value={value}
+        onChange={handleChange}
+        internalValue={internalValue}
+      />
     </>
   );
 };
@@ -268,6 +316,13 @@ ValidationFormStory.args = {
     age: 10,
     eula: false,
   },
+  internalValue: {
+    name: "",
+    email: "",
+    phone: "",
+    age: 10,
+    eula: false,
+  },
 };
 
 export const UpdateValidationFormStory = ValidationFormTemplate.bind({});
@@ -280,11 +335,79 @@ UpdateValidationFormStory.args = {
     age: 21,
     eula: true,
   },
+  internalValue: {
+    name: "Дима",
+    email: "dima@email.com",
+    phone: "+7 (920) 222-22-22",
+    age: 21,
+    eula: true,
+  },
   originalValue: {
     name: "Дима",
     email: "dima@email.com",
     phone: "+7 (920) 222-22-22",
     age: 21,
     eula: true,
+  },
+};
+
+interface MultipleValue {
+  autocomplete: string | null;
+  multiSelect: string[];
+  multiAutocomplete: string[];
+}
+
+const MultipleFieldsFormTemplate: Story<Props<MultipleValue>> = (args) => {
+  const [value, setValue] = useState(args.value);
+  const [internalValue, setInternalValue] = useState(args.internalValue);
+
+  const handleChange = (newValue: any, newInternalValue: any) => {
+    setValue(newValue);
+    setInternalValue(newInternalValue);
+  };
+
+  return (
+    <>
+      <Form
+        {...args}
+        value={value}
+        onChange={handleChange}
+        internalValue={internalValue}
+      />
+      <pre>{JSON.stringify(value, null, 2)}</pre>
+    </>
+  );
+};
+export const MultipleFieldsFormStory = MultipleFieldsFormTemplate.bind({});
+MultipleFieldsFormStory.args = {
+  fields: [
+    {
+      label: "автодополнение",
+      name: "autocomplete",
+      type: "autocomplete",
+      optionsProvider,
+    },
+    {
+      label: "множественный выбор",
+      name: "multiSelect",
+      type: "multipleSelect",
+      options: data,
+    },
+    {
+      label: "множественный выбор автодополнение",
+      name: "multiAutocomplete",
+      type: "multipleAutocomplete",
+      optionsProvider,
+    },
+  ],
+  value: {
+    autocomplete: null,
+    multiSelect: [],
+    multiAutocomplete: [],
+  },
+  internalValue: {
+    autocomplete: null,
+    multiSelect: [],
+    multiAutocomplete: [],
   },
 };

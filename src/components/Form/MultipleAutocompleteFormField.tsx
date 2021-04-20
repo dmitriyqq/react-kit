@@ -1,44 +1,47 @@
-import React, { FC, useState } from "react";
+import React from "react";
 import { FormField } from "./FormField";
-import { Autocomplete, OptionsProvider } from "../Autocomplete";
 import { SelectOption } from "../Select";
+import { MultipleAutocomplete } from "../MultipleAutocomplete";
+import { OptionsProvider } from "../Autocomplete";
 
 interface Props<T> {
   name: string;
   label?: string;
   icon?: string;
   placeholder?: string;
-  value: SelectOption<T> | null;
-  onChange: (name: string, value: SelectOption<T> | null) => void;
+  value: SelectOption<T>[];
+  onChange: (name: string, value: SelectOption<T>[]) => void;
   optionsProvider: OptionsProvider<T>;
   disabled?: boolean;
   errorMessage?: string | null;
 }
 
-export const AutocompleteFormField = <T extends unknown>({
+export const MultipleAutocompleteFormField = <T extends unknown>({
   label,
   name,
+  value,
   icon,
   onChange,
   disabled,
   optionsProvider,
-  placeholder,
   errorMessage,
+  placeholder,
 }: Props<T>) => {
-  const handleChange = (value: SelectOption<T> | null) => {
-    if (onChange) {
+  const handleChange = (value: SelectOption<T>[]) => {
+    if (onChange && value) {
       onChange(name, value);
     }
   };
 
   return (
     <FormField label={label} errorMessage={errorMessage} icon={icon}>
-      <Autocomplete<T>
+      <MultipleAutocomplete<T>
+        value={value}
         onChange={handleChange}
         disabled={disabled}
         optionsProvider={optionsProvider}
-        placeholder={placeholder}
         name={name}
+        placeholder={placeholder}
       />
     </FormField>
   );

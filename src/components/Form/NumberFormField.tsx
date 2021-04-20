@@ -6,10 +6,12 @@ interface Props {
   name: string;
   label?: string;
   placeholder?: string;
+  icon?: string;
   value: number;
   onChange: (name: string, value: number) => void;
   disabled?: boolean;
   errorMessage?: string | null;
+  initialValue?: string;
 }
 
 export const NumberFormField: FC<Props> = ({
@@ -20,6 +22,7 @@ export const NumberFormField: FC<Props> = ({
   placeholder,
   disabled,
   errorMessage,
+  initialValue,
 }) => {
   const handleChange = (value: number) => {
     if (onChange) {
@@ -31,7 +34,7 @@ export const NumberFormField: FC<Props> = ({
     <FormField label={label} errorMessage={errorMessage}>
       <NumberInput
         placeholder={placeholder}
-        value={value}
+        value={value ?? initialValue ?? ""}
         onChange={handleChange}
         disabled={disabled}
       />

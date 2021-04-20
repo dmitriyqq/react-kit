@@ -50,7 +50,7 @@ export const TextInput = (props: Props) => {
       <BaseTextInput
         disabled={disabled === true}
         type={"text"}
-        value={inputValue}
+        value={inputValue ?? ""}
         onChange={handleChange}
         placeholder={placeholder}
       />

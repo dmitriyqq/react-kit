@@ -75,6 +75,17 @@ export interface Theme {
   };
 }
 
+export const getColorFromProp = (
+  props: ThemeProps,
+  color: ColorType | string,
+  shade?: "main" | "light" | "dark"
+) => {
+  const colors = props?.theme?.colors;
+  const themeColor = colors ? colors[color as ColorType] : null;
+
+  return themeColor ? themeColor[shade ?? "main"] : color;
+};
+
 export const getPrimaryColor = (props: ThemeProps) => {
   return (
     props.theme?.colors.primary ?? { dark: "red", main: "red", light: "red" }

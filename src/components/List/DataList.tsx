@@ -7,6 +7,7 @@ import { Centered } from "../Centered";
 
 export interface Props {
   data: ListItemData[];
+  selectedId?: string;
   onClick?: (id?: string) => void;
   onNav?: (id?: string) => void;
   onDelete?: (id?: string) => void;
@@ -21,6 +22,7 @@ export const DataList: FC<Props> = ({
   onNav,
   onAction,
   onDelete,
+  selectedId,
 }) => {
   if (isLoading) {
     return (
@@ -62,6 +64,7 @@ export const DataList: FC<Props> = ({
         <DataListItem
           {...item}
           key={index}
+          selectedId={selectedId}
           onClick={onClick && handleClick}
           onNav={onNav && handleNav}
           onDelete={onDelete && handleDelete}

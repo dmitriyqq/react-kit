@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { FieldDefinition } from "../../model/FieldItemData";
+import {
+  FieldDefinition,
+  FormValue,
+  getValueFromInternalFormValue,
+} from "../../model/FieldItemData";
 import { List } from "../List/List";
 import { DataFormField } from "./DataFormField";
 import { Button } from "../Button";
@@ -7,10 +11,11 @@ import { FormField } from "./FormField";
 
 export interface Props<T extends object> {
   value: T;
+  internalValue: FormValue<T>;
   originalValue?: T;
   disabled?: boolean;
   fields: FieldDefinition<T, any>[];
-  onChange: (value: T) => void;
+  onChange: (value: T, internalValue: FormValue<T>) => void;
   onCreate?: (value: T) => void;
   onUpdate?: (value: T) => void;
   validateForm?: (originalValue?: T | null, newValue?: T) => void;
@@ -19,6 +24,7 @@ export interface Props<T extends object> {
 
 export const Form = <T extends object>({
   value,
+  internalValue,
   fields,
   onChange,
   onCreate,
@@ -45,11 +51,23 @@ export const Form = <T extends object>({
   const updateForm = !disabled && originalValue !== undefined && onUpdate;
   const createForm = !disabled && originalValue === undefined && onCreate;
 
-  const handleFieldChange = (name: string, fieldValue: any) => {
-    const newValue = { ...value, [name]: fieldValue };
-    onChange(newValue);
-    if (updateForm) {
-      setChanged(JSON.stringify(originalValue) !== JSON.stringify(value));
+  const handleFieldChange = (name: string, internalFieldValue: any) => {
+    const field = fields.find((f) => f.name === name);
+
+    if (field) {
+      const fieldValue = getValueFromInternalFormValue(
+        internalFieldValue,
+        field.type
+      );
+
+      const newValue = { ...value, [name]: fieldValue };
+      const newInternalValue = { ...internalValue, [name]: internalFieldValue };
+
+      onChange(newValue, newInternalValue);
+
+      if (updateForm) {
+        setChanged(JSON.stringify(originalValue) !== JSON.stringify(newValue));
+      }
     }
   };
 
@@ -82,13 +100,12 @@ export const Form = <T extends object>({
       {conditionalFields.map(
         ({ name, optionsProvider, options, validator, ...rest }) => {
           const validationResult = validator ? validator(value) : null;
-          console.log("validationResult", validationResult);
           return (
             <DataFormField
               {...rest}
               name={name.toString()}
               key={name.toString()}
-              value={value[name]}
+              value={internalValue[name]}
               onChange={handleFieldChange}
               optionsProvider={optionsProvider}
               options={options}
@@ -116,7 +133,6 @@ export const Form = <T extends object>({
             onClick={handleUpdateClick}
           >
             {submitText || "Update"}
-            Update
           </Button>
         </FormField>
       )}

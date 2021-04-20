@@ -8,6 +8,8 @@ export { DataFormField } from "./components/Form/DataFormField";
 export { DateFormField } from "./components/Form/DateFormField";
 export { Form } from "./components/Form/Form";
 export { FormField } from "./components/Form/FormField";
+export { MultipleAutocompleteFormField } from "./components/Form/MultipleAutocompleteFormField";
+export { MultipleSelectFormField } from "./components/Form/MultipleSelectFormField";
 export { NumberFormField } from "./components/Form/NumberFormField";
 export { SelectFormField } from "./components/Form/SelectFormField";
 export { TextFormField } from "./components/Form/TextFormField";
@@ -41,16 +43,40 @@ export { Pagination } from "./components/Pagination";
 export { RoundedImage } from "./components/RoundedImage";
 export { Select } from "./components/Select";
 export { Text, SpanText } from "./components/Text";
-
 export { TextInput } from "./components/TextInput";
+
 export { Theme } from "./themes/theme";
 
-export { ListItemData, ListItemDataType } from "./model/ListItemData";
 export {
+  FormValue,
   FieldDefinition,
   FieldItemDataType,
   ValidatorType,
+  getOptionsFromStringArray,
+  getDefaultValue,
+  buildDefaultValue,
+  getValueFromInternalFormValue,
+  getFormValue,
 } from "./model/FieldItemData";
+export {
+  FilterType,
+  FilterMod,
+  FilterField,
+  builtInModesByType,
+  FilterValue,
+  SortByMode,
+  SortByField,
+  SortByValue,
+  builtInFilterModeStr,
+  builtInSortByModeStr,
+  QueryOptionsValue,
+} from "./model/Filters";
+export {
+  ListItemData,
+  ListItemDataType,
+  CustomAction,
+  TagType,
+} from "./model/ListItemData";
 
 export { defaultTheme } from "./themes/defaultTheme";
 export { defaultDarkTheme } from "./themes/defaultDarkTheme";

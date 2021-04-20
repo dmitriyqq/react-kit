@@ -1,47 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormField } from "./FormField";
-import { Select, SelectOption } from "../Select";
+import { MultipleSelect } from "../MultipleSelect";
+import { SelectOption } from "../Select";
 
 interface Props<V> {
   name: string;
   label?: string;
   placeholder?: string;
   icon?: string;
-  value: SelectOption<V> | null;
-  onChange: (name: string, value: SelectOption<V> | null) => void;
+  value: SelectOption<V>[];
+  onChange: (name: string, value: SelectOption<V>[]) => void;
   options: SelectOption<V>[];
   disabled?: boolean;
   errorMessage?: string | null;
-  optional?: boolean;
 }
 
-export const SelectFormField = <V extends unknown>({
+export const MultipleSelectFormField = <V extends unknown>({
   label,
   name,
+  value,
   onChange,
   placeholder,
   options,
   disabled,
   errorMessage,
-  optional,
-  icon,
-  value,
 }: Props<V>) => {
-  const handleChange = (option: SelectOption<V> | null) => {
+  const handleChange = (options: SelectOption<V>[]) => {
     if (onChange) {
-      onChange(name, option ?? null);
+      onChange(name, options);
     }
   };
 
   return (
-    <FormField label={label} errorMessage={errorMessage} icon={icon}>
-      <Select
+    <FormField label={label} errorMessage={errorMessage}>
+      <MultipleSelect
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
         options={options}
         disabled={disabled}
-        allowNull={optional === true}
       />
     </FormField>
   );

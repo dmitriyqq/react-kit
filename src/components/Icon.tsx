@@ -1,12 +1,14 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { FC } from "react";
 import styled from "styled-components";
-import { ColorType, ThemeProps } from "../themes/theme";
+import { ColorType, getColorFromProp, ThemeProps } from "../themes/theme";
 
 export interface Props {
   icon: string;
-  onClick?: () => void;
-  color?: ColorType;
+  className?: string;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
+  color?: ColorType | string;
+  hoverColor?: ColorType | string;
   type?: "fill" | "line";
   size?:
     | "lg"
@@ -28,33 +30,44 @@ export interface Props {
 }
 
 interface StyledIProps extends ThemeProps {
-  color?: ColorType;
+  color?: ColorType | string;
+  hoverColor?: ColorType | string;
   className?: string;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 const StyledI = styled.i<StyledIProps>`
-  color: ${(props: StyledIProps) =>
-    props.theme.colors[props.color ?? "grey"].main};
-  ${(props) =>
-    props.onClick
-      ? `
-    cursor: pointer;
-    &:hover {
-      color: ${props.theme.colors.primary.main};
-    }`
-      : ""}
+  display: inline-block;
+  cursor: ${(props) => (props.onClick ? "pointer" : "default")};
+  color: ${(props) => getColorFromProp(props, props.color ?? "grey", "main")};
+  vertical-align: bottom;
+  &:hover {
+    color: ${(props: StyledIProps) =>
+      props.onClick
+        ? getColorFromProp(
+            props,
+            props.hoverColor ?? props.color ?? "primary",
+            "dark"
+          )
+        : getColorFromProp(props, props.color ?? "grey", "main")};
+  }
 `;
 
 export const Icon: FC<Props> = (props) => {
-  const type = props.type ?? "fill";
+  const type = props.type;
   const size = props.size ?? "2x";
+  const iconClassName = type ? `ri-${props.icon}-${type}` : `ri-${props.icon}`;
+  const iconClassNameWithType = `ri-${props.icon}-${props.type ?? "fill"}`;
 
-  const className = `ri-${props.icon}-${type} ri-${size}`;
+  const className = `${iconClassNameWithType} ${iconClassName} ri-${size} ${
+    props.className ?? ""
+  }`;
 
   return (
     <StyledI
       className={className}
       color={props.color}
+      hoverColor={props.hoverColor}
       onClick={props.onClick}
     />
   );

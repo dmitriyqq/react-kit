@@ -11,6 +11,7 @@ export interface Props {
   initialPageSize?: number;
   initialCurrentPage?: number;
   onNewData: (skip: number, take: number, page: number) => void;
+  selectedId?: string;
   data: ListItemData[];
   onClick: (id?: string) => void;
   onNav: (id?: string) => void;
@@ -39,6 +40,7 @@ export const PaginatedDataList: FC<Props> = ({
   onNav,
   onAction,
   isLoading,
+  selectedId,
 }) => {
   const [pageSize, setPageSize] = useState<number>(initialPageSize ?? 20);
   const [currentPage, setCurrentPage] = useState<number>(
@@ -88,6 +90,7 @@ export const PaginatedDataList: FC<Props> = ({
         pageSizeOptions={pageSizeOptions}
       />
       <DataList
+        selectedId={selectedId}
         data={data}
         onClick={onClick}
         onNav={onNav}

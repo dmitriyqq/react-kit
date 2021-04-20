@@ -28,6 +28,7 @@ export interface Props<T> {
   value: SelectOption<T> | null;
   placeholder?: string;
   disabled?: boolean;
+  allowNull?: boolean;
 }
 
 interface StyledSelectProps extends TextProps, ThemeProps {
@@ -58,7 +59,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   text-transform: ${getTextTransform};
   width: ${(props: ThemeProps) =>
     `${2 * (props.theme?.widthUnit ?? 100)}px` ?? "5px"};
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   &:focus {
     outline: 0;
     background-color: ${getMainBackgroundColor};
@@ -78,7 +79,6 @@ const SelectWrapper = styled.div<StyledSelectWrapperProps>`
   width: ${(props: ThemeProps) =>
     `${2 * (props.theme?.widthUnit ?? 100)}px` ?? "150px"};
   border-radius: ${getBorderRadius};
-
   position: relative;
   vertical-align: middle;
   overflow: hidden;
@@ -102,9 +102,14 @@ const SelectWrapper = styled.div<StyledSelectWrapperProps>`
 `;
 
 export const Select = <T extends unknown>(props: Props<T>) => {
-  const { options, onChange, value, placeholder, disabled } = props;
+  const { options, onChange, value, placeholder, disabled, allowNull } = props;
 
-  const optionsElements = options.map(({ label, id }) => (
+  const allOptions: SelectOption<T | null>[] =
+    allowNull !== false
+      ? [{ id: "null", value: null, label: "Не выбрано" }, ...options]
+      : options;
+
+  const optionsElements = allOptions.map(({ label, id }) => (
     <option key={id} value={id}>
       {label}
     </option>
@@ -112,20 +117,22 @@ export const Select = <T extends unknown>(props: Props<T>) => {
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const id = event?.target?.value || "";
-    const option = options.find((o) => o.id === id);
-    if (option) {
-      onChange(option);
+    const option = allOptions.find((o) => o.id === id);
+    if (option && option.value) {
+      onChange(option as SelectOption<T>);
+    } else {
+      onChange(null);
     }
   };
 
   return (
-    <SelectWrapper disabled={disabled}>
+    <SelectWrapper disabled={disabled || options.length === 0}>
       <StyledSelect
         onChange={handleChange}
         value={value?.id ?? ""}
         variant="label"
         placeholder={placeholder}
-        disabled={disabled}
+        disabled={disabled || options.length === 0}
       >
         {optionsElements}
       </StyledSelect>

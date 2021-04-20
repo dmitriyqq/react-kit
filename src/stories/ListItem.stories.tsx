@@ -61,12 +61,14 @@ const ListItemCustomActionsTemplate: Story<Props> = (args) => (
       <ListItem
         {...args}
         id="myid"
+        selectedId={"myid"}
         label="Label with children"
+        icon="rocket"
         customActions={[{ icon: "time", id: "schedule" }]}
         tags={[
           { label: "Tag 1", id: "tag 1" },
-          { label: "Tag 3", id: "tag 3" },
-          { label: "Tag 2", id: "tag 2" },
+          { label: "Tag 3", id: "tag 3", color: "aquamarine" },
+          { label: "Tag 2", id: "tag 2", color: "danger" },
         ]}
       >
         <Text>Children text</Text>

@@ -1,15 +1,12 @@
 import { RoundedImage } from "../RoundedImage";
-import React, { useState, FC, ReactNode } from "react";
+import React, { useState, FC, ReactNode, MouseEvent } from "react";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import styled from "styled-components";
 import { List } from "./List";
 import { Chip } from "../Chip";
-
-interface CustomAction {
-  icon: string;
-  id: string;
-}
+import { ColorType } from "../../themes/theme";
+import { CustomAction, TagType } from "../../model/ListItemData";
 
 export interface Props {
   label?: string;
@@ -17,10 +14,11 @@ export interface Props {
   image?: string;
 
   id?: string;
-  tags?: { label: string; id: string }[];
   children?: ReactNode;
-
+  selectedId?: string | null;
   customActions?: CustomAction[];
+  tags?: TagType[];
+
   onTagClick?: (id?: string) => void;
   onClick?: (id?: string) => void;
   onDelete?: (id?: string) => void;
@@ -31,11 +29,13 @@ export interface Props {
 interface ImageWithIconFallbackProps {
   image?: string;
   icon?: string;
+  color?: ColorType;
 }
 
 const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({
   image,
   icon,
+  color,
 }) => {
   const [imageSrc, setImageSrc] = useState(image || "");
 
@@ -44,7 +44,7 @@ const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({
   }
 
   if (icon) {
-    return <Icon icon={icon} size="3x" />;
+    return <Icon icon={icon} size="3x" color={color} />;
   }
 
   return null;
@@ -55,6 +55,7 @@ const ListItemWrapper = styled.div`
     ${(props) => props.theme.spacing.double};
   display: flex;
   flex-direction: column;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 
 const ListItemBase = styled.div`
@@ -78,8 +79,6 @@ const IconContainer = styled.div`
   background-color: ${(props) => props.theme.colors.secondaryBackground};
   text-align: center;
 `;
-
-const ActionContainer = styled.div``;
 
 const TextContainer = styled.div`
   flex: 1 1;
@@ -113,6 +112,7 @@ export const ListItem: FC<Props> = (props) => {
     onDelete,
     onNav,
     id,
+    selectedId,
     children,
     customActions,
     onAction,
@@ -130,7 +130,10 @@ export const ListItem: FC<Props> = (props) => {
     <Icon
       key={action.id}
       icon={action.icon}
-      onClick={() => handleCustomAction(action.id)}
+      onClick={(event) => {
+        event.stopPropagation();
+        handleCustomAction(action.id);
+      }}
     />
   ));
 
@@ -141,23 +144,49 @@ export const ListItem: FC<Props> = (props) => {
   };
 
   const tagsItems = (tags ?? [])?.map((tag) => (
-    <Chip key={tag.id} onClick={() => handleTagClick(tag.id)}>
+    <Chip key={tag.id} onClick={() => handleTagClick(tag.id)} color={tag.color}>
       {tag.label}
     </Chip>
   ));
 
+  const isSelected = selectedId && selectedId == id;
+
+  const handleDelete = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
+    if (onDelete && id) {
+      onDelete(id);
+    }
+  };
+
+  const handleNav = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
+    if (onNav && id) {
+      onNav(id);
+    }
+  };
+
   return (
-    <ListItemWrapper>
-      <ListItemBase onClick={() => onClick && onClick(id)}>
+    <ListItemWrapper onClick={() => onClick && onClick(id)}>
+      <ListItemBase>
         {(icon || image) && (
           <IconContainer>
-            <ImageWithIconFallback icon={icon} image={image} />
+            <ImageWithIconFallback
+              icon={icon}
+              image={image}
+              color={isSelected ? "primary" : undefined}
+            />
           </IconContainer>
         )}
         <MainContainer>
           {label && (
             <TextContainer>
-              <Text variant="label" align={"left"}>
+              <Text
+                variant="label"
+                align={"left"}
+                color={isSelected ? "primary" : "text"}
+              >
                 {label}
                 {children && ":"}
               </Text>
@@ -165,11 +194,17 @@ export const ListItem: FC<Props> = (props) => {
           )}
           {children && <ContentContainer>{children}</ContentContainer>}
         </MainContainer>
-        <ActionContainer>
-          {onDelete && <Icon icon="close" onClick={() => onDelete(id)} />}
-          {onNav && <Icon icon="arrow-right-s" onClick={() => onNav(id)} />}
+        <List
+          style={{ minWidth: "120px" }}
+          mode="h"
+          align="center"
+          justify="center"
+          wrapItems={true}
+        >
+          {onDelete && <Icon icon="close" onClick={handleDelete} />}
+          {onNav && <Icon icon="arrow-right-s" onClick={handleNav} />}
           {customActionsElements}
-        </ActionContainer>
+        </List>
       </ListItemBase>
       {tagsItems && (
         <List mode="h" justify="flex-start">

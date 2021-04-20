@@ -6,16 +6,19 @@ interface Props {
   name: string;
   label?: string;
   placeholder?: string;
-  value: Date;
+  icon?: string;
+  value: Date | null;
   onChange: (name: string, value: Date | null) => void;
   disabled?: boolean;
   errorMessage?: string | null;
+  initialValue?: Date | null;
 }
 
 export const DateFormField: FC<Props> = ({
   label,
   name,
   value,
+  icon,
   onChange,
   placeholder,
   disabled,
@@ -28,7 +31,7 @@ export const DateFormField: FC<Props> = ({
   };
 
   return (
-    <FormField label={label} errorMessage={errorMessage}>
+    <FormField label={label} errorMessage={errorMessage} icon={icon}>
       <DateInput
         placeholder={placeholder}
         value={value}

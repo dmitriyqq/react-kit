@@ -38,3 +38,12 @@ Success.args = {
   color: "success",
   children: "Success chip",
 };
+
+const Template2: Story<Props> = (args) => <Chip {...args} />;
+
+export const SuccessWithDelete = Template2.bind({});
+SuccessWithDelete.args = {
+  color: "success",
+  id: "123",
+  children: "Success with delete chip",
+};

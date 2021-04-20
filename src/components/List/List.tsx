@@ -19,6 +19,6 @@ export const List = styled.div<Props>`
   display: flex;
   flex-direction: ${(props) => (props.mode === "h" ? "row" : "column")};
   align-items: ${(props) =>
-    props.align ?? props.mode === "h" ? "center" : "stretch"};
+    props.align ?? (props.mode === "h" ? "center" : "stretch")};
   justify-content: ${(props) => props.justify ?? "start"};
 `;

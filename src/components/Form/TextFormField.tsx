@@ -6,10 +6,12 @@ interface Props {
   name: string;
   label?: string;
   placeholder?: string;
+  icon?: string;
   value: string;
   onChange: (name: string, value: string) => void;
   disabled?: boolean;
   errorMessage?: string | null;
+  initialValue?: string;
 }
 
 export const TextFormField: FC<Props> = ({
@@ -20,6 +22,7 @@ export const TextFormField: FC<Props> = ({
   placeholder,
   disabled,
   errorMessage,
+  initialValue,
 }) => {
   const handleChange = (value: string) => {
     if (onChange) {
@@ -31,7 +34,7 @@ export const TextFormField: FC<Props> = ({
     <FormField label={label} errorMessage={errorMessage}>
       <TextInput
         placeholder={placeholder}
-        value={value}
+        value={value ?? initialValue ?? ""}
         onChange={handleChange}
         disabled={disabled}
       />
