@@ -6,6 +6,7 @@ import { ColorType, getColorFromProp, ThemeProps } from "../themes/theme";
 export interface Props {
   icon: string;
   className?: string;
+  hover?: boolean;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
   color?: ColorType | string;
   hoverColor?: ColorType | string;
@@ -33,6 +34,7 @@ interface StyledIProps extends ThemeProps {
   color?: ColorType | string;
   hoverColor?: ColorType | string;
   className?: string;
+  hover?: boolean;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
@@ -43,7 +45,7 @@ const StyledI = styled.i<StyledIProps>`
   vertical-align: bottom;
   &:hover {
     color: ${(props: StyledIProps) =>
-      props.onClick
+      props.hover
         ? getColorFromProp(
             props,
             props.hoverColor ?? props.color ?? "primary",
@@ -69,6 +71,7 @@ export const Icon: FC<Props> = (props) => {
       color={props.color}
       hoverColor={props.hoverColor}
       onClick={props.onClick}
+      hover={Boolean(props.onClick || props.hover)}
     />
   );
 };

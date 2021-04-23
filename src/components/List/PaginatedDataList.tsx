@@ -1,5 +1,5 @@
 import { List } from "./List";
-import { DataList } from "./DataList";
+import { DataList, Props as DataListProps } from "./DataList";
 import { Pagination } from "../Pagination";
 import { FC, useState } from "react";
 import React from "react";
@@ -7,17 +7,12 @@ import { ListItemData } from "../../model/ListItemData";
 import { PageSizeControl } from "../PageSizeControl";
 import { SelectOption } from "../Select";
 
-export interface Props {
+export interface Props extends DataListProps {
   initialPageSize?: number;
   initialCurrentPage?: number;
   onNewData: (skip: number, take: number, page: number) => void;
   selectedId?: string;
   data: ListItemData[];
-  onClick: (id?: string) => void;
-  onNav: (id?: string) => void;
-  onDelete: (id?: string) => void;
-  onAction: (action: string, id?: string) => void;
-  isLoading: boolean;
   total: number;
 }
 
@@ -34,13 +29,8 @@ export const PaginatedDataList: FC<Props> = ({
   initialPageSize,
   onNewData,
   initialCurrentPage,
-  data,
-  onClick,
-  onDelete,
-  onNav,
-  onAction,
   isLoading,
-  selectedId,
+  ...rest
 }) => {
   const [pageSize, setPageSize] = useState<number>(initialPageSize ?? 20);
   const [currentPage, setCurrentPage] = useState<number>(
@@ -89,15 +79,7 @@ export const PaginatedDataList: FC<Props> = ({
         onPageSizeChanged={handlePageSizeChanged}
         pageSizeOptions={pageSizeOptions}
       />
-      <DataList
-        selectedId={selectedId}
-        data={data}
-        onClick={onClick}
-        onNav={onNav}
-        onDelete={onDelete}
-        onAction={onAction}
-        isLoading={isLoading}
-      />
+      <DataList {...rest} isLoading={isLoading} />
       {!isLoading && (
         <Pagination
           disabled={isLoading}

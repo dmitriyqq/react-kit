@@ -4,10 +4,15 @@ import { DataListItem } from "./DataListItem";
 import { List } from "./List";
 import { Loader } from "../Loader";
 import { Centered } from "../Centered";
+import { Text } from "../Text";
+import { ListItem } from "./ListItem";
+import { Icon } from "../Icon";
 
 export interface Props {
   data: ListItemData[];
-  selectedId?: string;
+  selectedIds?: string[];
+  selectType?: "single" | "multiple";
+  onSelect?: (selectedIds: string[] | string | null) => void;
   onClick?: (id?: string) => void;
   onNav?: (id?: string) => void;
   onDelete?: (id?: string) => void;
@@ -22,7 +27,9 @@ export const DataList: FC<Props> = ({
   onNav,
   onAction,
   onDelete,
-  selectedId,
+  onSelect,
+  selectedIds,
+  selectType,
 }) => {
   if (isLoading) {
     return (
@@ -33,6 +40,8 @@ export const DataList: FC<Props> = ({
       </List>
     );
   }
+
+  const isSingleSelect = selectType === "single";
 
   const handleClick = (id?: string) => {
     if (onClick) {
@@ -58,17 +67,52 @@ export const DataList: FC<Props> = ({
     }
   };
 
+  const handleSelected = (value: boolean, id?: string) => {
+    if (!onSelect || !id) {
+      return;
+    }
+
+    if (isSingleSelect) {
+      onSelect([id]);
+      return;
+    }
+
+    if (value) {
+      onSelect([...(selectedIds ?? []), id]);
+      return;
+    }
+
+    onSelect((selectedIds ?? []).filter((selectedId) => selectedId !== id));
+  };
+
+  const handleClearSelected = () => {
+    if (onSelect) {
+      onSelect([]);
+    }
+  };
+
+  const selectedSet = new Set<string | undefined>(selectedIds ?? []);
+
   return (
     <List>
+      {onSelect && !isSingleSelect && Number(selectedIds?.length) > 0 && (
+        <ListItem>
+          <List mode="h" align="center" justify="center">
+            <Text variant="label">Выбрано: {selectedIds?.length}</Text>
+            <Icon icon="close" onClick={handleClearSelected} />
+          </List>
+        </ListItem>
+      )}
       {(data ?? []).map((item, index) => (
         <DataListItem
           {...item}
           key={index}
-          selectedId={selectedId}
+          selected={onSelect && Boolean(item.id) && selectedSet.has(item.id)}
           onClick={onClick && handleClick}
           onNav={onNav && handleNav}
           onDelete={onDelete && handleDelete}
           onAction={onAction && handleAction}
+          onSelect={handleSelected}
         />
       ))}
     </List>

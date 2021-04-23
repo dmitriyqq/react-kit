@@ -1,5 +1,5 @@
 import { RoundedImage } from "../RoundedImage";
-import React, { useState, FC, ReactNode, MouseEvent } from "react";
+import React, { useState, FC, ReactNode, MouseEvent, ChangeEvent } from "react";
 import { Icon } from "../Icon";
 import { Text } from "../Text";
 import styled from "styled-components";
@@ -15,7 +15,8 @@ export interface Props {
 
   id?: string;
   children?: ReactNode;
-  selectedId?: string | null;
+  selected?: boolean | undefined;
+
   customActions?: CustomAction[];
   tags?: TagType[];
 
@@ -24,6 +25,7 @@ export interface Props {
   onDelete?: (id?: string) => void;
   onNav?: (id?: string) => void;
   onAction?: (action: string, id?: string) => void;
+  onSelect?: (value: boolean, id?: string) => void;
 }
 
 interface ImageWithIconFallbackProps {
@@ -112,12 +114,13 @@ export const ListItem: FC<Props> = (props) => {
     onDelete,
     onNav,
     id,
-    selectedId,
     children,
     customActions,
     onAction,
     tags,
     onTagClick,
+    onSelect,
+    selected,
   } = props;
 
   const handleCustomAction = (actionId: string) => {
@@ -144,12 +147,14 @@ export const ListItem: FC<Props> = (props) => {
   };
 
   const tagsItems = (tags ?? [])?.map((tag) => (
-    <Chip key={tag.id} onClick={() => handleTagClick(tag.id)} color={tag.color}>
+    <Chip
+      key={tag.id}
+      onClick={onTagClick ? () => handleTagClick(tag.id) : undefined}
+      color={tag.color}
+    >
       {tag.label}
     </Chip>
   ));
-
-  const isSelected = selectedId && selectedId == id;
 
   const handleDelete = (event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -167,15 +172,32 @@ export const ListItem: FC<Props> = (props) => {
     }
   };
 
+  const handleSelectedClick = (event: ChangeEvent<{}>) => {
+    if (onSelect) {
+      onSelect(!selected, id);
+    }
+    event.stopPropagation();
+  };
+
   return (
     <ListItemWrapper onClick={() => onClick && onClick(id)}>
       <ListItemBase>
+        {selected !== undefined && (
+          <IconContainer>
+            <Icon
+              icon={selected ? "checkbox" : "checkbox-blank"}
+              type="line"
+              color={selected ? "primary" : undefined}
+              onClick={handleSelectedClick}
+            />
+          </IconContainer>
+        )}
         {(icon || image) && (
           <IconContainer>
             <ImageWithIconFallback
               icon={icon}
               image={image}
-              color={isSelected ? "primary" : undefined}
+              color={selected ? "primary" : undefined}
             />
           </IconContainer>
         )}
@@ -185,7 +207,7 @@ export const ListItem: FC<Props> = (props) => {
               <Text
                 variant="label"
                 align={"left"}
-                color={isSelected ? "primary" : "text"}
+                color={selected ? "primary" : "text"}
               >
                 {label}
                 {children && ":"}

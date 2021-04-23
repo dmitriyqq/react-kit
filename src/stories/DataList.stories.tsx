@@ -1,7 +1,7 @@
 import { ListItemData } from "../model/ListItemData";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { DataList, Props } from "../components/List/DataList";
-import React from "react";
+import React, { useState } from "react";
 
 export default {
   title: "DataList",
@@ -19,12 +19,23 @@ const dataWithActions: ListItemData[] = [
   { id: "id3", label: "third item", dateTime: new Date(), type: "datetime" },
 ];
 
-const DataListWithActionsTemplate: Story<Props> = (args) => (
-  <DataList {...args} />
-);
+const DataListWithActionsTemplate: Story<Props> = (args) => {
+  const [selectedIds, setSelectedIds] = useState<any>();
+
+  return (
+    <DataList {...args} selectedIds={selectedIds} onSelect={setSelectedIds} />
+  );
+};
 
 export const DataListWithActionsStory = DataListWithActionsTemplate.bind({});
 DataListWithActionsStory.args = {
   isLoading: false,
   data: dataWithActions,
+};
+
+export const DataListWithActionsStory2 = DataListWithActionsTemplate.bind({});
+DataListWithActionsStory2.args = {
+  isLoading: false,
+  data: dataWithActions,
+  selectType: "single",
 };

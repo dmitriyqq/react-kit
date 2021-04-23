@@ -36,9 +36,11 @@ PaginatedDataListWithActionsStory.args = {
 const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
   args
 ) => {
+  const [selectedIds, setSelectedIds] = useState<any>();
   const generateData = (skip: number, take: number) => {
     return new Array(take).fill(undefined).map(
       (_, i): ListItemData => ({
+        id: `item ${skip + i}`,
         type: "number",
         num: skip + i,
         label: `item ${skip + i}`,
@@ -55,6 +57,8 @@ const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
   return (
     <PaginatedDataList
       {...args}
+      selectedIds={selectedIds}
+      onSelect={setSelectedIds}
       data={data}
       initialPageSize={20}
       onNewData={handleNewData}
@@ -67,7 +71,4 @@ export const PaginatedDataListWithActionsStoryWithManyPages = PaginatedDataListW
   {}
 );
 
-PaginatedDataListWithActionsTemplateWithManyPages.args = {
-  isLoading: false,
-  total: dataWithActions.length,
-};
+PaginatedDataListWithActionsTemplateWithManyPages.args = {};
