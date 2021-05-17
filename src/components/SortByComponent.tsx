@@ -1,6 +1,6 @@
 import { Form } from "./Form/Form";
 import { CSSProperties, FC, useState } from "react";
-import { FieldDefinition, FormValue } from "../model/FieldItemData";
+import { FormFieldsType, FormValue } from "../model";
 import React from "react";
 import {
   builtInSortByModeStr,
@@ -15,7 +15,7 @@ export interface Props {
   fields: SortByField[];
   value: SortByValue;
   onChange: (value: SortByValue) => void;
-  submitText?: string;
+  createText?: string;
   className?: string;
   style?: CSSProperties;
   sortByModeStr?: Record<SortByMode, string>;
@@ -25,7 +25,7 @@ export const SortByComponent: FC<Props> = ({
   fields,
   value,
   onChange,
-  submitText,
+  createText,
   style,
   className,
   sortByModeStr = builtInSortByModeStr,
@@ -44,7 +44,7 @@ export const SortByComponent: FC<Props> = ({
   });
   const [open, setOpen] = useState(false);
   const icon = value.sortByMode === SortByMode.DESC ? "sort-desc" : "sort-asc";
-  const fieldsDefinition: FieldDefinition<SortByValue, any>[] = [
+  const fieldsDefinition: FormFieldsType<SortByValue> = [
     {
       name: "fieldName",
       label: "Поле",
@@ -102,10 +102,9 @@ export const SortByComponent: FC<Props> = ({
       {fields.length > 0 && open && (
         <Form<SortByValue>
           fields={fieldsDefinition}
-          internalValue={internalValue}
           onChange={handleChange}
-          value={value}
-          submitText={submitText}
+          value={internalValue}
+          createText={createText}
         />
       )}
     </List>

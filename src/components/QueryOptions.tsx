@@ -21,7 +21,8 @@ export interface Props {
   modeStr: Record<FilterMod, string>;
   value: QueryOptionsValue;
   onChange: (queryOptions: QueryOptionsValue) => void;
-  submitFilterText?: string;
+  createFilterText?: string;
+  createSortByText?: string;
 }
 
 export const QueryOptions: React.FC<Props> = ({
@@ -31,7 +32,8 @@ export const QueryOptions: React.FC<Props> = ({
   onChange,
   modesByType,
   modeStr,
-  submitFilterText,
+  createFilterText,
+  createSortByText,
 }) => {
   const handleFilterChange = (filtersValue: FilterValue[]) => {
     onChange({ ...value, filtersValue });
@@ -50,7 +52,7 @@ export const QueryOptions: React.FC<Props> = ({
           onChange={handleFilterChange}
           modeStr={modeStr}
           modesByType={modesByType}
-          submitText={submitFilterText}
+          createText={createFilterText}
         />
       </Card>
       <Card style={{ flex: "1 1", margin: "5px" }}>
@@ -58,6 +60,7 @@ export const QueryOptions: React.FC<Props> = ({
           fields={sortFields}
           onChange={handleSortByChange}
           value={value.sortByValue}
+          createText={createSortByText}
         />
       </Card>
     </List>

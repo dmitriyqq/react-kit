@@ -1,5 +1,6 @@
 import { SelectOption } from "../components/Select";
 import { OptionsProvider } from "../components/Autocomplete";
+import { getDefaultValue } from "./Form";
 
 export type FilterType =
   | "text"
@@ -118,3 +119,30 @@ export interface QueryOptionsValue {
   filtersValue: FilterValue[];
   sortByValue: SortByValue;
 }
+
+export const getAvailableFields = (
+  fields: FilterField<any>[],
+  value: FilterValue[]
+): FilterField<any>[] =>
+  fields.filter((f) => value.find((v) => v.fieldName === f.name) === undefined);
+
+export const getDefaultField = (
+  availableFields: FilterField<any>[]
+): FilterField<any> | null => {
+  return availableFields.length > 0 ? availableFields[0] : null;
+};
+
+export const getDefaultFieldName = (field: FilterField<any> | null) =>
+  field
+    ? {
+        value: field.name,
+        id: field.name,
+        label: field.label,
+      }
+    : null;
+
+export const getDefaultFilterFieldValue = (
+  defaultField: FilterField<any> | null
+): any => {
+  return defaultField ? getDefaultValue(defaultField?.type) : undefined;
+};

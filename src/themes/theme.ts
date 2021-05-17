@@ -120,3 +120,6 @@ export const getBoxShadow = (props: ThemeProps) => {
 
 export const getBorderRadius = (props: ThemeProps) =>
   props.theme?.borderRadius ?? "5px";
+
+export const getGridArea = (props: { gridArea?: string }) => props.gridArea ?
+  `grid-area: ${props.gridArea};` : '';

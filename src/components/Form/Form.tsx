@@ -1,140 +1,119 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
-  FieldDefinition,
+  DataFieldValue,
+  FormValidator,
   FormValue,
-  getValueFromInternalFormValue,
-} from "../../model/FieldItemData";
-import { List } from "../List/List";
-import { DataFormField } from "./DataFormField";
-import { Button } from "../Button";
-import { FormField } from "./FormField";
+  validateFields,
+  getFormValue,
+  FormFieldsType,
+} from "../../model";
+import {List} from "../List";
+import {FormCreateButton} from "./FormCreateButton";
+import {FormUpdateButton} from "./FormUpdateButton";
+import {FormFields} from "./FormFields";
 
 export interface Props<T extends object> {
-  value: T;
-  internalValue: FormValue<T>;
+  value: FormValue<T>;
   originalValue?: T;
   disabled?: boolean;
-  fields: FieldDefinition<T, any>[];
-  onChange: (value: T, internalValue: FormValue<T>) => void;
+  fields: FormFieldsType<T>;
+  onChange: (internalValue: FormValue<T>, formValue: T) => void;
   onCreate?: (value: T) => void;
   onUpdate?: (value: T) => void;
-  validateForm?: (originalValue?: T | null, newValue?: T) => void;
-  submitText?: string;
+  validateForm?: FormValidator<T>;
+  createText?: string;
+  updateText?: string;
+  gridArea?: string;
 }
 
-export const Form = <T extends object>({
-  value,
-  internalValue,
-  fields,
-  onChange,
-  onCreate,
-  onUpdate,
-  disabled,
-  originalValue,
-  validateForm,
-  submitText,
-}: Props<T>) => {
+export const Form = <T extends object>
+({
+   value,
+   fields,
+   onChange,
+   onCreate,
+   onUpdate,
+   disabled,
+   originalValue,
+   validateForm,
+   createText,
+   updateText,
+   gridArea
+ }: Props<T>) => {
   const [changed, setChanged] = useState(false);
-  const validateFields = () => {
-    let fieldsValid = true;
 
-    for (const field of fields) {
-      const validationResult = field.validator && field.validator(value);
-      fieldsValid =
-        fieldsValid && (validationResult ? validationResult.valid : true);
-    }
-
-    return fieldsValid;
-  };
-
-  const fieldsValid = validateFields();
   const updateForm = !disabled && originalValue !== undefined && onUpdate;
   const createForm = !disabled && originalValue === undefined && onCreate;
+  const formValue = getFormValue(value, fields);
 
-  const handleFieldChange = (name: string, internalFieldValue: any) => {
+  const conditionalFields = fields.filter((field) =>
+    field.condition ? field.condition(formValue) : true
+  );
+
+  const fieldsValid = validateFields(fields, formValue);
+  const formValidation = validateForm
+    ? validateForm(originalValue, value)
+    : null;
+  const formValid =
+    fieldsValid && (formValidation === null || formValidation.valid);
+
+  const handleFieldChange = (
+    name: string,
+    internalFieldValue: DataFieldValue<never>
+  ) => {
+    if (!onChange) {
+      return;
+    }
+
     const field = fields.find((f) => f.name === name);
+    if (!field) {
+      return;
+    }
 
-    if (field) {
-      const fieldValue = getValueFromInternalFormValue(
-        internalFieldValue,
-        field.type
-      );
+    const newInternalValue = {...value, [name]: internalFieldValue};
+    const newValue = getFormValue(newInternalValue, fields);
 
-      const newValue = { ...value, [name]: fieldValue };
-      const newInternalValue = { ...internalValue, [name]: internalFieldValue };
+    onChange(newInternalValue, newValue);
 
-      onChange(newValue, newInternalValue);
-
-      if (updateForm) {
-        setChanged(JSON.stringify(originalValue) !== JSON.stringify(newValue));
-      }
+    if (updateForm) {
+      setChanged(JSON.stringify(originalValue) !== JSON.stringify(newValue));
     }
   };
 
   const handleCreateClick = () => {
-    if (fieldsValid && onCreate) {
+    if (onCreate && formValue && createForm) {
       onCreate(value);
     }
   };
 
   const handleUpdateClick = () => {
-    if (
-      changed &&
-      fieldsValid &&
-      onUpdate &&
-      (!validateForm || validateForm(originalValue, value))
-    ) {
+    if (onUpdate && changed && updateForm) {
       onUpdate(value);
     }
   };
 
-  const conditionalFields = fields.filter((field) =>
-    field.condition
-      ? (value[field.condition.fieldName] as unknown) ===
-        field.condition.fieldValue
-      : true
-  );
-
   return (
-    <List>
-      {conditionalFields.map(
-        ({ name, optionsProvider, options, validator, ...rest }) => {
-          const validationResult = validator ? validator(value) : null;
-          return (
-            <DataFormField
-              {...rest}
-              name={name.toString()}
-              key={name.toString()}
-              value={internalValue[name]}
-              onChange={handleFieldChange}
-              optionsProvider={optionsProvider}
-              options={options}
-              disabled={disabled}
-              errorMessage={
-                validationResult && !validationResult.valid
-                  ? validationResult.message
-                  : null
-              }
-            />
-          );
-        }
-      )}
+    <List gridArea={gridArea}>
+      <FormFields
+        fields={conditionalFields}
+        onChange={handleFieldChange}
+        value={formValue}
+        internalValue={value}
+        disabled={disabled}
+      />
       {createForm && (
-        <FormField label="">
-          <Button disabled={!fieldsValid} onClick={handleCreateClick}>
-            {submitText || "Create"}
-          </Button>
-        </FormField>
+        <FormCreateButton
+          disabled={!formValid}
+          createText={createText}
+          onClick={handleCreateClick}
+        />
       )}
       {updateForm && (
-        <FormField label="">
-          <Button
-            disabled={!fieldsValid || !changed}
-            onClick={handleUpdateClick}
-          >
-            {submitText || "Update"}
-          </Button>
-        </FormField>
+        <FormUpdateButton
+          disabled={!formValid || !changed}
+          updateText={updateText}
+          onClick={handleUpdateClick}
+        />
       )}
     </List>
   );

@@ -1,6 +1,6 @@
 import { TextFormField } from "./TextFormField";
 import React from "react";
-import { FieldItemDataType } from "../../model/FieldItemData";
+import { DataFieldValue, FieldItemDataType } from "../../model";
 import { NumberFormField } from "./NumberFormField";
 import { CheckboxFormField } from "./CheckboxFormField";
 import { SelectFormField } from "./SelectFormField";
@@ -21,10 +21,7 @@ interface Props<T> {
   options?: SelectOption<T>[];
   placeholder?: string;
   optionsProvider?: OptionsProvider<T>;
-  onChange: (
-    fieldName: string,
-    value: T | null | SelectOption<T> | T[]
-  ) => void;
+  onChange: (fieldName: string, value: DataFieldValue<T>) => void;
   errorMessage?: string | null;
 }
 

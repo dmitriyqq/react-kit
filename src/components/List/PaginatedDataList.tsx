@@ -14,6 +14,7 @@ export interface Props extends DataListProps {
   selectedId?: string;
   data: ListItemData[];
   total: number;
+  gridArea?: string;
 }
 
 export const pageSizeOptions = new Array(5).fill(0).map(
@@ -30,6 +31,7 @@ export const PaginatedDataList: FC<Props> = ({
   onNewData,
   initialCurrentPage,
   isLoading,
+  gridArea,
   ...rest
 }) => {
   const [pageSize, setPageSize] = useState<number>(initialPageSize ?? 20);
@@ -71,7 +73,7 @@ export const PaginatedDataList: FC<Props> = ({
   };
 
   return (
-    <List mode="v">
+    <List mode="v" gridArea={gridArea}>
       <PageSizeControl
         pageSize={pageSize}
         totalResults={total}

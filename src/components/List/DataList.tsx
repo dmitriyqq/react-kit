@@ -18,6 +18,7 @@ export interface Props {
   onDelete?: (id?: string) => void;
   onAction?: (action: string, id?: string) => void;
   isLoading: boolean;
+  gridArea?: string;
 }
 
 export const DataList: FC<Props> = ({
@@ -30,6 +31,7 @@ export const DataList: FC<Props> = ({
   onSelect,
   selectedIds,
   selectType,
+  gridArea,
 }) => {
   if (isLoading) {
     return (
@@ -94,7 +96,7 @@ export const DataList: FC<Props> = ({
   const selectedSet = new Set<string | undefined>(selectedIds ?? []);
 
   return (
-    <List>
+    <List gridArea={gridArea}>
       {onSelect && !isSingleSelect && Number(selectedIds?.length) > 0 && (
         <ListItem>
           <List mode="h" align="center" justify="center">

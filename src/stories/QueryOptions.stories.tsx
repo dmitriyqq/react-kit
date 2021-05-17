@@ -1,8 +1,8 @@
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { Props, QueryOptions } from "../components/QueryOptions";
 import { fields, sortFields } from "./autocompleteData";
-import React, { useState } from "react";
-import { QueryOptionsValue, SortByMode } from "../model/Filters";
+import { useState } from "react";
+import { QueryOptionsValue, SortByMode } from "../model";
 
 export default {
   title: "QueryOptions",
@@ -27,5 +27,5 @@ export const QueryOptionsStory = Template.bind({});
 QueryOptionsStory.args = {
   filterFields: fields,
   sortFields: sortFields,
-  submitFilterText: "Добавить",
+  createFilterText: "Добавить фильтр",
 };

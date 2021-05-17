@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ThemeProps } from "../../themes/theme";
+import {getGridArea, ThemeProps} from "../../themes/theme";
 
 export interface Props extends ThemeProps {
   mode?: "v" | "h";
@@ -12,6 +12,7 @@ export interface Props extends ThemeProps {
     | "space-around"
     | "space-evenly";
   wrapItems?: boolean;
+  gridArea?: string;
 }
 
 export const List = styled.div<Props>`
@@ -21,4 +22,5 @@ export const List = styled.div<Props>`
   align-items: ${(props) =>
     props.align ?? (props.mode === "h" ? "center" : "stretch")};
   justify-content: ${(props) => props.justify ?? "start"};
+  ${getGridArea}
 `;

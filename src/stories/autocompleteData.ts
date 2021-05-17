@@ -1,5 +1,5 @@
 import { SelectOption } from "../components/Select";
-import { getOptionsFromStringArray } from "../model/FieldItemData";
+import { getOptionsFromStringArray } from "../model";
 import { FilterField, SortByField } from "../model/Filters";
 
 export const data: SelectOption<Company>[] = [

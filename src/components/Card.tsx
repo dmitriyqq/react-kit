@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { getBorderRadius, getBoxShadow, ThemeProps } from "../themes/theme";
-import { ReactNode } from "react";
+import {getBorderRadius, getBoxShadow, getGridArea, ThemeProps} from "../themes/theme";
+import {ReactNode} from "react";
 
 export interface Props extends ThemeProps {
   canSelect?: boolean;
   children?: ReactNode;
+  gridArea?: string;
 }
 
 export const Card = styled.div<Props>`
@@ -15,9 +16,9 @@ export const Card = styled.div<Props>`
   cursor: ${(props: Props) => (props.canSelect ? "pointer" : "default")};
   padding: ${getBorderRadius} 0;
   ${(props: Props) =>
-    props.canSelect
-      ? `&:hover {
+          props.canSelect ?
+                  `&:hover {
           box-shadow: ${getBoxShadow(props).dark};
-      }`
-      : ""}
+      }` : ""}
+  ${getGridArea}
 `;

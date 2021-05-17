@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Meta, Story } from "@storybook/react/types-6-0";
 
 import { AddFilterComponent, Props } from "../components/AddFilterComponent";
-import { FormValue, getOptionsFromStringArray } from "../model/FieldItemData";
+import {builtInFilterModeStr, FormValue} from "../model";
 import { FilterMod, FilterValue, builtInModesByType } from "../model/Filters";
-import { fields, optionsProvider } from "./autocompleteData";
+import { fields } from "./autocompleteData";
 
 export default {
   title: "AddFilterComponent",
@@ -12,24 +12,24 @@ export default {
 } as Meta;
 
 const Template: Story<Props> = (args) => {
-  const [value, setValue] = useState<FilterValue>({
-    fieldName: "name",
-    filterMode: FilterMod.Set,
-    filterValue: "name",
-  });
   const [internalValue, setInternalValue] = useState<FormValue<FilterValue>>({
     fieldName: { value: "name", id: "name", label: "Имя" },
     filterMode: {
       value: FilterMod.Set,
       id: FilterMod.Set.toString(),
-      label: "установлено",
+      label: "Установлено",
     },
-    filterValue: "name",
+    filterValue: null,
+  });
+  const [value, setValue] = useState<FilterValue>({
+    fieldName: "name",
+    filterMode: FilterMod.Set,
+    filterValue: null,
   });
 
   const handleChange = (
-    value: FilterValue,
-    internalValue: FormValue<FilterValue>
+    internalValue: FormValue<FilterValue>,
+    value: FilterValue
   ) => {
     setValue(value);
     setInternalValue(internalValue);
@@ -39,8 +39,7 @@ const Template: Story<Props> = (args) => {
     <>
       <AddFilterComponent
         {...args}
-        value={value}
-        internalValue={internalValue}
+        value={internalValue}
         onChange={handleChange}
       />
       <pre>{JSON.stringify(value, null, 2)}</pre>
@@ -51,5 +50,6 @@ const Template: Story<Props> = (args) => {
 export const AddFilterStory = Template.bind({});
 AddFilterStory.args = {
   modesByType: builtInModesByType,
+  modeStr: builtInFilterModeStr,
   fields,
 };

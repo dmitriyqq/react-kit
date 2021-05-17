@@ -5,13 +5,17 @@ import {
   FilterMod,
   FilterType,
   FilterValue,
+  getAvailableFields,
+  getDefaultField,
+  getDefaultFieldName,
+  getDefaultFilterFieldValue,
 } from "../model/Filters";
 import { SelectOption } from "./Select";
 import { AddFilterComponent } from "./AddFilterComponent";
 import React, { CSSProperties, FC, useState } from "react";
 import { List } from "./List/List";
 import { Chip } from "./Chip";
-import { FormValue, getDefaultValue } from "../model/FieldItemData";
+import { FormValue } from "../model";
 import { TextListItem } from "./List/TextListItem";
 
 export interface Props {
@@ -19,45 +23,18 @@ export interface Props {
   value: FilterValue[];
   modesByType: Record<FilterType, SelectOption<FilterMod>[]>;
   onChange: (value: FilterValue[]) => void;
-  submitText?: string;
+  createText?: string;
   modeStr: Record<FilterMod, string>;
   className?: string;
   style?: CSSProperties;
 }
-
-const getAvailableFields = (
-  fields: FilterField<any>[],
-  value: FilterValue[]
-): FilterField<any>[] =>
-  fields.filter((f) => value.find((v) => v.fieldName === f.name) === undefined);
-
-const getDefaultField = (
-  availableFields: FilterField<any>[]
-): FilterField<any> | null => {
-  return availableFields.length > 0 ? availableFields[0] : null;
-};
-
-const getDefaultFieldName = (field: FilterField<any> | null) =>
-  field
-    ? {
-        value: field.name,
-        id: field.name,
-        label: field.label,
-      }
-    : null;
-
-const getDefaultFilterFieldValue = (
-  defaultField: FilterField<any> | null
-): any => {
-  return defaultField ? getDefaultValue(defaultField?.type) : undefined;
-};
 
 export const Filters: FC<Props> = ({
   fields,
   modesByType = builtInModesByType,
   value,
   onChange,
-  submitText,
+  createText,
   modeStr = builtInFilterModeStr,
   style,
   className,
@@ -124,8 +101,8 @@ export const Filters: FC<Props> = ({
   };
 
   const handleFilterChange = (
-    newValue: FilterValue,
-    newInternalValue: FormValue<FilterValue>
+    newInternalValue: FormValue<FilterValue>,
+    newValue: FilterValue
   ) => {
     setFilterValue(newValue);
     setInternalFilterValue(newInternalValue);
@@ -169,11 +146,11 @@ export const Filters: FC<Props> = ({
         <AddFilterComponent
           fields={initialAvailableFields}
           modesByType={modesByType}
-          value={filterValue}
-          internalValue={internalFilterValue}
+          modeStr={modeStr}
+          value={internalFilterValue}
           onChange={handleFilterChange}
           onCreate={handleCreate}
-          submitText={submitText}
+          createText={createText}
         />
       )}
       <List mode="h" wrapItems={true}>
