@@ -17,6 +17,8 @@ export interface ListItemData {
   color?: TextColor;
   id?: string;
   tags?: TagType[];
+  icon?: string;
+  image?: string;
 }
 
 export interface CustomAction {
