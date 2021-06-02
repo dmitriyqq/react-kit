@@ -3,7 +3,7 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 
 import { Form, Props } from "../components/Form/Form";
 import { NumberComponent } from "../components/NumberComponent";
-import { FieldDefinition, FormValue } from "../model/FieldItemData";
+import { FieldDefinition, FormValue } from "../model";
 import { data, optionsProvider } from "./autocompleteData";
 
 export default {
@@ -21,16 +21,11 @@ interface TestFormData {
 
 const Template: Story<Props<TestFormData>> = (args) => {
   const [value, setValue] = useState<TestFormData>(args.value);
-  const [internalValue, setInternalValue] = useState<FormValue<TestFormData>>(
-    args.internalValue
-  );
 
   const handleChange = (
     value: TestFormData,
-    internalValue: FormValue<TestFormData>
   ) => {
     setValue(value);
-    setInternalValue(internalValue);
   };
 
   return (
@@ -38,7 +33,6 @@ const Template: Story<Props<TestFormData>> = (args) => {
       <Form
         {...args}
         value={value}
-        internalValue={internalValue}
         onChange={handleChange}
       />
       <NumberComponent num={Number(value.num)} />
@@ -88,13 +82,6 @@ FormStory.args = {
     test: "",
     check: true,
     num: 420.69,
-    myObject: { customValue: 342 },
-    dateOfBirth: null,
-  },
-  internalValue: {
-    test: "",
-    check: true,
-    num: 420.69,
     myObject: {
       value: { customValue: 342 },
       id: "2321",
@@ -115,13 +102,9 @@ const ConditionalFormTemplate: Story<Props<ConditionalTestFormData>> = (
   args
 ) => {
   const [value, setValue] = useState<ConditionalTestFormData>(args.value);
-  const [internalValue, setInternalValue] = useState<
-    FormValue<ConditionalTestFormData>
-  >(args.internalValue);
-
-  const handleChange = (newValue: any, newInternalValue: any) => {
+  
+  const handleChange = (newValue: any) => {
     setValue(newValue);
-    setInternalValue(newInternalValue);
   };
 
   return (
@@ -130,7 +113,6 @@ const ConditionalFormTemplate: Story<Props<ConditionalTestFormData>> = (
         {...args}
         value={value}
         onChange={handleChange}
-        internalValue={internalValue}
       />
     </>
   );
@@ -164,7 +146,7 @@ ConditionalFormStory.args = {
       label: "Warehouse",
       type: "select",
       name: "placeId",
-      condition: { fieldName: "locationType", fieldValue: "warehouse" },
+      condition: (value) => value?.locationType === "warehouse",
       options: [
         {
           value: "iv_warehouse",
@@ -182,7 +164,7 @@ ConditionalFormStory.args = {
       label: "Store",
       type: "select",
       name: "placeId",
-      condition: { fieldName: "locationType", fieldValue: "store" },
+      condition: (value) => value?.locationType === "store",
       options: [
         {
           value: "iv_store",
@@ -204,12 +186,6 @@ ConditionalFormStory.args = {
     },
   ],
   value: {
-    warehouseAmountType: "have",
-    locationType: "global",
-    amount: 100,
-    placeId: null,
-  },
-  internalValue: {
     warehouseAmountType: { value: "have", id: "have", label: "Have in stock" },
     locationType: { value: "global", id: "global", label: "Global" },
     amount: 100,
@@ -227,11 +203,9 @@ interface FormWithValidatorProps {
 
 const ValidationFormTemplate: Story<Props<FormWithValidatorProps>> = (args) => {
   const [value, setValue] = useState(args.value);
-  const [internalValue, setInternalValue] = useState(args.internalValue);
 
-  const handleChange = (newValue: any, newInternalValue: any) => {
+  const handleChange = (newValue: any) => {
     setValue(newValue);
-    setInternalValue(newInternalValue);
   };
 
   return (
@@ -240,7 +214,6 @@ const ValidationFormTemplate: Story<Props<FormWithValidatorProps>> = (args) => {
         {...args}
         value={value}
         onChange={handleChange}
-        internalValue={internalValue}
       />
     </>
   );
@@ -316,13 +289,6 @@ ValidationFormStory.args = {
     age: 10,
     eula: false,
   },
-  internalValue: {
-    name: "",
-    email: "",
-    phone: "",
-    age: 10,
-    eula: false,
-  },
 };
 
 export const UpdateValidationFormStory = ValidationFormTemplate.bind({});
@@ -359,11 +325,9 @@ interface MultipleValue {
 
 const MultipleFieldsFormTemplate: Story<Props<MultipleValue>> = (args) => {
   const [value, setValue] = useState(args.value);
-  const [internalValue, setInternalValue] = useState(args.internalValue);
 
-  const handleChange = (newValue: any, newInternalValue: any) => {
+  const handleChange = (newValue: any) => {
     setValue(newValue);
-    setInternalValue(newInternalValue);
   };
 
   return (
@@ -372,7 +336,6 @@ const MultipleFieldsFormTemplate: Story<Props<MultipleValue>> = (args) => {
         {...args}
         value={value}
         onChange={handleChange}
-        internalValue={internalValue}
       />
       <pre>{JSON.stringify(value, null, 2)}</pre>
     </>
@@ -401,11 +364,6 @@ MultipleFieldsFormStory.args = {
     },
   ],
   value: {
-    autocomplete: null,
-    multiSelect: [],
-    multiAutocomplete: [],
-  },
-  internalValue: {
     autocomplete: null,
     multiSelect: [],
     multiAutocomplete: [],

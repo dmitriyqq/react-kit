@@ -25,7 +25,7 @@ export interface FieldDefinition<T, V> {
   initialValue?: SelectOption<T> | SelectOption<T>[] | null | V;
   placeholder?: string;
   validator?: ValidatorType<T>;
-  condition?: (value: T) => { fieldName: keyof T; fieldValue: string };
+  condition?: (value: T) => boolean;
   optionsProvider?: OptionsProvider<V>;
 }
 
