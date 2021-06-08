@@ -3,7 +3,7 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 
 import { FormField, Props } from "../components/Form/FormField";
 import { List } from "../components/List/List";
-import { Card } from "../components/Card";
+import { Card } from "../components/Card/Card";
 import { Checkbox } from "../components/Checkbox";
 import { TextInput } from "../components/TextInput";
 

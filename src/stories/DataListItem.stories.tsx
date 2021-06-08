@@ -7,7 +7,7 @@ import { TextListItem } from "../components/List/TextListItem";
 import { NumberListItem } from "../components/List/NumberListItem";
 import { DateTimeListItem } from "../components/List/DateTimeListItem";
 import { FractionListItem } from "../components/List/FractionListItem";
-import { Card } from "../components/Card";
+import { Card } from "../components/Card/Card";
 import { ListItemData } from "../model/ListItemData";
 import { DataList, Props as DataListProps } from "../components/List/DataList";
 

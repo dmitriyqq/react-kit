@@ -22,12 +22,14 @@ const LabelContainer = styled.div`
   flex: 1 1;
   display: flex;
   align-items: center;
+  min-width: 200px;
   padding: ${(props) => props.theme.spacing.double};
 `;
 
 const FieldContainer = styled.div`
   flex: 1 1;
   display: flex;
+  min-width: 200px;
   justify-content: center;
   align-items: center;
   padding: ${(props) => props.theme.spacing.double};
@@ -50,7 +52,7 @@ export const FormField: FC<Props> = ({
     <FormItemBase>
       {icon && <Icon icon={icon} />}
       <LabelContainer>
-        <Text>{label ?? ""}</Text>
+        <Text variant="label">{label ? `${label}:` : ""}</Text>
       </LabelContainer>
       <FieldContainer>{children}</FieldContainer>
     </FormItemBase>

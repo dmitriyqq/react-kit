@@ -8,13 +8,14 @@ import {
   getTextTransform,
   Props as TextProps,
 } from "./Text";
+import { getMainBackgroundColor, ThemeProps } from "../themes/theme";
+import { getSingleSpacing } from "../themes/helpers/spacing";
+import { getWidth } from "../themes/helpers/size";
+import { getBorderRadius } from "../themes/helpers/border";
 import {
-  getBorderRadius,
-  getDisabledColor,
-  getMainBackgroundColor,
-  getPrimaryMainColor,
-  ThemeProps,
-} from "../themes/theme";
+  getMainColorShade,
+  getMainDisabledShade,
+} from "../themes/helpers/color";
 
 export interface SelectOption<T> {
   label: string;
@@ -29,16 +30,22 @@ export interface Props<T> {
   placeholder?: string;
   disabled?: boolean;
   allowNull?: boolean;
+  width?: string;
+  height?: string;
 }
 
 interface StyledSelectProps extends TextProps, ThemeProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
+  width?: string;
+  height?: string;
 }
 
 interface StyledSelectWrapperProps extends TextProps, ThemeProps {
   disabled?: boolean;
+  width?: string;
+  height?: string;
 }
 
 const StyledSelect = styled.select<StyledSelectProps>`
@@ -49,16 +56,15 @@ const StyledSelect = styled.select<StyledSelectProps>`
   background-color: ${getMainBackgroundColor};
   border: 1.5px solid
     ${(props: StyledSelectProps) =>
-      props.disabled ? getDisabledColor(props) : getPrimaryMainColor(props)};
+      props.disabled ? getMainDisabledShade(props) : getMainColorShade(props)};
   border-radius: ${getBorderRadius};
-  padding: ${(props: ThemeProps) => props.theme?.spacing.single ?? "5px"};
+  padding: ${getSingleSpacing};
   font-family: ${getFontFamily};
   font-size: ${getFontSize};
   font-weight: ${getFontWeight};
   color: ${getFontColor};
   text-transform: ${getTextTransform};
-  width: ${(props: ThemeProps) =>
-    `${2 * (props.theme?.widthUnit ?? 100)}px` ?? "5px"};
+  width: ${getWidth};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   &:focus {
     outline: 0;
@@ -70,14 +76,13 @@ const StyledSelect = styled.select<StyledSelectProps>`
   }
 
   > * {
-    background-color: ${getMainBackgroundColor};
+    background-color: ${getMainColorShade};
   }
 `;
 
 const SelectWrapper = styled.div<StyledSelectWrapperProps>`
-  margin: ${(props: ThemeProps) => props.theme?.spacing.single ?? "5px"};
-  width: ${(props: ThemeProps) =>
-    `${2 * (props.theme?.widthUnit ?? 100)}px` ?? "150px"};
+  margin: ${getSingleSpacing};
+  width: ${getWidth};
   border-radius: ${getBorderRadius};
   position: relative;
   vertical-align: middle;
@@ -96,14 +101,21 @@ const SelectWrapper = styled.div<StyledSelectWrapperProps>`
     transition: 0.25s all ease;
     color: ${getMainBackgroundColor};
     background-color: ${(props: StyledSelectWrapperProps) =>
-      props.disabled ? getDisabledColor(props) : getPrimaryMainColor(props)};
+      props.disabled ? getMainDisabledShade(props) : getMainColorShade(props)};
     text-decoration: none;
   }
 `;
 
-export const Select = <T extends unknown>(props: Props<T>) => {
-  const { options, onChange, value, placeholder, disabled, allowNull } = props;
-
+export const Select = <T extends unknown>({
+  options,
+  onChange,
+  value,
+  placeholder,
+  disabled,
+  allowNull,
+  width = "3u",
+  height = "1u",
+}: Props<T>) => {
   const allOptions: SelectOption<T | null>[] =
     allowNull !== false
       ? [{ id: "null", value: null, label: "Не выбрано" }, ...options]
@@ -126,13 +138,19 @@ export const Select = <T extends unknown>(props: Props<T>) => {
   };
 
   return (
-    <SelectWrapper disabled={disabled || options.length === 0}>
+    <SelectWrapper
+      disabled={disabled || options.length === 0}
+      width={width}
+      height={height}
+    >
       <StyledSelect
         onChange={handleChange}
         value={value?.id ?? ""}
         variant="label"
         placeholder={placeholder}
         disabled={disabled || options.length === 0}
+        width={width}
+        height={height}
       >
         {optionsElements}
       </StyledSelect>

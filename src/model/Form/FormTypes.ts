@@ -6,6 +6,7 @@ export type FormValue<T> = Record<keyof T, DataFieldValue<any>>;
 export type FieldItemDataType =
   | "text"
   | "number"
+  | "range"
   | "date"
   | "bool"
   | "select"
@@ -27,6 +28,9 @@ export interface FieldDefinition<T, V> {
   validator?: ValidatorType<T>;
   condition?: (value: T) => boolean;
   optionsProvider?: OptionsProvider<V>;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export type FormFieldsType<T> = FieldDefinition<T, DataFieldValue<any>>[];

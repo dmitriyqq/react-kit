@@ -12,7 +12,7 @@ import {
 } from "../model/Filters";
 import React from "react";
 import { SelectOption } from "./Select";
-import { Card } from "./Card";
+import { Card } from "./Card/Card";
 
 export interface Props {
   filterFields: FilterField<any>[];

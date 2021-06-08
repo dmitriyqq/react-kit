@@ -5,7 +5,6 @@
   "main": "build/index.js",
   "description": "Small UI toolkit with useful themed react-components",
   "scripts": {
-    "prepublish": "tsc",
     "build": "tsc",
     "lint": "eslint --ext .js,.jsx src/**/*",
     "storybook": "start-storybook -s ./static -p 6006",

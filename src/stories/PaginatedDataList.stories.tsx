@@ -1,7 +1,7 @@
 import { ListItemData } from "../model/ListItemData";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { PaginatedDataList, Props } from "../components/List/PaginatedDataList";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
 export default {
   title: "PaginatedDataList",
@@ -33,9 +33,7 @@ PaginatedDataListWithActionsStory.args = {
   total: dataWithActions.length,
 };
 
-const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
-  args
-) => {
+export const PaginatedDataListTest = ({ ...args }: any) => {
   const [selectedIds, setSelectedIds] = useState<any>();
   const generateData = (skip: number, take: number) => {
     return new Array(take).fill(undefined).map(
@@ -48,7 +46,7 @@ const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
     );
   };
 
-  const [data, setData] = useState<ListItemData[]>(generateData(0, 20));
+  const [data, setData] = useState<ListItemData[]>(generateData(0, 10));
 
   const handleNewData = (skip: number, take: number, page: number) => {
     setData(() => generateData(skip, take));
@@ -60,11 +58,17 @@ const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
       selectedIds={selectedIds}
       onSelect={setSelectedIds}
       data={data}
-      initialPageSize={20}
+      initialPageSize={10}
       onNewData={handleNewData}
       total={13543560}
     />
   );
+};
+
+const PaginatedDataListWithActionsTemplateWithManyPages: Story<Props> = (
+  args
+) => {
+  return <PaginatedDataListTest {...args} />;
 };
 
 export const PaginatedDataListWithActionsStoryWithManyPages = PaginatedDataListWithActionsTemplateWithManyPages.bind(

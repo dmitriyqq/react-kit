@@ -8,7 +8,7 @@ export * from "./components/List";
 export { AddFilterComponent } from "./components/AddFilterComponent";
 export { Autocomplete } from "./components/Autocomplete";
 export { Button } from "./components/Button";
-export { Card } from "./components/Card";
+export { Card } from "./components/Card/Card";
 export { Centered } from "./components/Centered";
 export { Checkbox } from "./components/Checkbox";
 export { Chip } from "./components/Chip";

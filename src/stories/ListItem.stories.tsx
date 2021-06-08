@@ -4,7 +4,7 @@ import { Story, Meta } from "@storybook/react/types-6-0";
 import { Text } from "../components/Text";
 import { ListItem, Props } from "../components/List/ListItem";
 import { List } from "../components/List/List";
-import { Card } from "../components/Card";
+import { Card } from "../components/Card/Card";
 
 export default {
   title: "ListItem",

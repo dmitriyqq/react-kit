@@ -1,46 +1,37 @@
-import React from "react";
-import { Story, Meta } from "@storybook/react/types-6-0";
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 
-import { Button, Props } from "../components/Button";
+import { Button, ButtonProps } from './Button';
 
 export default {
-  title: "Button",
+  title: 'Example/Button',
   component: Button,
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
 } as Meta;
 
-const Template: Story<Props> = (args) => <Button {...args} />;
+const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  children: "Test button",
+  primary: true,
+  label: 'Button',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  color: "secondary",
-  children: "Secondary button",
+  label: 'Button',
 };
 
-export const Warning = Template.bind({});
-Warning.args = {
-  color: "warning",
-  children: "Warning button",
+export const Large = Template.bind({});
+Large.args = {
+  size: 'large',
+  label: 'Button',
 };
 
-export const Danger = Template.bind({});
-Danger.args = {
-  color: "danger",
-  children: "Danger button",
-};
-
-export const Success = Template.bind({});
-Success.args = {
-  color: "success",
-  children: "Success button",
-};
-
-export const Emoji = Template.bind({});
-Emoji.args = {
-  color: "primary",
-  children: "Emoji button 🚀",
+export const Small = Template.bind({});
+Small.args = {
+  size: 'small',
+  label: 'Button',
 };

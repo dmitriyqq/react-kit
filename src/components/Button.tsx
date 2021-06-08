@@ -1,14 +1,17 @@
-import React, { FC, ReactNode } from "react";
+import React, { InputHTMLAttributes, ReactNode, forwardRef } from "react";
 import styled from "styled-components";
-import {
-  ColorType,
-  getBorderRadius,
-  getBoxShadow,
-  getDisabledColor,
-  ThemeProps,
-} from "../themes/theme";
+import { getBoxShadow, getDisabledColor, ThemeProps } from "../themes/theme";
 import { Text } from "./Text";
 import { Icon } from "./Icon";
+import {
+  getDarkColorShade,
+  getLightestColorShade,
+  getMainColorShade,
+  getMainDisabledShade,
+} from "../themes/helpers/color";
+import { getBorderCss, getBorderRadius } from "../themes/helpers/border";
+import { getSingleSpacing } from "../themes/helpers/spacing";
+import { getHeight, getWidth } from "../themes/helpers/size";
 
 const ButtonText = styled(Text)`
   display: flex;
@@ -16,75 +19,93 @@ const ButtonText = styled(Text)`
   justify-content: center;
 `;
 
-export interface Props {
+export interface Props extends InputHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
   className?: string;
   icon?: string;
   disabled?: boolean;
   children?: ReactNode;
-  color?: ColorType;
+  themeColor?: string;
+  themeBorder?: string;
   iconType?: "fill" | "line";
+  width?: string;
+  height?: string;
 }
 
-interface StyledButtonProps extends ThemeProps {
+interface StyledButtonProps
+  extends ThemeProps,
+    InputHTMLAttributes<HTMLButtonElement> {
   className?: string;
   disabled?: boolean;
   children?: ReactNode;
-  color?: ColorType;
+  themeColor?: string;
+  themeBorder?: string;
   hasChildren?: boolean;
+  width?: string;
+  height?: string;
 }
 
-export const Button: FC<Props> = ({
-  onClick,
-  children,
-  className,
-  color,
-  disabled,
-  icon,
-  iconType,
-}) => {
-  return (
-    <StyledButton
-      className={className}
-      onClick={onClick}
-      disabled={disabled === true}
-      color={color}
-      hasChildren={children !== undefined}
-    >
-      {icon && <Icon icon={icon} color="white" type={iconType} />}
-      {children ? (
-        <ButtonText variant="button" align="center">
-          {children}
-        </ButtonText>
-      ) : (
-        ""
-      )}
-    </StyledButton>
-  );
-};
+// eslint-disable-next-line react/display-name
+export const Button = forwardRef<HTMLButtonElement, Props>(
+  (
+    {
+      onClick,
+      children,
+      className,
+      themeColor,
+      disabled,
+      icon,
+      iconType,
+      width,
+      height,
+      ...rest
+    },
+    ref
+  ) => {
+    return (
+      <StyledButton
+        className={className}
+        onClick={onClick}
+        disabled={disabled === true}
+        themeColor={themeColor}
+        hasChildren={children !== undefined}
+        ref={ref}
+        width={width}
+        height={height}
+        {...(rest as unknown)}
+      >
+        {icon && <Icon icon={icon} color="white" type={iconType} />}
+        {children ? (
+          <ButtonText variant="button" align="center">
+            {children}
+          </ButtonText>
+        ) : (
+          ""
+        )}
+      </StyledButton>
+    );
+  }
+);
 
 const StyledButton = styled.button<StyledButtonProps>`
   ${(props: StyledButtonProps) =>
-    props.hasChildren ? "min-width: 160px;" : ""}
-  height: 40px;
-  border: none;
-  margin: ${(props: StyledButtonProps) => props.theme?.spacing.single ?? "8px"};
-  padding: 0
-    ${(props: StyledButtonProps) => props.theme?.spacing.double ?? "8px"};
-  box-sizing: border-box;
-  background-color: ${(props) =>
-    props.disabled
-      ? getDisabledColor(props)
-      : props.theme.colors[props.color ?? "primary"].main};
-  line-height: 40px;
+    props.hasChildren ? `min-width: ${getWidth(props)};` : ""}
+  height: ${getHeight};
+  line-height: ${getHeight};
+  margin: ${getSingleSpacing};
+  padding: ${getSingleSpacing};
+  background-color: ${(props: StyledButtonProps) =>
+    props.disabled ? getMainDisabledShade(props) : getMainColorShade(props)};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   box-shadow: ${(props: StyledButtonProps) => getBoxShadow(props).light};
-  border-radius: ${getBorderRadius};
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: center;
   white-space: nowrap;
+  border-radius: ${getBorderRadius};
+  border: ${getBorderCss};
   &:hover {
     ${(props) =>
       props.disabled
@@ -92,9 +113,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         : `box-shadow: ${(props: StyledButtonProps) =>
             getBoxShadow(props).main};`}
     background-color: ${(props: StyledButtonProps) =>
-      props.disabled
-        ? getDisabledColor(props)
-        : props.theme.colors[props.color ?? "primary"].light};
+      props.disabled ? getDisabledColor(props) : getLightestColorShade(props)};
   }
   &:active {
     ${(props) =>
@@ -103,9 +122,7 @@ const StyledButton = styled.button<StyledButtonProps>`
         : `box-shadow: ${(props: StyledButtonProps) =>
             getBoxShadow(props).main};`}
     background-color: ${(props: StyledButtonProps) =>
-      props.disabled
-        ? getDisabledColor(props)
-        : props.theme.colors[props.color ?? "primary"].dark};
+      props.disabled ? getDisabledColor(props) : getDarkColorShade(props)};
   }
   &:focus {
     outline: 0;

@@ -1,6 +1,6 @@
 import { Theme } from "./theme";
 
-export const defaultDarkTheme: Theme = {
+export const defaultDarkTheme: any = {
   name: "default-dark",
   widthUnit: 128,
   heightUnit: 32,

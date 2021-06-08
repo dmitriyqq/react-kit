@@ -10,6 +10,7 @@ import { AutocompleteFormField } from "./AutocompleteFormField";
 import { DateFormField } from "./DateFormField";
 import { MultipleAutocompleteFormField } from "./MultipleAutocompleteFormField";
 import { MultipleSelectFormField } from "./MultipleSelectFormField";
+import { RangeFormField } from "./RangeFormField";
 
 interface Props<T> {
   name: string;
@@ -23,6 +24,9 @@ interface Props<T> {
   optionsProvider?: OptionsProvider<T>;
   onChange: (fieldName: string, value: DataFieldValue<T>) => void;
   errorMessage?: string | null;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export const DataFormField = <T extends unknown>({
@@ -37,6 +41,9 @@ export const DataFormField = <T extends unknown>({
   optionsProvider,
   disabled,
   errorMessage,
+  min,
+  max,
+  step,
 }: Props<T>) => {
   if (type === "text") {
     return (
@@ -79,6 +86,24 @@ export const DataFormField = <T extends unknown>({
         name={name}
         disabled={disabled}
         errorMessage={errorMessage}
+      />
+    );
+  }
+
+  if (type === "range") {
+    return (
+      <RangeFormField
+        icon={icon}
+        value={value as number}
+        onChange={onChange as (name: string, value: number) => void}
+        placeholder={placeholder}
+        label={label}
+        name={name}
+        disabled={disabled}
+        errorMessage={errorMessage}
+        min={min}
+        max={max}
+        step={step}
       />
     );
   }

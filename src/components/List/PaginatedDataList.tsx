@@ -19,9 +19,9 @@ export interface Props extends DataListProps {
 
 export const pageSizeOptions = new Array(5).fill(0).map(
   (e, i): SelectOption<number> => ({
-    label: `${(i + 1) * 20}`,
-    value: (i + 1) * 20,
-    id: `${(i + 1) * 20}`,
+    label: `${(i + 1) * 10}`,
+    value: (i + 1) * 10,
+    id: `${(i + 1) * 10}`,
   })
 );
 
@@ -34,7 +34,7 @@ export const PaginatedDataList: FC<Props> = ({
   gridArea,
   ...rest
 }) => {
-  const [pageSize, setPageSize] = useState<number>(initialPageSize ?? 20);
+  const [pageSize, setPageSize] = useState<number>(initialPageSize ?? 10);
   const [currentPage, setCurrentPage] = useState<number>(
     initialCurrentPage ?? 1
   );

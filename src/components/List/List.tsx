@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {getGridArea, ThemeProps} from "../../themes/theme";
+import { getGridArea, ThemeProps } from "../../themes/theme";
 
 export interface Props extends ThemeProps {
   mode?: "v" | "h";
@@ -22,5 +22,6 @@ export const List = styled.div<Props>`
   align-items: ${(props) =>
     props.align ?? (props.mode === "h" ? "center" : "stretch")};
   justify-content: ${(props) => props.justify ?? "start"};
+  overflow: auto;
   ${getGridArea}
 `;

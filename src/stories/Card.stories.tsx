@@ -1,7 +1,7 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
-import { Card, Props } from "../components/Card";
+import { Card, Props } from "../components/Card/Card";
 import { Text } from "../components/Text";
 
 export default {

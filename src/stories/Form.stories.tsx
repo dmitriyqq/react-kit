@@ -22,19 +22,13 @@ interface TestFormData {
 const Template: Story<Props<TestFormData>> = (args) => {
   const [value, setValue] = useState<TestFormData>(args.value);
 
-  const handleChange = (
-    value: TestFormData,
-  ) => {
+  const handleChange = (value: TestFormData) => {
     setValue(value);
   };
 
   return (
     <>
-      <Form
-        {...args}
-        value={value}
-        onChange={handleChange}
-      />
+      <Form {...args} value={value} onChange={handleChange} />
       <NumberComponent num={Number(value.num)} />
       <pre>{JSON.stringify(value, null, 2)}</pre>
     </>
@@ -101,19 +95,15 @@ interface ConditionalTestFormData {
 const ConditionalFormTemplate: Story<Props<ConditionalTestFormData>> = (
   args
 ) => {
-  const [value, setValue] = useState<ConditionalTestFormData>(args.value);
-  
+  const [value, setValue] = useState(args.value);
+
   const handleChange = (newValue: any) => {
     setValue(newValue);
   };
 
   return (
     <>
-      <Form
-        {...args}
-        value={value}
-        onChange={handleChange}
-      />
+      <Form {...args} value={value} onChange={handleChange} />
     </>
   );
 };
@@ -210,33 +200,29 @@ const ValidationFormTemplate: Story<Props<FormWithValidatorProps>> = (args) => {
 
   return (
     <>
-      <Form
-        {...args}
-        value={value}
-        onChange={handleChange}
-      />
+      <Form {...args} value={value} onChange={handleChange} />
     </>
   );
 };
 
-const validateEmail = (value: FormWithValidatorProps) => {
+const validateEmail = (value?: FormWithValidatorProps) => {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const valid = re.test(value.email);
+  const valid = re.test(value?.email ?? "");
   return { valid, message: !valid ? "Invalid email" : null };
 };
 
-const validatePhone = (value: FormWithValidatorProps) => {
+const validatePhone = (value?: FormWithValidatorProps) => {
   const re = /^(\+7)[ ]\((\d{3})\)[ ](\d{3}-\d{2}-\d{2})$/;
-  const valid = re.test(value.phone);
+  const valid = re.test(value?.phone ?? "");
   return {
     valid,
     message: !valid ? "Phone must be like +7 (123) 123-12-31" : null,
   };
 };
 
-const validateName = (value: FormWithValidatorProps) => {
+const validateName = (value?: FormWithValidatorProps) => {
   const re = /^[А-Я]([А-Яа-я]+)$/;
-  const valid = re.test(value.name);
+  const valid = re.test(value?.name ?? "");
   return { valid, message: !valid ? "Invalid name" : null };
 };
 
@@ -263,8 +249,8 @@ const fields: FieldDefinition<FormWithValidatorProps, any>[] = [
     name: "age",
     type: "number",
     label: "Age",
-    validator: (value: FormWithValidatorProps) => {
-      const valid = value.age >= 21;
+    validator: (value?: FormWithValidatorProps) => {
+      const valid = !!value?.age && value.age >= 21;
       return { valid, message: valid ? null : "Age should be 21 or above" };
     },
   },
@@ -272,8 +258,8 @@ const fields: FieldDefinition<FormWithValidatorProps, any>[] = [
     name: "eula",
     type: "bool",
     label: "Accept Terms",
-    validator: (value: FormWithValidatorProps) => {
-      const valid = value.eula === true;
+    validator: (value?: FormWithValidatorProps) => {
+      const valid = !!value?.eula && value.eula === true;
       return { valid, message: valid ? null : "Must agree with terms" };
     },
   },
@@ -295,13 +281,6 @@ export const UpdateValidationFormStory = ValidationFormTemplate.bind({});
 UpdateValidationFormStory.args = {
   fields,
   value: {
-    name: "Дима",
-    email: "dima@email.com",
-    phone: "+7 (920) 222-22-22",
-    age: 21,
-    eula: true,
-  },
-  internalValue: {
     name: "Дима",
     email: "dima@email.com",
     phone: "+7 (920) 222-22-22",
@@ -332,11 +311,7 @@ const MultipleFieldsFormTemplate: Story<Props<MultipleValue>> = (args) => {
 
   return (
     <>
-      <Form
-        {...args}
-        value={value}
-        onChange={handleChange}
-      />
+      <Form {...args} value={value} onChange={handleChange} />
       <pre>{JSON.stringify(value, null, 2)}</pre>
     </>
   );
