@@ -10,7 +10,7 @@ import {
 } from "./Text";
 import { getMainBackgroundColor, ThemeProps } from "../themes/theme";
 import { getSingleSpacing } from "../themes/helpers/spacing";
-import { getWidth } from "../themes/helpers/size";
+import { getWidthUnit } from "../themes/helpers/size";
 import { getBorderRadius } from "../themes/helpers/border";
 import {
   getMainColorShade,
@@ -64,7 +64,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
   font-weight: ${getFontWeight};
   color: ${getFontColor};
   text-transform: ${getTextTransform};
-  width: ${getWidth};
+  width: ${getWidthUnit};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   &:focus {
     outline: 0;
@@ -82,7 +82,7 @@ const StyledSelect = styled.select<StyledSelectProps>`
 
 const SelectWrapper = styled.div<StyledSelectWrapperProps>`
   margin: ${getSingleSpacing};
-  width: ${getWidth};
+  width: ${getWidthUnit};
   border-radius: ${getBorderRadius};
   position: relative;
   vertical-align: middle;

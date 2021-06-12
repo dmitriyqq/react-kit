@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
 export interface ThemeProps {
-  theme: Theme;
+  theme?: Theme;
 }
 
 export type ShadeType =

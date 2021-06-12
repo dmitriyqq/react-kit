@@ -12,8 +12,8 @@ export interface Props extends ThemeProps {
 
 export const Card = styled.div<Props>`
   display: inline-block;
+  box-sizing: border-box;
   box-shadow: ${(props) => getBoxShadow(props).light};
-  transition: 0.3s;
   border-radius: ${getBorderRadius};
   margin: ${getSingleSpacing};
   cursor: ${(props: Props) => (props.canSelect ? "pointer" : "default")};

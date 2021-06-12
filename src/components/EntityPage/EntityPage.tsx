@@ -1,101 +1,136 @@
-import React, { CSSProperties, FC, useState } from "react";
-import { FormValue, getFormValue } from "../../model";
-import { TextStyle } from "../../themes/theme";
+import React, { CSSProperties, useState } from "react";
 import { List, ListItem } from "../List";
 import { Card } from "../Card/Card";
 import { CardHeader } from "../Card/CardHeader";
 import { CardContent } from "../Card/CardContent";
-import { TextBlock } from "../EditThemeComponent/TextTab/TextBlock";
-import { Form } from "../Form";
 import { Button } from "../Button";
-import { TextList } from "../EditThemeComponent/TextTab/TextList";
+import { FormFieldsType, FormValue, getFormValue } from "../../model";
 
-interface Props<T> {
-  initialFormValue: { ...T, entityName: string};
+interface Props<EntityType, EntityListType = EntityType> {
+  entities: EntityListType[];
+  fields: FormFieldsType<EntityType>;
+  initialFormCreationValue: FormValue<EntityType>;
   style?: CSSProperties;
-  entityName: string;
-  renderForm: () => void;
-  renderList: () => void;
+  entityTypeName: string;
+  renderEntityComponent: (props: { entity: EntityType }) => JSX.Element;
+  renderEntityForm: (props: {
+    fields: FormFieldsType<EntityType>;
+    value: FormValue<EntityType>;
+    originalValue?: EntityType | undefined;
+    onChange: (internalValue: FormValue<EntityType>, value: EntityType) => void;
+    onUpdate: (entity: EntityType) => void;
+    onCreate: (entity: EntityType) => void;
+  }) => JSX.Element;
+  renderEntitiesList: (props: {
+    entities: EntityListType[];
+    onEntitySelect: (entity: EntityType) => void;
+  }) => JSX.Element;
+  onEntityCreateRequest: (entity: EntityType) => void;
+  onEntityUpdateRequest: (entity: EntityType) => void;
+  onEntityDeleteRequest: (entity: EntityType) => void;
 }
 
-export const EntityPage: FC<Props> = () => {
-  const [value, setValue] = useState<FormValue<TextStyleFormValue>>();
-  const [selectedTextStyle, setSelectedTextStyle] = useState<string | null>();
+export const EntityPage = <T extends object, V extends object>({
+  style,
+  entityTypeName,
+  renderEntityComponent,
+  renderEntityForm,
+  initialFormCreationValue,
+  fields,
+  onEntityCreateRequest,
+  onEntityUpdateRequest,
+  onEntityDeleteRequest,
+  entities,
+  renderEntitiesList,
+}: Props<T, V>) => {
+  const [
+    selectedOriginalEntity,
+    setSelectedOriginalEntity,
+  ] = useState<T | null>(null);
+  const [isCreateNewEntity, setIsCreateNewEntity] = useState(false);
+  const [internalFormValue, setInternalFormValue] = useState<FormValue<T>>(
+    initialFormCreationValue
+  );
 
-  const themeTextStyles: { name: string; textStyle: TextStyle }[] = [];
-  for (const themeTextStyleName in textStyles) {
-    themeTextStyles.push({
-      name: themeTextStyleName,
-      textStyle: textStyles[themeTextStyleName],
-    });
-  }
-
-  const handleTextStyleSelected = (textStyleName: string) => {
-    const themeTextStyle = themeTextStyles.find(
-      (ts) => ts.name === textStyleName
-    );
-
-    console.log(textStyleName, themeTextStyle);
-
-    if (themeTextStyle) {
-      setSelectedTextStyle(textStyleName);
-      const {
-        fontSize,
-        fontFamily,
-        fontWeight,
-        textTransform,
-      } = themeTextStyle.textStyle;
-      setValue({
-        textStyleName: textStyleName,
-        fontFamily: { id: fontFamily, value: fontFamily, label: fontFamily },
-        fontSize,
-        fontWeight,
-        textTransform,
-      });
-    }
+  const handleCreateNewEntity = () => {
+    setSelectedOriginalEntity(null);
+    setIsCreateNewEntity(true);
+    setInternalFormValue(initialFormCreationValue);
   };
 
-  const handleClick = () => {
-    onNewTextStyle("newTextStyle", {
-      fontFamily: "sans-serif",
-      fontSize: 16,
-      fontWeight: 500,
-      textTransform: "none",
-    });
+  const handleEntityCreated = (entity: T) => {
+    setSelectedOriginalEntity(null);
+    setInternalFormValue(initialFormCreationValue);
+    setIsCreateNewEntity(false);
+    onEntityCreateRequest(entity);
   };
 
-  const handleApplyChanges = () => {
-    if (selectedTextStyle) {
-      const { textStyleName, ...rest } = getFormValue(value, fields);
-      onTextStyleChange(textStyleName, rest);
+  const handleEntityUpdated = (entity: T) => {
+    setSelectedOriginalEntity(null);
+    setInternalFormValue(initialFormCreationValue);
+    setIsCreateNewEntity(false);
+    onEntityUpdateRequest(entity);
+  };
+
+  const handleEntitySelected = (entity: T) => {
+    setSelectedOriginalEntity(entity);
+    setInternalFormValue(entity);
+    setIsCreateNewEntity(false);
+  };
+
+  const handleDeleteEntity = () => {
+    if (selectedOriginalEntity) {
+      onEntityDeleteRequest(selectedOriginalEntity);
+      setSelectedOriginalEntity(null);
     }
   };
 
   return (
-    <List mode="v">
-      {selectedTextStyle && (
-        <Card>
-          <CardHeader title="Редактирование стиля текста" />
-          <CardContent>
+    <List mode="v" style={style}>
+      <List mode={"h"}>
+        <Button onClick={handleCreateNewEntity}>Создать</Button>
+        {selectedOriginalEntity && (
+          <Button themeColor="danger" onClick={handleDeleteEntity}>
+            Удалить
+          </Button>
+        )}
+      </List>
+      <Card>
+        <CardHeader title={`Редактирование сущности`} />
+        <CardContent>
+          {(isCreateNewEntity || selectedOriginalEntity) && (
             <List>
-              <ListItem label={selectedTextStyle}>
-                <TextBlock textStyle={getFormValue(value, fields)} />
+              {selectedOriginalEntity && (
+                <ListItem label={`Оригинальный выбранный`}>
+                  {renderEntityComponent({ entity: selectedOriginalEntity })}
+                </ListItem>
+              )}
+              <ListItem label={`Измененный выбранный`}>
+                {renderEntityComponent({
+                  entity: getFormValue(internalFormValue, fields),
+                })}
               </ListItem>
             </List>
-            <Form fields={fields} value={value} onChange={setValue} />
-            <Button onClick={handleApplyChanges}>Применить изменения</Button>
-          </CardContent>
-        </Card>
-      )}
-      <Card>
-        <CardHeader title="Редактирование стиля текста" />
-        <CardContent>
-          <TextList
-            textStyles={themeTextStyles}
-            onTextStyleSelected={handleTextStyleSelected}
-          />
+          )}
+          {(isCreateNewEntity || selectedOriginalEntity) &&
+            renderEntityForm({
+              value: internalFormValue,
+              originalValue: selectedOriginalEntity ?? undefined,
+              onChange: setInternalFormValue,
+              onCreate: handleEntityCreated,
+              onUpdate: handleEntityUpdated,
+              fields,
+            })}
         </CardContent>
-        <Button onClick={handleClick}>Добавить новый стиль</Button>
+      </Card>
+      <Card>
+        <CardHeader title={`Список`} />
+        <CardContent>
+          {renderEntitiesList({
+            entities,
+            onEntitySelect: handleEntitySelected,
+          })}
+        </CardContent>
       </Card>
     </List>
   );

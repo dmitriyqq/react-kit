@@ -83,6 +83,7 @@ export const TextTab: FC<Props> = ({
   textStyles,
   onNewTextStyle,
   onTextStyleChange,
+  style,
 }) => {
   const [value, setValue] = useState<FormValue<TextStyleFormValue>>({
     textStyleName: "",
@@ -147,7 +148,7 @@ export const TextTab: FC<Props> = ({
   };
 
   return (
-    <List mode="v">
+    <List mode="v" style={style}>
       {selectedTextStyle && (
         <Card>
           <CardHeader title="Редактирование стиля текста" />

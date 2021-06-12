@@ -5,5 +5,5 @@ export const getBoxShadowStyle = (boxShadow?: BoxShadow) => {
     return "none";
   }
 
-  return `${boxShadow.hOffset} ${boxShadow.vOffset} ${boxShadow.blur} ${boxShadow.spread} grey`;
+  return `${boxShadow.hOffset}px ${boxShadow.vOffset}px ${boxShadow.blur}px ${boxShadow.spread}px grey`;
 };

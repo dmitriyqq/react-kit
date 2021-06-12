@@ -127,6 +127,7 @@ export const defaultTheme: any = {
       textTransform: "none",
     },
   },
+  boxShadows: {},
   text: {
     header: {
       fontSize: "1.7em",

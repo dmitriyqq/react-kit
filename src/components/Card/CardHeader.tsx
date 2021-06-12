@@ -1,17 +1,22 @@
-import React, { FC } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
 import { List } from "../List";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
 import { CardContent } from "./CardContent";
 
-interface Props {
+interface Props extends InputHTMLAttributes<HTMLDivElement> {
   onClose?: () => void;
   title?: string;
 }
 
-export const CardHeader: FC<Props> = ({ onClose, title, children }) => {
+export const CardHeader: FC<Props> = ({
+  onClose,
+  title,
+  children,
+  ...rest
+}) => {
   return (
-    <CardContent>
+    <CardContent {...rest}>
       {
         <List
           mode="h"

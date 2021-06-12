@@ -11,7 +11,7 @@ import {
 } from "../themes/helpers/color";
 import { getBorderCss, getBorderRadius } from "../themes/helpers/border";
 import { getSingleSpacing } from "../themes/helpers/spacing";
-import { getHeight, getWidth } from "../themes/helpers/size";
+import { getHeightUnit, getWidthUnit } from "../themes/helpers/size";
 
 const ButtonText = styled(Text)`
   display: flex;
@@ -89,9 +89,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
 
 const StyledButton = styled.button<StyledButtonProps>`
   ${(props: StyledButtonProps) =>
-    props.hasChildren ? `min-width: ${getWidth(props)};` : ""}
-  height: ${getHeight};
-  line-height: ${getHeight};
+    props.hasChildren ? `min-width: ${getWidthUnit(props)};` : ""}
+  height: ${getHeightUnit};
+  line-height: ${getHeightUnit};
   margin: ${getSingleSpacing};
   padding: ${getSingleSpacing};
   background-color: ${(props: StyledButtonProps) =>

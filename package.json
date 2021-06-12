@@ -53,6 +53,9 @@
     "styled-components": "^5.2.1"
   },
   "dependencies": {
+    "@types/react-beautiful-dnd": "^13.0.0",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dnd-html5-backend": "^14.0.0",
     "remixicon": "^2.5.0"
   },
   "files": [
