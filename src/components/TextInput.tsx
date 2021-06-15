@@ -2,14 +2,22 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { Icon } from "./Icon";
 import {
-  getFontFamily,
-  getFontSize,
-  getFontWeight,
-  getTextTransform,
-} from "./Text";
-import { getPrimaryMainColor } from "../themes/theme";
+  ComponentProps,
+  getBorderCss,
+  getHeightUnit,
+  getMainColorShade,
+  getMainThemeTextColorShade,
+  getThemeBackgroundColor,
+  getThemeBorder,
+  getThemeFontFamily,
+  getThemeFontSize,
+  getThemeFontWeight,
+  getThemeMargin,
+  getThemeTextTransform,
+  getWidthUnit,
+} from "../themes";
 
-export interface Props {
+export interface Props extends ComponentProps {
   value?: string;
   disabled?: boolean;
   placeholder?: string;
@@ -22,6 +30,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  justify-content: center;
 `;
 
 export const TextInput = (props: Props) => {
@@ -49,7 +58,7 @@ export const TextInput = (props: Props) => {
     <InputWrapper>
       <BaseTextInput
         disabled={disabled === true}
-        type={"text"}
+        type="text"
         value={inputValue ?? ""}
         onChange={handleChange}
         placeholder={placeholder}
@@ -59,35 +68,54 @@ export const TextInput = (props: Props) => {
   );
 };
 
-export const BaseTextInput = styled.input`
-  display: inline;
-  font-weight: ${getFontWeight};
-  font-size: ${getFontSize};
-  text-transform: ${getTextTransform};
-  font-family: ${getFontFamily};
+export const BaseTextInput = styled.input<ComponentProps>`
+  display: block;
+  box-sizing: border-box;
+  font-family: ${(props) => getThemeFontFamily(props, "input")};
+  font-size: ${(props) => getThemeFontSize(props, "input")};
+  font-weight: ${(props) => getThemeFontWeight(props, "input")};
+  text-transform: ${(props) => getThemeTextTransform(props, "input")};
   text-align: center;
-  color: ${(props) => props.theme.text.regular.color};
+  color: ${(props) => getMainThemeTextColorShade(props, "input")};
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1.5px solid ${(props) => props.theme.text.regular.color};
-  width: 100%;
+  border-bottom: ${(props) => getThemeBorder(props, "input")};
+  margin: ${(props) => getThemeMargin(props, "input")};
+  padding: ${(props) => getThemeMargin(props, "input")};
+  width: ${(props) => getWidthUnit(props, "2u")};
+  height: ${(props) => getHeightUnit(props, "1u")};
   &:hover {
-    background-color: ${(props) => props.theme.secondaryBackground};
-    border-bottom: 1.5px solid ${getPrimaryMainColor};
+    border-bottom: ${(props) =>
+      getThemeBorder(
+        { theme: props.theme, themeBorderColor: "primary" },
+        "input"
+      )};
   }
   &:active {
-    background-color: ${(props) => props.theme.secondaryBackground};
-    border-bottom: 1.5px solid ${getPrimaryMainColor};
+    border-bottom: ${(props) =>
+      getThemeBorder(
+        { theme: props.theme, themeBorderColor: "primary" },
+        "input"
+      )};
   }
   &:focus {
     outline: 0;
-    border-bottom: 1.5px solid ${getPrimaryMainColor};
+    border-bottom: ${(props) =>
+      getThemeBorder(
+        { theme: props.theme, themeBorderColor: "primary" },
+        "input"
+      )};
   }
   &:valid {
-    color: ${(props) => props.theme.text.regular.color};
+    color: ${(props) => getMainThemeTextColorShade(props, "input")};
   }
   &:invalid {
-    color: ${(props) => props.theme.colors.danger.main};
+    color: ${({ theme }) => getMainColorShade({ theme, themeColor: "danger" })};
+    border-bottom: ${(props) =>
+      getThemeBorder(
+        { theme: props.theme, themeBorderColor: "danger" },
+        "input"
+      )};
   }
 `;

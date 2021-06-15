@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { ListItem, Props as ListItemProps } from "./ListItem";
-import { TextColor } from "../Text";
-import { TextType } from "../../themes/theme";
+import { TextType } from "../../themes";
 import { DateTimeComponent } from "../DateTimeComponent";
 
 interface Props extends ListItemProps {
@@ -9,7 +8,7 @@ interface Props extends ListItemProps {
   time?: Date;
   dateTime?: Date;
   variant?: TextType;
-  color?: TextColor;
+  color?: string;
 }
 
 export const DateTimeListItem: FC<Props> = ({

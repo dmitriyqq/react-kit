@@ -12,8 +12,8 @@ export const FractionComponent: FC<Props> = ({
   ...rest
 }) => {
   return (
-    <Text variant="regular" {...rest}>
-      <SpanText variant="regular" color="primary">
+    <Text variant="regularText" {...rest}>
+      <SpanText variant="regularText" themeColor="primary">
         {numerator}
       </SpanText>
       /{denominator}

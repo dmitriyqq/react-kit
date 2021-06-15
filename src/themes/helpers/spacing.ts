@@ -1,7 +1,7 @@
-import { ThemeProps } from "../theme";
+import { ThemeProps } from "../types";
 
-interface Props extends ThemeProps {
-  themeSpacing?: string;
+export interface Props extends ThemeProps {
+  themeSpacing?: string | null;
 }
 
 const DEFAULT_SPACING = {
@@ -20,6 +20,10 @@ export const getSpacing = ({ theme, themeSpacing }: Props) => {
 };
 
 export const getSpacingStyle = (props: Props) => {
+  if (props.themeSpacing === null) {
+    return "0";
+  }
+
   const { top, right, bottom, left } = getSpacing(props);
   return `${top}px ${right}px ${bottom}px ${left}px`;
 };

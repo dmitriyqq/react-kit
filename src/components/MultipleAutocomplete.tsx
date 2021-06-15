@@ -1,4 +1,4 @@
-import { List } from "./List/List";
+import { List } from "./List";
 import { SelectOption } from "./Select";
 import { Button } from "./Button";
 import React, { useState } from "react";

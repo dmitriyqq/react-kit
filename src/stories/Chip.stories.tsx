@@ -17,25 +17,25 @@ Primary.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  color: "secondary",
+  themeColor: "secondary",
   children: "Secondary chip",
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  color: "warning",
+  themeColor: "warning",
   children: "Warning chip",
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  color: "danger",
+  themeColor: "danger",
   children: "Danger chip",
 };
 
 export const Success = Template.bind({});
 Success.args = {
-  color: "success",
+  themeColor: "success",
   children: "Success chip",
 };
 
@@ -43,7 +43,7 @@ const Template2: Story<Props> = (args) => <Chip {...args} />;
 
 export const SuccessWithDelete = Template2.bind({});
 SuccessWithDelete.args = {
-  color: "success",
+  themeColor: "success",
   id: "123",
   children: "Success with delete chip",
 };

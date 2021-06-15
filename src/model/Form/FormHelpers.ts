@@ -72,3 +72,45 @@ export const getFormValue = <T extends unknown>(
 
   return value as T;
 };
+
+export const getStringSelectOption = (value: any) => ({
+  value,
+  id: value,
+  label: value,
+});
+
+export const getInternalValueFromFormValue = (
+  value: any,
+  fieldType: FieldItemDataType
+) => {
+  const isSelect = ["select", "autocomplete"].includes(fieldType);
+  const isMultipleSelect = ["multipleSelect", "multipleSelect"].includes(
+    fieldType
+  );
+
+  if (isSelect) {
+    return getStringSelectOption(value);
+  }
+
+  if (isMultipleSelect) {
+    return (value ?? []).map(getStringSelectOption);
+  }
+
+  return value;
+};
+
+export const getInternalFormValue = <T extends unknown>(
+  internalValue: T,
+  fields: FormFieldsType<T>
+): FormValue<T> => {
+  const value: Record<string, any> = {};
+
+  for (const field of fields) {
+    const name = field.name;
+    const fieldType = field.type;
+    const fieldValue = internalValue[name];
+    value[name] = getInternalValueFromFormValue(fieldValue, fieldType);
+  }
+
+  return value as FormValue<T>;
+};

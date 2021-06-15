@@ -1,45 +1,61 @@
 import React, { FC, ReactChild, ReactChildren, MouseEvent } from "react";
 import styled from "styled-components";
 import { Text } from "./Text";
-import { ColorType, getColorFromProp, ThemeProps } from "../themes/theme";
+import {
+  ComponentProps,
+  getDarkThemeBackgroundColorShade,
+  getHeightUnit,
+  getMainThemeBackgroundColorShade,
+  getThemeBorderRadius,
+  getThemeMargin,
+  getThemePadding,
+  getWidthUnit,
+} from "../themes";
 import { Icon } from "./Icon";
+import { getBoxShadow2, getBoxShadow4 } from "../themes/helpers/boxShadow";
 
-export interface Props {
+export interface Props extends ComponentProps {
   children: ReactChildren | ReactChild;
-  color?: ColorType | string;
   id?: string;
   onClick?: () => void;
   onDelete?: (id: string) => void;
 }
 
-interface ChipContainerProps extends ThemeProps {
-  color?: ColorType | string;
-}
-
-const ChipContainer = styled.div<ChipContainerProps>`
+const ChipContainer = styled.div<ComponentProps>`
   display: inline-flex;
   align-content: center;
   flex-direction: row;
   justify-content: space-between;
   background-color: ${(props) =>
-    getColorFromProp(props, props.color ?? "primary", "main")};
-  border-radius: 25px;
-  margin: ${(props) => props.theme?.spacing.slim ?? "4px"};
-  padding: ${(props) => props.theme?.spacing.slim ?? "4px"}
-    ${(props) => props.theme?.spacing.double ?? "15px"};
+    getMainThemeBackgroundColorShade(props, "chip")};
+  border-radius: ${(props) => getThemeBorderRadius(props, "chip")};
+  margin: ${(props) => getThemeMargin(props, "chip")};
+  padding: ${(props) => getThemePadding(props, "chip")};
   cursor: pointer;
-  line-height: 20px;
+  line-height: ${(props) => getHeightUnit(props, "0.5u")};
+  height: ${(props) => getHeightUnit(props, "0.5u")};
+  min-width: ${(props) => getWidthUnit(props, "1u")};
+  width: ${(props) => getWidthUnit(props, "auto")};
+  box-shadow: ${getBoxShadow2};
   &:hover {
     background-color: ${(props) =>
-      getColorFromProp(props, props.color ?? "primary", "dark")};
+      getDarkThemeBackgroundColorShade(props, "chip")};
+    box-shadow: ${getBoxShadow4};
   }
 `;
 
 const StyledIcon = styled(Icon)`
   margin-left: 3px;
+  line-height: ${(props) => getHeightUnit(props, "0.5u")};
 `;
 
-export const Chip: FC<Props> = ({ onDelete, onClick, color, id, children }) => {
+export const Chip: FC<Props> = ({
+  onDelete,
+  onClick,
+  themeColor,
+  id,
+  children,
+}) => {
   const handleDeleteClick = (event: MouseEvent<HTMLElement>) => {
     event?.stopPropagation();
 
@@ -61,16 +77,15 @@ export const Chip: FC<Props> = ({ onDelete, onClick, color, id, children }) => {
   };
 
   return (
-    <ChipContainer color={color} onClick={handleClick}>
-      <Text variant="label" align="center" color="white">
+    <ChipContainer onClick={handleClick} themeColor={themeColor}>
+      <Text variant="labelText" align="center" themeColor="white" width="100%">
         {children}
       </Text>
       {onDelete && id && (
         <StyledIcon
           icon="close-circle"
           size="1x"
-          color="white"
-          hoverColor="grey"
+          themeColor="white"
           onClick={handleDeleteClick}
         />
       )}

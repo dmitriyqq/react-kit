@@ -3,12 +3,13 @@ import { FC, ReactNode } from "react";
 import React from "react";
 import { Text } from "../Text";
 import { Icon } from "../Icon";
+import { getThemePadding } from "../../themes";
 
 const FormItemBase = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 ${(props) => props.theme.spacing.double};
+  padding: 0 ${(props) => getThemePadding(props, "formField")};
   flex-wrap: wrap;
 `;
 
@@ -23,7 +24,7 @@ const LabelContainer = styled.div`
   display: flex;
   align-items: center;
   min-width: 200px;
-  padding: ${(props) => props.theme.spacing.double};
+  padding: ${(props) => getThemePadding(props, "formField")};
 `;
 
 const FieldContainer = styled.div`
@@ -32,7 +33,7 @@ const FieldContainer = styled.div`
   min-width: 200px;
   justify-content: center;
   align-items: center;
-  padding: ${(props) => props.theme.spacing.double};
+  padding: ${(props) => getThemePadding(props, "formField")};
 `;
 
 export interface Props {
@@ -52,7 +53,7 @@ export const FormField: FC<Props> = ({
     <FormItemBase>
       {icon && <Icon icon={icon} />}
       <LabelContainer>
-        <Text variant="label">{label ? `${label}:` : ""}</Text>
+        <Text variant="labelText">{label ? `${label}:` : ""}</Text>
       </LabelContainer>
       <FieldContainer>{children}</FieldContainer>
     </FormItemBase>
@@ -61,7 +62,7 @@ export const FormField: FC<Props> = ({
   return (
     <FormItemWrapper>
       {errorMessage && (
-        <Text variant="label" align="center" color="red">
+        <Text variant="labelText" align="center" themeColor="danger">
           {errorMessage}
         </Text>
       )}

@@ -3,7 +3,7 @@ import { DataList, Props as DataListProps } from "./DataList";
 import { Pagination } from "../Pagination";
 import { FC, useState } from "react";
 import React from "react";
-import { ListItemData } from "../../model/ListItemData";
+import { ListItemData } from "../../model";
 import { PageSizeControl } from "../PageSizeControl";
 import { SelectOption } from "../Select";
 

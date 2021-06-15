@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Select, SelectOption } from "./Select";
 import { Text } from "./Text";
-import { List } from "./List/List";
+import { List } from "./List";
 
 interface Props {
   totalResults: number;
@@ -33,7 +33,7 @@ export const PageSizeControl: FC<Props> = ({
         options={pageSizeOptions}
         value={pageSizeOptions.find((o) => o.value === pageSize) ?? null}
       />
-      <Text variant={"label"}>
+      <Text variant="labelText">
         Total results: {totalResults}, pages: {totalPages}.
       </Text>
     </List>

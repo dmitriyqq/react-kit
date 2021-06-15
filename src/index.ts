@@ -18,7 +18,6 @@ export { Filters } from "./components/Filters";
 export { FractionComponent } from "./components/FractionComponent";
 export { Grid, GridItem } from "./components/Grid";
 export { Icon } from "./components/Icon";
-export { Link } from "./components/Link";
 export { Loader } from "./components/Loader";
 export { NumberComponent } from "./components/NumberComponent";
 export { NumberInput } from "./components/NumberInput";
@@ -31,7 +30,7 @@ export { SortByComponent } from "./components/SortByComponent";
 export { Text, SpanText } from "./components/Text";
 export { TextInput } from "./components/TextInput";
 
-export { Theme } from "./themes/theme";
+export * from "./themes";
 
 export * from "./model";
 

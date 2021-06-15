@@ -1,5 +1,5 @@
 import React from "react";
-import { Spacing, Theme } from "../../../themes/theme";
+import { Spacing, Theme } from "../../../themes";
 import { List, ListItem } from "../../List";
 import { CSSProperties, FC, useState } from "react";
 import { Card } from "../../Card/Card";

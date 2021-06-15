@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getGridArea, ThemeProps } from "../../themes/theme";
+import { getGridArea, ThemeProps } from "../../themes";
 
 export interface Props extends ThemeProps {
   mode?: "v" | "h";

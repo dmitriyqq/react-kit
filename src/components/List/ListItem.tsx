@@ -5,8 +5,14 @@ import { Text } from "../Text";
 import styled from "styled-components";
 import { List } from "./List";
 import { Chip } from "../Chip";
-import { ColorType } from "../../themes/theme";
-import { CustomAction, TagType } from "../../model/ListItemData";
+import { CustomAction, TagType } from "../../model";
+import {
+  ComponentProps,
+  getHeightUnit,
+  getMainThemeTextColorShade,
+  getThemePadding,
+  getWidthUnit,
+} from "../../themes";
 
 export interface Props {
   label?: string;
@@ -28,16 +34,15 @@ export interface Props {
   onSelect?: (value: boolean, id?: string) => void;
 }
 
-interface ImageWithIconFallbackProps {
+interface ImageWithIconFallbackProps extends ComponentProps {
   image?: string;
   icon?: string;
-  color?: ColorType;
 }
 
 const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({
   image,
   icon,
-  color,
+  themeColor,
 }) => {
   const [imageSrc, setImageSrc] = useState(image || "");
 
@@ -46,15 +51,14 @@ const ImageWithIconFallback: FC<ImageWithIconFallbackProps> = ({
   }
 
   if (icon) {
-    return <Icon icon={icon} size="3x" color={color} />;
+    return <Icon icon={icon} themeColor={themeColor} size="3x" />;
   }
 
   return null;
 };
 
 const ListItemWrapper = styled.div`
-  padding: ${(props) => props.theme.spacing.slim}
-    ${(props) => props.theme.spacing.double};
+  padding: ${(props) => getThemePadding(props, "listItem")};
   display: flex;
   flex-direction: column;
   ${(props) => (props.onClick ? "cursor: pointer;" : "")}
@@ -68,17 +72,28 @@ const ListItemBase = styled.div`
 `;
 
 const IconContainer = styled.div`
-  max-width: 64px;
-  max-height: 64px;
-  min-width: 64px;
-  min-height: 64px;
+  max-width: ${(props) => getWidthUnit(props, "0.5u")};
+  max-height: ${(props) => getWidthUnit(props, "0.5u")};
+  min-width: ${(props) => getWidthUnit(props, "0.5u")};
+  min-height: ${(props) => getWidthUnit(props, "0.5u")};
   border-radius: 100%;
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
-  line-height: 64px;
+  line-height: ${(props) => getWidthUnit(props, "0.5u")};
   object-fit: contain;
-  background-color: ${(props) => props.theme.colors.secondaryBackground};
+  text-align: center;
+`;
+
+const CheckboxContainer = styled.div`
+  max-width: ${(props) => getHeightUnit(props, "1u")};
+  max-height: ${(props) => getHeightUnit(props, "1u")};
+  min-width: ${(props) => getHeightUnit(props, "1u")};
+  min-height: ${(props) => getHeightUnit(props, "1u")};
+  display: inline-block;
+  vertical-align: middle;
+  line-height: ${(props) => getHeightUnit(props, "1u")};
+  object-fit: contain;
   text-align: center;
 `;
 
@@ -87,8 +102,7 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${(props) => props.theme.spacing.slim}
-    ${(props) => props.theme.spacing.double};
+  padding: ${(props) => getThemePadding(props, "text")};
 `;
 
 const ContentContainer = styled.div`
@@ -96,7 +110,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: ${(props) => props.theme.spacing.double};
+  padding: ${(props) => getThemePadding(props, "text")};
 `;
 
 const MainContainer = styled.div`
@@ -150,7 +164,7 @@ export const ListItem: FC<Props> = (props) => {
     <Chip
       key={tag.id}
       onClick={onTagClick ? () => handleTagClick(tag.id) : undefined}
-      color={tag.color}
+      themeColor={tag.color}
     >
       {tag.label}
     </Chip>
@@ -183,30 +197,25 @@ export const ListItem: FC<Props> = (props) => {
     <ListItemWrapper onClick={() => onClick && onClick(id)}>
       <ListItemBase>
         {selected !== undefined && (
-          <IconContainer>
+          <CheckboxContainer>
             <Icon
               icon={selected ? "checkbox" : "checkbox-blank"}
               type="line"
-              color={selected ? "primary" : undefined}
               onClick={handleSelectedClick}
             />
-          </IconContainer>
+          </CheckboxContainer>
         )}
         {(icon || image) && (
           <IconContainer>
-            <ImageWithIconFallback
-              icon={icon}
-              image={image}
-              color={selected ? "primary" : undefined}
-            />
+            <ImageWithIconFallback icon={icon} image={image} />
           </IconContainer>
         )}
         <MainContainer>
           {label && (
             <TextContainer>
               <Text
-                variant="label"
-                align={"left"}
+                variant="labelText"
+                align="left"
                 color={selected ? "primary" : "text"}
               >
                 {label}

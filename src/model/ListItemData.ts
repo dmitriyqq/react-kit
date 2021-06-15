@@ -1,5 +1,4 @@
-import { ColorType, TextType } from "../themes/theme";
-import { TextColor } from "../components/Text";
+import { TextType } from "../themes";
 
 export type ListItemDataType = "text" | "number" | "datetime" | "fraction";
 
@@ -14,7 +13,7 @@ export interface ListItemData {
   dateTime?: Date;
   time?: Date;
   variant?: TextType;
-  color?: TextColor;
+  color?: string;
   id?: string;
   tags?: TagType[];
   icon?: string;
@@ -28,6 +27,6 @@ export interface CustomAction {
 
 export type TagType = {
   label: string;
-  color?: ColorType | string;
+  color?: string;
   id: string;
 };

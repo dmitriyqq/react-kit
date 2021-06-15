@@ -1,4 +1,4 @@
-import { Form } from "./Form/Form";
+import { Form } from "./Form";
 import { CSSProperties, FC, useState } from "react";
 import { FormFieldsType, FormValue } from "../model";
 import React from "react";
@@ -7,9 +7,8 @@ import {
   SortByField,
   SortByMode,
   SortByValue,
-} from "../model/Filters";
-import { TextListItem } from "./List/TextListItem";
-import { List } from "./List/List";
+} from "../model";
+import { List, TextListItem } from "./List";
 
 export interface Props {
   fields: SortByField[];

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Props as ListItemProps } from "./ListItem";
-import { ListItemData, ListItemDataType } from "../../model/ListItemData";
+import { ListItemData, ListItemDataType } from "../../model";
 import { TextListItem } from "./TextListItem";
 import { NumberListItem } from "./NumberListItem";
 import { DateTimeListItem } from "./DateTimeListItem";

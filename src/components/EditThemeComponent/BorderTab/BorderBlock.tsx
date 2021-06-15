@@ -1,6 +1,5 @@
 import { withTheme } from "styled-components";
-import { Border, Theme } from "../../../themes/theme";
-import { getBorderCss, getBorderRadius } from "../../../themes/helpers/border";
+import { Border, Theme, getBorderCss, getBorderRadius } from "../../../themes";
 import React from "react";
 
 export const BorderBlock = withTheme(
@@ -10,7 +9,7 @@ export const BorderBlock = withTheme(
     const borderStyle = getBorderCss({
       theme: newTheme,
       themeBorder,
-      themeColor: "primary",
+      themeBorderColor: "primary",
     });
 
     return (

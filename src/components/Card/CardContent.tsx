@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { getDoubleSpacing } from "../../themes/helpers/spacing";
+import { getThemePadding } from "../../themes";
 
 export const CardContent = styled.div`
-  padding: ${getDoubleSpacing};
+  padding: ${(props) => getThemePadding(props, "card")};
   overflow: auto;
   box-sizing: border-box;
 `;

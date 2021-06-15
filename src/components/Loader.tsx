@@ -1,13 +1,16 @@
 import styled from "styled-components";
-import { ThemeProps } from "../themes/theme";
+import {
+  ComponentProps,
+  getThemeBorder,
+  getWidthUnit,
+  ThemeProps,
+} from "../themes";
 
-export const Loader = styled.div<ThemeProps>`
-  border: 8px solid ${(props: ThemeProps) => props.theme.secondaryBackground}; /* Light grey */
-  border-top: 8px solid
-    ${(props: ThemeProps) => props.theme.colors.primary.main};
+export const Loader = styled.div<ComponentProps>`
+  border: 8px solid ${(props) => getThemeBorder(props, "loader")};
   border-radius: 50%;
-  width: ${(props: ThemeProps) => `${props.theme.widthUnit / 2}px`};
-  height: ${(props: ThemeProps) => `${props.theme.widthUnit / 2}px`};
+  width: ${(props) => getWidthUnit(props, "1u")};
+  height: ${(props: ThemeProps) => getWidthUnit(props, "1u")};
   animation: spin 2s linear infinite;
 
   @keyframes spin {

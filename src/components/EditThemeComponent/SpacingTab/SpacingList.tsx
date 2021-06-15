@@ -1,5 +1,5 @@
 import React from "react";
-import { Spacing } from "../../../themes/theme";
+import { Spacing } from "../../../themes";
 import { List, ListItem } from "../../List";
 import { FC } from "react";
 import { getSpacingDisplayString } from "./SpacingTab";

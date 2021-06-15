@@ -1,55 +1,36 @@
 import styled from "styled-components";
 import {
-  ColorType,
-  getPrimaryMainColor,
-  TextColorType,
-  TextType,
-  ThemeProps,
-} from "../themes/theme";
-import { ReactNode } from "react";
+  ComponentProps,
+  getMainThemeTextColorShade,
+  getThemeFontFamily,
+  getThemeFontSize,
+  getThemeFontWeight,
+  getThemeTextTransform,
+  getWidthUnit,
+} from "../themes";
+import { InputHTMLAttributes } from "react";
 
-export type TextColor = TextColorType | ColorType | string;
-
-export interface Props {
-  variant?: TextType;
-  color?: TextColor;
+export interface Props
+  extends ComponentProps,
+    Omit<InputHTMLAttributes<HTMLDivElement>, "width" | "height"> {
   align?: "left" | "right" | "center" | "justify";
-  children?: ReactNode;
-  onClick?: (event: any) => void;
 }
 
-interface ThemedTextProps extends Props, ThemeProps {}
-
-export const getFontFamily = (props: ThemedTextProps) =>
-  props.theme?.text[props.variant ?? "regular"].fontFamily ?? "sans-serif";
-export const getFontSize = (props: ThemedTextProps) =>
-  props.theme?.text[props.variant ?? "regular"].fontSize ?? "1em";
-export const getFontWeight = (props: ThemedTextProps) =>
-  props.theme?.text[props.variant ?? "regular"].fontWeight ?? "500";
-
-export const getFontColor = (props: ThemedTextProps) =>
-  !props.color || props.color === "text"
-    ? props.theme?.text[props.variant ?? "regular"].color
-    : props.theme.colors[props.color as ColorType]
-    ? props.theme.colors[props.color as ColorType].main
-    : props.color;
-
-export const getTextTransform = (props: ThemedTextProps) =>
-  props.theme?.text[props.variant ?? "regular"].textTransform ?? "none";
-export const getTextAlign = (props: ThemedTextProps) => props.align ?? "left";
+export const getTextAlign = (props: Props) => props.align ?? "left";
 
 export const Text = styled.div<Props>`
-  font-family: ${getFontFamily};
-  font-size: ${getFontSize};
-  font-weight: ${getFontWeight};
-  color: ${getFontColor};
-  text-transform: ${getTextTransform};
+  font-family: ${(props) => getThemeFontFamily(props, "regularText")};
+  font-size: ${(props) => getThemeFontSize(props, "regularText")};
+  font-weight: ${(props) => getThemeFontWeight(props, "regularText")};
+  color: ${(props) => getMainThemeTextColorShade(props, "regularText")};
+  text-transform: ${(props) => getThemeTextTransform(props, "regularText")};
   text-align: ${getTextAlign};
+  width: ${(props) => getWidthUnit(props, "auto")};
   display: inline-block;
   ${(props) =>
     props.onClick
       ? `&:hover {
-      color: ${getPrimaryMainColor(props)}; 
+      color: ${getMainThemeTextColorShade(props, "regularText")}; 
       
   }
   cursor: pointer;
@@ -59,9 +40,10 @@ export const Text = styled.div<Props>`
 
 export const SpanText = styled.span<Props>`
   width: 100%;
-  font-family: ${getFontFamily};
-  font-weight: ${getFontWeight};
-  color: ${getFontColor};
-  text-transform: ${getTextTransform};
+  font-family: ${(props) => getThemeFontFamily(props, "regularText")};
+  font-size: ${(props) => getThemeFontSize(props, "regularText")};
+  font-weight: ${(props) => getThemeFontWeight(props, "regularText")};
+  color: ${(props) => getMainThemeTextColorShade(props, "regularText")};
+  text-transform: ${(props) => getThemeTextTransform(props, "regularText")};
   text-align: ${getTextAlign};
 `;

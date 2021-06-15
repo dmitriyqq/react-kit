@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List } from "./List/List";
+import { List } from "./List";
 import { Select, SelectOption } from "./Select";
 import { Chip } from "./Chip";
 import { Button } from "./Button";

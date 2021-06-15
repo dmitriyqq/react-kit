@@ -1,7 +1,7 @@
-import { Color, ShadeType, ThemeProps } from "../theme";
+import { Color, ShadeType, ThemeProps } from "../types";
 
-interface Props extends ThemeProps {
-  themeColor?: string;
+export interface ColorProps extends ThemeProps {
+  themeColor?: string | null;
 }
 
 const DEFAULT_COLOR = {
@@ -16,7 +16,7 @@ const DEFAULT_COLOR = {
   900: "#6461ff",
 };
 
-export const getColor = ({ themeColor, theme }: Props): Color => {
+export const getColor = ({ themeColor, theme }: ColorProps): Color => {
   if (theme && !theme?.colors[themeColor ?? "primary"]) {
     console.warn(`color ${themeColor} is not found in the theme`);
   }
@@ -24,10 +24,11 @@ export const getColor = ({ themeColor, theme }: Props): Color => {
   return theme?.colors[themeColor ?? "primary"] ?? DEFAULT_COLOR;
 };
 
-export const getColorShade = (
-  getColor: (props: Props) => Color,
+const getColorShade = (
+  getColor: (props: ColorProps) => Color,
   shade: ShadeType
-) => ({ themeColor, theme }: Props) => getColor({ themeColor, theme })[shade];
+) => ({ themeColor, theme }: ColorProps) =>
+  themeColor === null ? "transparent" : getColor({ themeColor, theme })[shade];
 
 export const getDisabledColor = ({ theme }: ThemeProps) =>
   theme?.colors?.disabled ?? DEFAULT_COLOR;

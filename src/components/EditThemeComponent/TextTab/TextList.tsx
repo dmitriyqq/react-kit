@@ -1,7 +1,7 @@
 import React from "react";
 import { List, ListItem } from "../../List";
 import { FC } from "react";
-import { TextStyle } from "../../../themes/theme";
+import { TextStyle } from "../../../themes";
 import { TextBlock } from "./TextBlock";
 
 interface Props {

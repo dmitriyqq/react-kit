@@ -16,6 +16,7 @@ interface Props<T> {
   name: string;
   label: string;
   disabled?: boolean;
+  optional?: boolean;
   icon?: string;
   value: T | null | SelectOption<T> | SelectOption<T>[];
   type: FieldItemDataType;
@@ -44,6 +45,7 @@ export const DataFormField = <T extends unknown>({
   min,
   max,
   step,
+  optional,
 }: Props<T>) => {
   if (type === "text") {
     return (
@@ -130,6 +132,7 @@ export const DataFormField = <T extends unknown>({
         onChange={
           onChange as (name: string, value: SelectOption<T> | null) => void
         }
+        optional={optional}
         label={label}
         name={name}
         placeholder={placeholder}

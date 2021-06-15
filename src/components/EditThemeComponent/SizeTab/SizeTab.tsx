@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
 import { List, ListItem, TextListItem } from "../../List";
-import { Theme } from "../../../themes/theme";
+import { Theme } from "../../../themes";
 import { Card } from "../../Card/Card";
 import { CardHeader } from "../../Card/CardHeader";
 import { CardContent } from "../../Card/CardContent";

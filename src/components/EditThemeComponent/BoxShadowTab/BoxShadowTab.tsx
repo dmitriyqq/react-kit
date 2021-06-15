@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import { CSSProperties } from "react";
-import { BoxShadow, Theme } from "../../../themes/theme";
+import { BoxShadow, Theme } from "../../../themes";
 import { Form } from "../../Form";
 import { FormFieldsType } from "../../../model";
 import { EntityPage } from "../../EntityPage/EntityPage";
 import { BoxShadowList } from "./BoxShadowList";
 import { BoxShadowComponent } from "./BoxShadowComponent";
+import { DEFAULT_BOX_SHADOW } from "../../../themes/helpers/boxShadow";
 
 interface Props {
   style?: CSSProperties;
@@ -82,10 +83,7 @@ export const BoxShadowTab: FC<Props> = ({
     fields={fields}
     initialFormCreationValue={{
       boxShadowName: "",
-      hOffset: 4,
-      vOffset: 4,
-      blur: 5,
-      spread: 4,
+      ...DEFAULT_BOX_SHADOW,
     }}
     onEntityCreateRequest={(entity) => onBoxShadowCreate(entity)}
     onEntityUpdateRequest={(entity) => onBoxShadowUpdate(entity)}

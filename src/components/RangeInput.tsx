@@ -1,12 +1,16 @@
 import React, { ChangeEvent, FC, InputHTMLAttributes } from "react";
-import { styled } from "../index";
 import {
-  getBoxShadow,
-  getMainBackgroundColor,
-  getPrimaryMainColor,
-  getSecondaryBackgroundColor,
-  ThemeProps,
-} from "../themes/theme";
+  ComponentProps,
+  getHeightUnit,
+  getMainThemeBackgroundColorShade,
+  getMainThemeTextColorShade,
+  getThemeBorder,
+  getThemeBorderRadius,
+  getWidthUnit,
+  styled,
+} from "../index";
+import { ThemeProps } from "../themes";
+import { getBoxShadow2 } from "../themes/helpers/boxShadow";
 
 export interface Props
   extends Omit<
@@ -20,33 +24,46 @@ export interface Props
   step?: number;
 }
 
-const StyledInput = styled.input`
-  width: 100%;
-  // background-color: ${getPrimaryMainColor};
-  height: ${(props: ThemeProps) => `${2 * props.theme.heightUnit}px`};
-  color: ${getPrimaryMainColor};
+const StyledInput = styled.input<ComponentProps>`
+  height: ${(props: ThemeProps) => getHeightUnit(props, "1u")};
+  width: ${(props: ThemeProps) => getWidthUnit(props, "2u")};
+  color: ${(props) => getMainThemeTextColorShade(props, "range")};
+  -webkit-appearance: none;
+
+  &::-moz-range-track {
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "rangeTrack")};
+    border: ${(props) => getThemeBorder(props, "rangeTrack")};
+    border-radius: ${(props) => getThemeBorderRadius(props, "rangeTrack")};
+  }
+  &::-moz-range-thumb {
+    width: ${(props) => getHeightUnit(props, "0.5u")};
+    height: ${(props) => getHeightUnit(props, "0.5u")};
+    border-radius: ${(props) => getThemeBorderRadius(props, "rangeThumb")};
+    border: ${(props) => getThemeBorder(props, "rangeThumb")};
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "rangeThumb")};
+    box-shadow: ${getBoxShadow2};
+  }
+
   &::-webkit-slider-runnable-track {
-    background: ${getPrimaryMainColor};
-    border-radius: 50%;
-    border: 1px solid black;
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "rangeTrack")};
+    border: ${(props) => getThemeBorder(props, "rangeTrack")};
+    border-radius: ${(props) => getThemeBorderRadius(props, "rangeTrack")};
+    height: 6px;
   }
 
   &::-webkit-slider-thumb {
-    background: ${getPrimaryMainColor};
-    border-radius: 50%;
-    border: 1px solid black;
+    width: ${(props) => getHeightUnit(props, "0.5u")};
+    height: ${(props) => getHeightUnit(props, "0.5u")};
+    margin: -6px;
     -webkit-appearance: none;
-  }
-
-  &::-moz-range-track {
-    border: 1px solid black;
-    background-color: ${getSecondaryBackgroundColor};
-  }
-  &::-moz-range-thumb {
-    border-radius: 50%;
-    border: 1px solid black;
-    background-color: ${getPrimaryMainColor};
-    box-shadow: ${getBoxShadow};
+    border: ${(props) => getThemeBorder(props, "rangeThumb")};
+    border-radius: ${(props) => getThemeBorderRadius(props, "rangeThumb")};
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "rangeThumb")};
+    box-shadow: ${getBoxShadow2};
   }
 `;
 

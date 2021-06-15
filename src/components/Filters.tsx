@@ -9,14 +9,13 @@ import {
   getDefaultField,
   getDefaultFieldName,
   getDefaultFilterFieldValue,
-} from "../model/Filters";
+} from "../model";
 import { SelectOption } from "./Select";
 import { AddFilterComponent } from "./AddFilterComponent";
 import React, { CSSProperties, FC, useState } from "react";
-import { List } from "./List/List";
+import { List, TextListItem } from "./List";
 import { Chip } from "./Chip";
 import { FormValue } from "../model";
-import { TextListItem } from "./List/TextListItem";
 
 export interface Props {
   fields: FilterField<any>[];

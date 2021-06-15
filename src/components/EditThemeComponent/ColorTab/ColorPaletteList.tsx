@@ -1,7 +1,7 @@
 import { List, ListItem } from "../../List";
 import { ColorPalette } from "./ColorPalette";
 import React, { FC } from "react";
-import { Color } from "../../../themes/theme";
+import { Color } from "../../../themes";
 
 interface Props {
   colors?: { name: string; color: string }[];

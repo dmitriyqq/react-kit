@@ -4,7 +4,7 @@ import { CardContent } from "../../Card/CardContent";
 import { List, ListItem } from "../../List";
 import { CardHeader } from "../../Card/CardHeader";
 import { FormFieldsType, FormValue, getFormValue } from "../../../model";
-import { Border, Theme } from "../../../themes/theme";
+import { Border, Theme } from "../../../themes";
 import { Button } from "../../Button";
 import { Form } from "../../Form";
 import { BorderList } from "./BorderList";

@@ -1,21 +1,23 @@
 import React, { ChangeEvent } from "react";
 import styled from "styled-components";
+
 import {
-  getFontColor,
-  getFontFamily,
-  getFontSize,
-  getFontWeight,
-  getTextTransform,
-  Props as TextProps,
-} from "./Text";
-import { getMainBackgroundColor, ThemeProps } from "../themes/theme";
-import { getSingleSpacing } from "../themes/helpers/spacing";
-import { getWidthUnit } from "../themes/helpers/size";
-import { getBorderRadius } from "../themes/helpers/border";
-import {
-  getMainColorShade,
+  getWidthUnit,
   getMainDisabledShade,
-} from "../themes/helpers/color";
+  ComponentProps,
+  getMainThemeBackgroundColorShade,
+  getThemePadding,
+  getThemeBorderRadius,
+  getBorderCss,
+  getThemeBorder,
+  getThemeFontFamily,
+  getThemeFontSize,
+  getThemeFontWeight,
+  getThemeTextTransform,
+  getMainThemeTextColorShade,
+  getThemeMargin,
+  getHeightUnit,
+} from "../themes";
 
 export interface SelectOption<T> {
   label: string;
@@ -23,18 +25,16 @@ export interface SelectOption<T> {
   value: T;
 }
 
-export interface Props<T> {
+export interface Props<T> extends ComponentProps {
   options: SelectOption<T>[];
   onChange: (option: SelectOption<T> | null) => void;
   value: SelectOption<T> | null;
   placeholder?: string;
   disabled?: boolean;
   allowNull?: boolean;
-  width?: string;
-  height?: string;
 }
 
-interface StyledSelectProps extends TextProps, ThemeProps {
+interface StyledSelectProps extends ComponentProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
@@ -42,7 +42,7 @@ interface StyledSelectProps extends TextProps, ThemeProps {
   height?: string;
 }
 
-interface StyledSelectWrapperProps extends TextProps, ThemeProps {
+interface StyledSelectWrapperProps extends ComponentProps {
   disabled?: boolean;
   width?: string;
   height?: string;
@@ -53,37 +53,45 @@ const StyledSelect = styled.select<StyledSelectProps>`
   align-items: center;
   appearance: none;
   outline: none;
-  background-color: ${getMainBackgroundColor};
-  border: 1.5px solid
-    ${(props: StyledSelectProps) =>
-      props.disabled ? getMainDisabledShade(props) : getMainColorShade(props)};
-  border-radius: ${getBorderRadius};
-  padding: ${getSingleSpacing};
-  font-family: ${getFontFamily};
-  font-size: ${getFontSize};
-  font-weight: ${getFontWeight};
-  color: ${getFontColor};
-  text-transform: ${getTextTransform};
-  width: ${getWidthUnit};
+  background-color: ${(props) =>
+    getMainThemeBackgroundColorShade(props, "select")};
+  border: ${(props) =>
+    props.disabled
+      ? getBorderCss({ ...props, themeBorderColor: "disabled" })
+      : getThemeBorder(props, "select")};
+
+  border-radius: ${(props) => getThemeBorderRadius(props, "select")};
+  padding: ${(props) => getThemePadding(props, "select")};
+  font-family: ${(props) => getThemeFontFamily(props, "select")};
+  font-size: ${(props) => getThemeFontSize(props, "select")};
+  font-weight: ${(props) => getThemeFontWeight(props, "select")};
+  text-align: center;
+  color: ${(props) => getMainThemeTextColorShade(props, "select")};
+  text-transform: ${(props) => getThemeTextTransform(props, "select")};
+  width: ${(props) => getWidthUnit(props, "2u")};
+  height: ${(props) => getHeightUnit(props, "1u")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   &:focus {
     outline: 0;
-    background-color: ${getMainBackgroundColor};
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "select")};
   }
   &:active {
     outline: 0;
-    background-color: ${getMainBackgroundColor};
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "select")};
   }
 
   > * {
-    background-color: ${getMainColorShade};
+    background-color: ${(props) =>
+      getMainThemeBackgroundColorShade(props, "select")};
   }
 `;
 
 const SelectWrapper = styled.div<StyledSelectWrapperProps>`
-  margin: ${getSingleSpacing};
-  width: ${getWidthUnit};
-  border-radius: ${getBorderRadius};
+  margin: ${(props) => getThemeMargin(props, "select")};
+  width: ${(props) => getWidthUnit(props, "width")};
+  border-radius: ${(props) => getThemeBorderRadius(props, "select")};
   position: relative;
   vertical-align: middle;
   overflow: hidden;
@@ -93,15 +101,17 @@ const SelectWrapper = styled.div<StyledSelectWrapperProps>`
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.7em 1em;
+    padding: 0.8em 1em;
     height: 100%;
     pointer-events: none;
     -webkit-transition: 0.25s all ease;
     -o-transition: 0.25s all ease;
     transition: 0.25s all ease;
-    color: ${getMainBackgroundColor};
+    color: ${(props) => getMainThemeTextColorShade(props, "select")};
     background-color: ${(props: StyledSelectWrapperProps) =>
-      props.disabled ? getMainDisabledShade(props) : getMainColorShade(props)};
+      props.disabled
+        ? getMainDisabledShade(props)
+        : getMainThemeBackgroundColorShade(props)};
     text-decoration: none;
   }
 `;
@@ -113,9 +123,11 @@ export const Select = <T extends unknown>({
   placeholder,
   disabled,
   allowNull,
-  width = "3u",
-  height = "1u",
+  width,
+  variant,
+  height,
 }: Props<T>) => {
+  console.log("allowNull", allowNull);
   const allOptions: SelectOption<T | null>[] =
     allowNull !== false
       ? [{ id: "null", value: null, label: "Не выбрано" }, ...options]
@@ -141,12 +153,13 @@ export const Select = <T extends unknown>({
     <SelectWrapper
       disabled={disabled || options.length === 0}
       width={width}
+      variant={variant}
       height={height}
     >
       <StyledSelect
         onChange={handleChange}
         value={value?.id ?? ""}
-        variant="label"
+        variant={variant}
         placeholder={placeholder}
         disabled={disabled || options.length === 0}
         width={width}

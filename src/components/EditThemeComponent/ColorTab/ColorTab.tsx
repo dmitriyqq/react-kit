@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, useState } from "react";
-import { Theme, Color } from "../../../themes/theme";
+import { Theme, Color } from "../../../themes";
 import { Form } from "../../Form";
 import { ColorPalette } from "./ColorPalette";
 import { FormFieldsType, FormValue } from "../../../model";

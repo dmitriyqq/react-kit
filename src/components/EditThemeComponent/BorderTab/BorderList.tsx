@@ -1,4 +1,4 @@
-import { Border } from "../../../themes/theme";
+import { Border } from "../../../themes";
 import { FC } from "react";
 import { List, ListItem } from "../../List";
 import { BorderBlock } from "./BorderBlock";

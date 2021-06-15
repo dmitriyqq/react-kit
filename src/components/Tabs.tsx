@@ -1,23 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { Text } from "./Text";
-import { getMainColorShade } from "../themes/helpers/color";
+import {
+  ComponentProps,
+  getThemeBorder,
+  getThemeMargin,
+  getThemePadding,
+} from "../themes";
 import { List } from "./List";
 import { FC } from "react";
-import { ColorType, ThemeProps } from "../themes/theme";
 
-interface TabProps extends ThemeProps {
+interface TabProps extends ComponentProps {
   isSelected: boolean;
-  themeColor?: ColorType;
 }
 
 const Tab = styled(Text)`
   ${(props: TabProps) =>
-    props.isSelected
-      ? `border-bottom: 3px solid ${getMainColorShade(props)};`
-      : ""}
-  padding: 6px;
-  margin: 4px;
+    props.isSelected ? `border-bottom: ${getThemeBorder(props, "tabs")};` : ""}
+  padding: ${(props) => getThemePadding(props, "tabs")};
+  margin: ${(props) => getThemeMargin(props, "tabs")};
   text-align: center;
 `;
 
@@ -26,11 +27,10 @@ interface TabData {
   label: string;
 }
 
-interface Props {
+interface Props extends ComponentProps {
   tabs: TabData[];
   selectedTabId: string;
   onTabSelected: (tabId: string) => void;
-  themeColor?: ColorType;
 }
 
 export const Tabs: FC<Props> = ({
@@ -40,7 +40,7 @@ export const Tabs: FC<Props> = ({
   themeColor,
 }) => {
   return (
-    <List mode="h" style={{ paddingBottom: "10px" }}>
+    <List mode="h" style={{ paddingBottom: "10px" }} justify="flex-start">
       {tabs.map(({ id, label }) => (
         <Tab
           key={id}

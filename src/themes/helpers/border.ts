@@ -1,12 +1,8 @@
-import { Border, ThemeProps } from "../theme";
-import {
-  getColorShade,
-  getDarkColorShade,
-  getDarkDisabledShade,
-} from "./color";
+import { Border, ThemeProps } from "../types";
+import { getMainColorShade, getDarkDisabledShade } from "./color";
 
-interface Props extends ThemeProps {
-  themeBorder?: string;
+export interface Props extends ThemeProps {
+  themeBorder?: string | null;
 }
 
 const DEFAULT_BORDER: Border = {
@@ -31,14 +27,18 @@ const getBorderWidthPx = (props: Props) => `${getBorderWidth(props)}px`;
 export const getBorderRadius = (props: Props) =>
   `${getBorderRadiusNumber(props)}px`;
 
-interface ColorProps extends Props {
-  themeColor?: string;
+export interface BorderProps extends Props {
+  themeBorderColor?: string;
 }
 
-export const getBorderCss = (props: ColorProps) =>
-  // prettier-ignore
-  `${getBorderWidthPx(props)} ${getBorderStyle(props)} ${getDarkColorShade(props)}`;
+export const getBorderCss = (props: BorderProps) =>
+  props.themeBorder
+    ? // prettier-ignore
+      `${getBorderWidthPx(props)} ${getBorderStyle(props)} ${getMainColorShade({ theme: props.theme, themeColor: props.themeBorderColor})}`
+    : "none";
 
-export const getBorderDisabledCss = (props: ColorProps) =>
-  // prettier-ignore
-  `${getBorderWidthPx(props)} ${getBorderStyle(props)} ${getDarkDisabledShade(props)}`;
+export const getBorderDisabledCss = (props: BorderProps) =>
+  props.themeBorder
+    ? // prettier-ignore
+      `${getBorderWidthPx(props)} ${getBorderStyle(props)} ${getDarkDisabledShade(props)}`
+    : "none";

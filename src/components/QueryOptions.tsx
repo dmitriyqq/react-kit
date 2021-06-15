@@ -1,6 +1,6 @@
 import { SortByComponent } from "./SortByComponent";
 import { Filters } from "./Filters";
-import { List } from "./List/List";
+import { List } from "./List";
 import {
   FilterField,
   FilterMod,
@@ -9,7 +9,7 @@ import {
   QueryOptionsValue,
   SortByField,
   SortByValue,
-} from "../model/Filters";
+} from "../model";
 import React from "react";
 import { SelectOption } from "./Select";
 import { Card } from "./Card/Card";

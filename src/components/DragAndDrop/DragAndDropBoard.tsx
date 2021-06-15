@@ -1,233 +1,158 @@
+import React, { useState } from "react";
+import { FC } from "react";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { Card } from "../Card/Card";
 import { CardHeader } from "../Card/CardHeader";
 import { CardContent } from "../Card/CardContent";
-import React, {
-  createContext,
-  CSSProperties,
-  FC,
-  forwardRef,
-  memo,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { DragElementWrapper, useDrag, useDragLayer, useDrop } from "react-dnd";
+import { List } from "../List";
 
-import { ThemeProps } from "../../themes/theme";
-
-import { withTheme } from "styled-components";
-import { getEmptyImage } from "react-dnd-html5-backend";
-import { DragAndDropGrid } from "./DragAndDropGrid";
-import { Container } from "./Container";
-
-export interface Props extends ThemeProps {
-  props?: string[];
+interface Props {
+  prop?: any;
 }
 
-interface BoxProps {
-  name: string;
-  style?: CSSProperties;
+export const MyDraggable: FC<{ name: string; index: number }> = ({
+  name,
+  index,
+}) => (
+  <Draggable draggableId={name} index={index} key={name}>
+    {(provided, snapshot) => (
+      <Card
+        ref={provided.innerRef}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        style={{
+          ...provided.draggableProps.style,
+          backgroundColor: "#fcfcfc",
+        }}
+      >
+        <CardHeader title={name} />
+        <CardContent>
+          <h4>{name}</h4>
+        </CardContent>
+      </Card>
+    )}
+  </Draggable>
+);
+
+interface DroppableProps {
+  droppableOrder: string[];
+  droppableMap: DroppableMap;
 }
 
-interface DropResult {
-  name: string;
+export const MyDroppable: FC<DroppableProps> = ({ droppableOrder }) => (
+  <Droppable droppableId="myTestBox">
+    {(provided, snapshot) => (
+      <div
+        ref={provided.innerRef}
+        style={{
+          width: "1000px",
+          height: "1000px",
+          border: "5px dashed grey",
+          borderRadius: "20px",
+          backgroundColor: snapshot.isDraggingOver ? "blue" : "grey",
+        }}
+        {...provided.droppableProps}
+      >
+        <h2>I am a droppable!</h2>
+        {provided.placeholder}
+        <List mode="v" style={{ width: "100%", height: "100%" }}>
+          {droppableOrder.map((droppableId, index) => {
+            return (
+              <MyDraggable key={droppableId} name={droppableId} index={index} />
+            );
+          })}
+        </List>
+      </div>
+    )}
+  </Droppable>
+);
+
+interface DroppableData {
+  id: string;
 }
 
-const DragAndDropBox: FC<BoxProps> = memo(function DragAndDropBox({ name }) {
-  const [{ isDragging }, drag, preview] = useDrag(() => ({
-    type: "box",
-    item: { name },
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult<DropResult>();
-      console.log("end", item, dropResult);
-      if (item && dropResult) {
-        alert(`You dropped ${item.name} into ${dropResult?.name}!`);
-      }
-    },
-
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-      handlerId: monitor.getHandlerId(),
-    }),
-  }));
-
-  useEffect(() => {
-    preview(getEmptyImage(), { captureDraggingState: true });
-  }, []);
-
-  return (
-    <Card ref={drag}>
-      <CardHeader title={name} />
-      <CardContent>{name}</CardContent>
-    </Card>
-  );
-});
-
-// eslint-disable-next-line react/display-name
-const Box: FC<BoxProps> = memo(function Box({ name, style }) {
-  return (
-    <Card style={style}>
-      <CardHeader title={name} />
-      <CardContent>{name}</CardContent>
-    </Card>
-  );
-});
-
-export const DragAndDropBin = forwardRef<
-  DragElementWrapper<any>,
-  {
-    style?: CSSProperties;
-    isActive: boolean;
-    canDrop: boolean;
-    children: ReactNode;
-  }
->(function DragAndDropBin({ children, style, isActive, canDrop }, ref) {
-  // const [items, setItems] = useState<string[]>([]);
-
-  let backgroundColor = undefined;
-  if (isActive) {
-    backgroundColor = "darkgreen";
-  } else if (canDrop) {
-    backgroundColor = "darkkhaki";
-  }
-
-  return (
-    <div ref={ref as any} style={{ ...style, backgroundColor }}>
-      {children}
-      {/*<List>*/}
-      {/*  {items.map((name, i) => (*/}
-      {/*    <DragAndDropBox key={i} name={name} />*/}
-      {/*  ))}*/}
-      {/*</List>*/}
-    </div>
-  );
-});
-
-interface BoardContextData {
-  gridHeight: number;
+interface DroppableMap {
+  [key: string]: DroppableData;
 }
 
-interface BoardContextMethods {
-  itemDragStart?: () => void;
-}
+const reorder = (list: any[], startIndex: number, endIndex: number): any[] => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
-// interface BoardContext extends BoardContextData, BoardContextMethods {}
-
-const DragAndDropBoardContext = createContext<BoardContextMethods>({});
-
-// export const CustomPreview = ({ props }: any) => {
-//   return <div {...props} style={{ ...(props.style ?? {})} w></div>;
-// };
-
-export const CustomDragLayer: FC<{ style?: CSSProperties }> = () => {
-  const {
-    itemType,
-    isDragging,
-    item,
-    initialOffset,
-    currentOffset,
-  } = useDragLayer((monitor) => ({
-    item: monitor.getItem(),
-    itemType: monitor.getItemType(),
-    initialOffset: monitor.getInitialSourceClientOffset(),
-    currentOffset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging(),
-  }));
-
-  if (!isDragging || !currentOffset) {
-    return null;
-  }
-
-  const { x, y } = currentOffset;
-  const transform = `translate3d(${x}px, ${y}px, 0)`;
-  return (
-    <Box
-      name={item.name}
-      style={{
-        position: "absolute",
-        transform,
-      }}
-    />
-  );
+  return result;
 };
 
-interface DragAndDropGridSize {
-  width: number;
-  height: number;
-}
-
-export const DragAndDropBoard: FC<Props> = memo(function DragAndDropBoard() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [size, setSize] = useState<DragAndDropGridSize>({
-    width: 500,
-    height: 500,
+export const DragAndDropBoard: FC<Props> = () => {
+  const [droppableOrder, setDroppableOrder] = useState([
+    "droppable 1",
+    "droppable 2",
+    "droppable 3",
+  ]);
+  const [droppables, _] = useState<DroppableMap>({
+    "droppable 1": {
+      id: "droppable 1",
+    },
+    "droppable 2": {
+      id: "droppable 2",
+    },
+    "droppable 3": {
+      id: "droppable 3",
+    },
   });
-
-  useEffect(() => {
-    const listener = () => {
-      const width = ref?.current?.offsetWidth ?? 500;
-      const height = ref?.current?.offsetHeight ?? 500;
-      console.log("resize", width, height);
-      setSize({ width, height });
-    };
-
-    console.log("effect");
-    setSize({
-      width: ref?.current?.offsetWidth ?? 500,
-      height: ref?.current?.offsetHeight ?? 500,
-    });
-
-    window.addEventListener("resize", listener);
-    return () => {
-      window.removeEventListener("resize", listener);
-    };
-  }, []);
-
-  const [{ canDrop, isOver }, drop] = useDrop(
-    () => ({
-      accept: "box",
-      drop(item, monitor) {
-        return { name: "connected" };
-      },
-      collect: (monitor) => ({
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-      }),
-    }),
-    []
-  );
-
-  const isActive = canDrop && isOver;
+  const handleDragEnd = (result: DropResult) => {
+    console.log("drag end", result);
+    if (
+      result.destination?.index &&
+      result.destination?.index !== result.source.index
+    ) {
+      setDroppableOrder((prev) =>
+        reorder(prev, result.source.index, result.destination!.index)
+      );
+      // const sourceIndex = result.source.index;
+      // const sourceDraggble = droppableOrder[sourceIndex];
+      // const destinationIndex = result.destination.index;
+      // const destinationDraggble = droppableOrder[destinationIndex];
+      //
+      // setDroppableOrder((prev) => {
+      //   const first = [
+      //     ...prev.filter(
+      //       (d, i) =>
+      //         i < destinationIndex &&
+      //         d !== sourceDraggble &&
+      //         d !== destinationDraggble
+      //     ),
+      //   ];
+      //
+      //   const secondary = [
+      //     ...prev.filter(
+      //       (d, i) =>
+      //         i > destinationIndex &&
+      //         d !== sourceDraggble &&
+      //         d !== destinationDraggble
+      //     ),
+      //   ];
+      //
+      //   if (destinationIndex !== droppableOrder.length - 1) {
+      //     return [...first, sourceDraggble, destinationDraggble, ...secondary];
+      //   } else {
+      //     return [...first, destinationDraggble, sourceDraggble];
+      //   }
+      //   // console.log("firstHalf", first);
+      //   // console.log("source", sourceDraggble);
+      //   // console.log("lastHalf", secondary);
+      // });
+    }
+  };
 
   return (
-    <DragAndDropBoardContext.Provider value={{}}>
-      <div ref={ref} style={{ width: "100%", height: "100%" }}>
-        {/*<CustomDragLayer*/}
-        {/*  style={{*/}
-        {/*    width: "100%",*/}
-        {/*    height: "100%",*/}
-        {/*    position: "absolute",*/}
-        {/*    zIndex: 20,*/}
-        {/*  }}*/}
-        {/*/>*/}
-        <DragAndDropBin
-          ref={drop as any}
-          isActive={isActive}
-          canDrop={canDrop}
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            top: 0,
-            zIndex: 0,
-          }}
-        >
-          <DragAndDropBox name="TestDragAndDrop A" />
-          <DragAndDropBox name="TestDragAndDrop B" />
-        </DragAndDropBin>
-        {canDrop && <DragAndDropGrid size={size} />}
-      </div>
-    </DragAndDropBoardContext.Provider>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <MyDroppable droppableOrder={droppableOrder} droppableMap={droppables} />
+    </DragDropContext>
   );
-});
+};

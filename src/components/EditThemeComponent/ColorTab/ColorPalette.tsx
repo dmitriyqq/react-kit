@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { List } from "../../List";
 import { ColorBlock } from "./ColorBlock";
 import { buildHexColor, generateColorPalette } from "./generateColorPalette";
-import { Color } from "../../../themes/theme";
+import { Color } from "../../../themes";
 
 interface Props {
   baseColor?: string;

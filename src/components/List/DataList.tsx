@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ListItemData } from "../../model/ListItemData";
+import { ListItemData } from "../../model";
 import { DataListItem } from "./DataListItem";
 import { List } from "./List";
 import { Loader } from "../Loader";
@@ -100,7 +100,7 @@ export const DataList: FC<Props> = ({
       {onSelect && !isSingleSelect && Number(selectedIds?.length) > 0 && (
         <ListItem>
           <List mode="h" align="center" justify="center">
-            <Text variant="label">Выбрано: {selectedIds?.length}</Text>
+            <Text variant="labelText">Выбрано: {selectedIds?.length}</Text>
             <Icon icon="close" onClick={handleClearSelected} />
           </List>
         </ListItem>

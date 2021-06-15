@@ -4,7 +4,12 @@ import { Card } from "../Card/Card";
 import { CardHeader } from "../Card/CardHeader";
 import { CardContent } from "../Card/CardContent";
 import { Button } from "../Button";
-import { FormFieldsType, FormValue, getFormValue } from "../../model";
+import {
+  FormFieldsType,
+  FormValue,
+  getFormValue,
+  getInternalFormValue,
+} from "../../model";
 
 interface Props<EntityType, EntityListType = EntityType> {
   entities: EntityListType[];
@@ -25,8 +30,8 @@ interface Props<EntityType, EntityListType = EntityType> {
     entities: EntityListType[];
     onEntitySelect: (entity: EntityType) => void;
   }) => JSX.Element;
-  onEntityCreateRequest: (entity: EntityType) => void;
-  onEntityUpdateRequest: (entity: EntityType) => void;
+  onEntityCreateRequest: (entity: FormValue<EntityType>) => void;
+  onEntityUpdateRequest: (entity: FormValue<EntityType>) => void;
   onEntityDeleteRequest: (entity: EntityType) => void;
 }
 
@@ -62,19 +67,19 @@ export const EntityPage = <T extends object, V extends object>({
     setSelectedOriginalEntity(null);
     setInternalFormValue(initialFormCreationValue);
     setIsCreateNewEntity(false);
-    onEntityCreateRequest(entity);
+    onEntityCreateRequest(getFormValue(entity, fields));
   };
 
   const handleEntityUpdated = (entity: T) => {
     setSelectedOriginalEntity(null);
     setInternalFormValue(initialFormCreationValue);
     setIsCreateNewEntity(false);
-    onEntityUpdateRequest(entity);
+    onEntityUpdateRequest(getFormValue(entity, fields));
   };
 
   const handleEntitySelected = (entity: T) => {
     setSelectedOriginalEntity(entity);
-    setInternalFormValue(entity);
+    setInternalFormValue(getInternalFormValue(entity, fields));
     setIsCreateNewEntity(false);
   };
 

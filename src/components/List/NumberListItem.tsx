@@ -1,24 +1,27 @@
 import React, { FC } from "react";
 import { ListItem, Props as ListItemProps } from "./ListItem";
-import { TextColor } from "../Text";
-import { TextType } from "../../themes/theme";
+import { ComponentProps, TextType } from "../../themes";
 import { NumberComponent } from "../NumberComponent";
 
-interface Props extends ListItemProps {
+interface Props extends ListItemProps, ComponentProps {
   num: number;
   isInteger?: true;
   rounding?: number;
   variant?: TextType;
-  color?: TextColor;
 }
 
-export const NumberListItem: FC<Props> = ({ num, variant, color, ...rest }) => {
+export const NumberListItem: FC<Props> = ({
+  num,
+  variant,
+  themeColor,
+  ...rest
+}) => {
   return (
     <ListItem {...rest}>
       <NumberComponent
         num={num}
         variant={variant}
-        color={color}
+        color={themeColor}
         align="center"
       />
     </ListItem>

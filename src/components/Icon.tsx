@@ -1,15 +1,21 @@
 import React, { MouseEvent } from "react";
 import { FC } from "react";
 import styled from "styled-components";
-import { ColorType, getColorFromProp, ThemeProps } from "../themes/theme";
+import {
+  ComponentProps,
+  getMainThemeTextColorShade,
+  getDarkThemeTextColorShade,
+  getMainColorShade,
+  getDarkestDisabledShade,
+} from "../themes";
 
-export interface Props {
+export interface Props extends ComponentProps {
   icon: string;
   className?: string;
   hover?: boolean;
+  disabled?: boolean;
+  color?: string;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
-  color?: ColorType | string;
-  hoverColor?: ColorType | string;
   type?: "fill" | "line";
   size?:
     | "lg"
@@ -30,28 +36,29 @@ export interface Props {
     | "fw";
 }
 
-interface StyledIProps extends ThemeProps {
-  color?: ColorType | string;
-  hoverColor?: ColorType | string;
+interface StyledIProps extends ComponentProps {
   className?: string;
   hover?: boolean;
+  disabled?: boolean;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 const StyledI = styled.i<StyledIProps>`
   display: inline-block;
-  cursor: ${(props) => (props.onClick ? "pointer" : "default")};
-  color: ${(props) => getColorFromProp(props, props.color ?? "grey", "main")};
+  cursor: ${(props) =>
+    props.disabled ? "not-allowed" : props.onClick ? "pointer" : "default"};
+  color: ${(props) =>
+    props.disabled
+      ? getDarkestDisabledShade(props)
+      : getMainThemeTextColorShade(props, "icon")};
   vertical-align: bottom;
   &:hover {
     color: ${(props: StyledIProps) =>
-      props.hover
-        ? getColorFromProp(
-            props,
-            props.hoverColor ?? props.color ?? "primary",
-            "dark"
-          )
-        : getColorFromProp(props, props.color ?? "grey", "main")};
+      props.disabled
+        ? getDarkestDisabledShade(props)
+        : props.hover
+        ? getMainColorShade({ theme: props.theme, themeColor: "primary" })
+        : getMainThemeTextColorShade(props, "icon")};
   }
 `;
 
@@ -67,9 +74,10 @@ export const Icon: FC<Props> = (props) => {
 
   return (
     <StyledI
+      disabled={props.disabled}
       className={className}
-      color={props.color}
-      hoverColor={props.hoverColor}
+      variant={props.variant}
+      themeColor={props.themeColor}
       onClick={props.onClick}
       hover={Boolean(props.onClick || props.hover)}
     />

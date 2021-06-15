@@ -7,7 +7,6 @@ const InternalCheckbox = styled.input`
   opacity: 0;
 `;
 
-
 export interface Props {
   onChange?: (value: boolean) => void;
   value: boolean;
@@ -34,7 +33,7 @@ export const Checkbox: FC<Props> = (props) => {
       <Icon
         icon={value ? "checkbox" : "checkbox-blank"}
         type="line"
-        color={value ? "primary" : undefined}
+        themeColor={value ? "primary" : "grey"}
         hover={true}
       />
     </label>

@@ -1,6 +1,6 @@
-import React, { CSSProperties, FC, useEffect, useState } from "react";
+import React, { CSSProperties, FC, useState } from "react";
 import { List, ListItem } from "../../List";
-import { TextStyle, Theme } from "../../../themes/theme";
+import { TextStyle, Theme } from "../../../themes";
 import { Card } from "../../Card/Card";
 import { CardHeader } from "../../Card/CardHeader";
 import { CardContent } from "../../Card/CardContent";

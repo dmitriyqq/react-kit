@@ -28,11 +28,7 @@ export const CardHeader: FC<Props> = ({
               : "flex-start"
           }
         >
-          {title && (
-            <Text variant="highlight" color="dark-grey">
-              {title}
-            </Text>
-          )}
+          {title && <Text variant="highlightText">{title}</Text>}
           {onClose && <Icon icon="close" onClick={onClose} />}
         </List>
       }

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { TextStyle } from "../../../themes/theme";
+import { TextStyle } from "../../../themes";
 
 interface Props {
   textStyle: TextStyle;

@@ -1,5 +1,3 @@
-import { Theme } from "./theme";
-
 export const defaultDarkTheme: any = {
   name: "default-dark",
   widthUnit: 128,

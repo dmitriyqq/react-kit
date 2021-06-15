@@ -1,27 +1,30 @@
 import styled from "styled-components";
-import { getBoxShadow, getGridArea, ThemeProps } from "../../themes/theme";
+import {
+  getGridArea,
+  getThemeBorderRadius,
+  getThemeMargin,
+  ComponentProps,
+  getThemeBoxShadow,
+} from "../../themes";
 import { ReactNode } from "react";
-import { getBorderRadius } from "../../themes/helpers/border";
-import { getSingleSpacing } from "../../themes/helpers/spacing";
 
-export interface Props extends ThemeProps {
+export interface Props extends ComponentProps {
   canSelect?: boolean;
   children?: ReactNode;
   gridArea?: string;
 }
 
 export const Card = styled.div<Props>`
-  display: inline-block;
   box-sizing: border-box;
-  box-shadow: ${(props) => getBoxShadow(props).light};
-  border-radius: ${getBorderRadius};
-  margin: ${getSingleSpacing};
+  box-shadow: ${(props) => getThemeBoxShadow(props, "card")};
+  border-radius: ${getThemeBorderRadius};
+  margin: ${getThemeMargin};
   cursor: ${(props: Props) => (props.canSelect ? "pointer" : "default")};
-  overflow: auto;
+  overflow: hidden;
   ${(props: Props) =>
     props.canSelect
       ? `&:hover {
-          box-shadow: ${getBoxShadow(props).dark};
+          box-shadow: ${getThemeBoxShadow(props, "selectedCard")};
       }`
       : ""}
   ${getGridArea}

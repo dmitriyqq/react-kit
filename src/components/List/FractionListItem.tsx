@@ -1,14 +1,13 @@
 import React, { FC } from "react";
 import { ListItem, Props as ListItemProps } from "./ListItem";
-import { TextColor } from "../Text";
-import { TextType } from "../../themes/theme";
+import { TextType } from "../../themes";
 import { FractionComponent } from "../FractionComponent";
 
 interface Props extends ListItemProps {
   numerator: number;
   denominator: number;
   variant?: TextType;
-  color?: TextColor;
+  color?: string;
 }
 
 export const FractionListItem: FC<Props> = ({

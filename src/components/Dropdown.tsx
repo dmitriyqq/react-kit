@@ -3,7 +3,7 @@ import { SelectOption } from "./Select";
 import { Card } from "./Card/Card";
 import { List } from "./List";
 import { Button } from "./Button";
-import { ThemeProps } from "../themes/theme";
+import { ThemeProps } from "../themes";
 import { withTheme } from "styled-components";
 
 export interface Props extends ThemeProps {

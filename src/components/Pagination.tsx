@@ -38,12 +38,7 @@ export const Pagination: FC<Props> = ({
 
     if (pageNumber === currentPage) {
       pageLinks.push(
-        <Text
-          style={{ margin: "5px" }}
-          key={pageNumber}
-          color="primary"
-          variant="highlight"
-        >
+        <Text style={{ margin: "5px" }} key={pageNumber} themeColor="primary">
           {pageNumber}
         </Text>
       );

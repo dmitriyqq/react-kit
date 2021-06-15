@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { Card } from "./Card/Card";
 import { CardContent } from "./Card/CardContent";
 import { CardHeader } from "./Card/CardHeader";
+import {
+  getMainThemeBackgroundColorShade,
+  getThemeBorder,
+  getThemeBoxShadow,
+  getWidthUnit,
+} from "../themes";
 
 interface IModalWrapperProps {
   open: boolean;
@@ -23,19 +29,19 @@ export const ModalWrapper = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   overflow: hidden;
 `;
 
 export const ModalContentWrapper = styled(Card)`
   display: block;
-  background-color: #fefefe;
+  background-color: ${(props) =>
+    getMainThemeBackgroundColorShade(props, "card")};
   margin: 250px auto; /* 15% from the top and centered */
-  border: 1px solid #888;
+  border: ${(props) => getThemeBorder(props, "card")};
   width: 80%; /* Could be more or less, depending on screen size */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 800px;
+  box-shadow: ${(props) => getThemeBoxShadow(props, "card")};
+  max-width: ${(props) => getWidthUnit(props, "8u")};
 `;
 
 export const Modal: FC<Props> = ({
