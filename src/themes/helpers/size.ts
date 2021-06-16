@@ -1,17 +1,17 @@
 import { ThemeProps } from "../types";
 
 interface PropsWidth extends ThemeProps {
-  width?: string;
+  themeWidth?: string;
 }
 
 const DEFAULT_WIDTH_UNIT = 100;
 const DEFAULT_HEIGHT_UNIT = 50;
 
 export const getWidthUnitNumber = (
-  { theme, width }: PropsWidth,
+  { theme, themeWidth }: PropsWidth,
   defaultWidth?: string
 ) => {
-  const w = width ?? defaultWidth;
+  const w = themeWidth ?? defaultWidth;
 
   if (theme?.size?.widthUnit && w && w.endsWith("u")) {
     const widthNum = Number(w.slice(0, w.length - 1));
@@ -24,14 +24,14 @@ export const getWidthUnitNumber = (
 };
 
 interface PropsHeight extends ThemeProps {
-  height?: string;
+  themeHeight?: string;
 }
 
 export const getHeightUnitNumber = (
-  { theme, height }: PropsHeight,
+  { theme, themeHeight }: PropsHeight,
   defaultHeight?: string
 ) => {
-  const h = height ?? defaultHeight;
+  const h = themeHeight ?? defaultHeight;
 
   if (theme?.size?.heightUnit && h && h.endsWith("u")) {
     const widthNum = Number(h.slice(0, h.length - 1));
@@ -45,17 +45,17 @@ export const getHeightUnitNumber = (
 };
 
 export const getWidthUnit = (props: PropsWidth, defaultWidth?: string) => {
-  return (props.width || defaultWidth) &&
-    (props.width?.endsWith("u") || defaultWidth?.endsWith("u"))
+  return (props.themeWidth || defaultWidth) &&
+    (props.themeWidth?.endsWith("u") || defaultWidth?.endsWith("u"))
     ? `${getWidthUnitNumber(props, defaultWidth)}px`
-    : props.width ?? defaultWidth;
+    : props.themeWidth ?? defaultWidth;
 };
 
 export const getHeightUnit = (props: PropsHeight, defaultHeight?: string) => {
-  return (props.height || defaultHeight) &&
-    (props.height?.endsWith("u") || defaultHeight?.endsWith("u"))
+  return (props.themeHeight || defaultHeight) &&
+    (props.themeHeight?.endsWith("u") || defaultHeight?.endsWith("u"))
     ? `${getHeightUnitNumber(props, defaultHeight)}px`
-    : props.height ?? defaultHeight;
+    : props.themeHeight ?? defaultHeight;
 };
 
 export interface Props extends PropsWidth, PropsHeight {}

@@ -21,7 +21,7 @@ export const NumberListItem: FC<Props> = ({
       <NumberComponent
         num={num}
         variant={variant}
-        color={themeColor}
+        themeColor={themeColor}
         align="center"
       />
     </ListItem>

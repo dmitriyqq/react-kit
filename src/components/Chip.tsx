@@ -78,7 +78,12 @@ export const Chip: FC<Props> = ({
 
   return (
     <ChipContainer onClick={handleClick} themeColor={themeColor}>
-      <Text variant="labelText" align="center" themeColor="white" width="100%">
+      <Text
+        variant="labelText"
+        align="center"
+        themeColor="white"
+        themeWidth="100%"
+      >
         {children}
       </Text>
       {onDelete && id && (

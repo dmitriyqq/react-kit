@@ -7,6 +7,7 @@ import {
   getThemeBoxShadow,
 } from "../../themes";
 import { ReactNode } from "react";
+import { getBoxShadow4 } from "../../themes/helpers/boxShadow";
 
 export interface Props extends ComponentProps {
   canSelect?: boolean;
@@ -17,14 +18,14 @@ export interface Props extends ComponentProps {
 export const Card = styled.div<Props>`
   box-sizing: border-box;
   box-shadow: ${(props) => getThemeBoxShadow(props, "card")};
-  border-radius: ${getThemeBorderRadius};
-  margin: ${getThemeMargin};
+  border-radius: ${(props) => getThemeBorderRadius(props, "card")};
+  margin: ${(props) => getThemeMargin(props, "card")};
   cursor: ${(props: Props) => (props.canSelect ? "pointer" : "default")};
-  overflow: hidden;
+  overflow: auto;
   ${(props: Props) =>
     props.canSelect
       ? `&:hover {
-          box-shadow: ${getThemeBoxShadow(props, "selectedCard")};
+          box-shadow: ${getBoxShadow4(props)};
       }`
       : ""}
   ${getGridArea}

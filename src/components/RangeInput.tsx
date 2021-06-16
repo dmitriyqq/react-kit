@@ -37,8 +37,8 @@ const StyledInput = styled.input<ComponentProps>`
     border-radius: ${(props) => getThemeBorderRadius(props, "rangeTrack")};
   }
   &::-moz-range-thumb {
-    width: ${(props) => getHeightUnit(props, "0.5u")};
-    height: ${(props) => getHeightUnit(props, "0.5u")};
+    width: 20px;
+    height: 20px;
     border-radius: ${(props) => getThemeBorderRadius(props, "rangeThumb")};
     border: ${(props) => getThemeBorder(props, "rangeThumb")};
     background-color: ${(props) =>
@@ -55,9 +55,9 @@ const StyledInput = styled.input<ComponentProps>`
   }
 
   &::-webkit-slider-thumb {
-    width: ${(props) => getHeightUnit(props, "0.5u")};
-    height: ${(props) => getHeightUnit(props, "0.5u")};
-    margin: -6px;
+    width: 20px;
+    height: 20px;
+    margin: -7px;
     -webkit-appearance: none;
     border: ${(props) => getThemeBorder(props, "rangeThumb")};
     border-radius: ${(props) => getThemeBorderRadius(props, "rangeThumb")};

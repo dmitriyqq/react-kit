@@ -81,22 +81,22 @@ const Template: Story = (args) => {
             <CardHeader title="Кнопки" />
             <CardContent>
               <Button variant="primaryButton">Primary</Button>
-              <Button variant="secondaryButton" width="2u">
+              <Button variant="secondaryButton" themeWidth="2u">
                 Secondary
               </Button>
-              <Button variant="successButton" width="3u">
+              <Button variant="successButton" themeWidth="3u">
                 Success
               </Button>
-              <Button variant="primaryButton" width="4u">
+              <Button variant="primaryButton" themeWidth="4u">
                 Info
               </Button>
-              <Button variant="dangerButton" width="2u">
+              <Button variant="dangerButton" themeWidth="2u">
                 Danger
               </Button>
-              <Button variant="warningButton" width="3u">
+              <Button variant="warningButton" themeWidth="3u">
                 Warning
               </Button>
-              <Button disabled={true} variant="primaryButton" width="3u">
+              <Button disabled={true} variant="primaryButton" themeWidth="3u">
                 Disabled
               </Button>
             </CardContent>

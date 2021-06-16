@@ -32,8 +32,8 @@ export const VariantBlock: FC<Props> = withTheme(
     return (
       <div
         style={{
-          width: getWidthUnit({ width: "5u", theme }),
-          height: getHeightUnit({ height: "2u", theme }),
+          width: getWidthUnit({ themeWidth: "5u", theme }),
+          height: getHeightUnit({ themeHeight: "2u", theme }),
           color: getMainThemeTextColorShade({
             theme: newTheme,
             variant: "variant",

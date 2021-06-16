@@ -3,11 +3,8 @@ import styled from "styled-components";
 import { Text } from "./Text";
 import { Icon } from "./Icon";
 import {
-  getBorderCss,
-  getBorderRadius,
   getHeightUnit,
   getWidthUnit,
-  getSingleSpacing,
   getMainDisabledShade,
   getMainThemeBackgroundColorShade,
   ComponentProps,
@@ -60,8 +57,8 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
       disabled,
       icon,
       iconType,
-      width,
-      height,
+      themeWidth,
+      themeHeight,
       variant,
       ...rest
     },
@@ -75,9 +72,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
         themeColor={themeColor}
         hasChildren={children !== undefined}
         ref={ref}
-        width={width}
+        themeWidth={themeWidth}
         variant={variant}
-        height={height}
+        themeHeight={themeHeight}
         {...(rest as unknown)}
       >
         {icon && (
@@ -112,7 +109,9 @@ const StyledButton = styled.button<StyledButtonProps>`
   height: ${(props) => getHeightUnit(props, "1u")};
 
   ${({ hasChildren, theme }: StyledButtonProps) =>
-    hasChildren ? `min-width: ${getWidthUnit({ width: "1u", theme })};` : ""}
+    hasChildren
+      ? `min-width: ${getWidthUnit({ themeWidth: "1u", theme })};`
+      : ""}
   line-height: ${(props) => getHeightUnit(props, "1u")};
 
   margin: ${(props) => getThemeMargin(props, "primaryButton")};

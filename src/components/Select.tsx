@@ -123,9 +123,9 @@ export const Select = <T extends unknown>({
   placeholder,
   disabled,
   allowNull,
-  width,
+  themeWidth,
   variant,
-  height,
+  themeHeight,
 }: Props<T>) => {
   console.log("allowNull", allowNull);
   const allOptions: SelectOption<T | null>[] =
@@ -152,9 +152,9 @@ export const Select = <T extends unknown>({
   return (
     <SelectWrapper
       disabled={disabled || options.length === 0}
-      width={width}
+      themeWidth={themeWidth}
       variant={variant}
-      height={height}
+      themeHeight={themeHeight}
     >
       <StyledSelect
         onChange={handleChange}
@@ -162,8 +162,8 @@ export const Select = <T extends unknown>({
         variant={variant}
         placeholder={placeholder}
         disabled={disabled || options.length === 0}
-        width={width}
-        height={height}
+        themeWidth={themeWidth}
+        themeHeight={themeHeight}
       >
         {optionsElements}
       </StyledSelect>
