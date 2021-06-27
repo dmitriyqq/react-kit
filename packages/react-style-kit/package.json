@@ -1,0 +1,29 @@
+{
+  "name": "react-style-kit",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "dmitriyqq <shulaykin1@gmail.com>",
+  "homepage": "https://github.com/dmitriyqq/react-kit/tree/main/packages/react-style-kit#readme",
+  "license": "ISC",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "devDependencies": {
+  },
+  "peerDependencies": {
+  },
+  "dependencies": {
+    },
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitriyqq/react-kit.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/dmitriyqq/react-kit/issues"
+  }
+}
